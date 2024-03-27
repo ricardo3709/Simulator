@@ -2,7 +2,7 @@
 definition of vehicles for the AMoD system
 """
 
-from route_functions import *
+from src.simulator.route_functions import *
 import numpy as np
 
 
@@ -85,7 +85,7 @@ class Veh(object):
         # self.Ld = 0.0
     
     def retrieve_route(self, origin: int, destination: int):
-        return 0
+        
 
 
     # update the vehicle location as well as the route after moving to time T

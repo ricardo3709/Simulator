@@ -5,7 +5,7 @@ from typing import List, Tuple
 from config import *
 import numpy as np
 import pandas as pd
-# from utility.utility_functions import *
+from utility.utility_functions import *
 
 # t = timer_start()
 # with open(PATH_TO_NETWORK_NODES, "rb") as f:

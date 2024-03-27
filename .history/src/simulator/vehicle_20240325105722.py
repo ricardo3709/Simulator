@@ -2,7 +2,7 @@
 definition of vehicles for the AMoD system
 """
 
-from route_functions import *
+from src.simulator.route_functions import *
 import numpy as np
 
 

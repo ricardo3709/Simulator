@@ -1,7 +1,7 @@
 from config import * #defines the constants
 import pandas as pd
 import numpy as np
-from vehicle import Veh
+from src.simulator.vehicle import Veh
 from src.simulator.request import Req
 from src.simulator.route_functions import *
 from src.dispatcher.dispatch_sba import *
