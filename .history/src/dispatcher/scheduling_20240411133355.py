@@ -97,7 +97,7 @@ def upd_schedule_for_vehicles_in_selected_vt_pairs(candidate_veh_trip_pairs: lis
         
         #For Simonetto's Method, there is only one req for each trip.
         [veh, req, sche, cost, score] = candidate_veh_trip_pairs[idx]
-        req.Status = OrderStatus.PICKING
+        req.status = OrderStatus.PICKING
         # [veh, trip, sche, cost, score] = candidate_veh_trip_pairs[idx]
         # for req in trip:
         #     req.status = OrderStatus.PICKING

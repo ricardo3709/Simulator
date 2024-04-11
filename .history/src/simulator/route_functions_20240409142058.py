@@ -5,9 +5,22 @@ from typing import List, Tuple
 from src.simulator.config import *
 import numpy as np
 import pandas as pd
-from src.utility.utility_functions import *
-from src.simulator.Simulator_platform import *
-import os.path as osp
+from utility.utility_functions import *
+from Simulator_platform import all_path_table
+
+# t = timer_start()
+# with open(PATH_TO_NETWORK_NODES, "rb") as f:
+#     network_nodes = pickle.load(f)
+# with open(PATH_TO_VEHICLE_STATIONS, "rb") as f:
+#     vehicle_stations = pickle.load(f)
+# with open(PATH_TO_SHORTEST_PATH_TABLE, "rb") as f:
+#     shortest_path_table = pickle.load(f)
+# with open(PATH_TO_MEAN_TRAVEL_TIME_TABLE, "rb") as f:
+#     mean_travel_time_table = pickle.load(f)
+# with open(PATH_TO_TRAVEL_DISTANCE_TABLE, "rb") as f:
+#     travel_distance_table = pickle.load(f)
+# print(f"[INFO] Route functions are ready. ({timer_end(t)})")
+
 
 with open(PATH_SMALLGRID_ARCS, "rb") as f:
     network_arcs = pd.read_csv(f)
@@ -15,16 +28,7 @@ with open(PATH_SMALLGRID_TIMECOST, "rb") as f:
     network_timecost = pd.read_csv(f)
 with open(PATH_SMALLGRID_REQUESTS, "rb") as f:
     network_requests = pd.read_csv(f)    
-
-ALLPATHTABLE = 'SmallGrid_AllPathTable.pickle'
-NETWORK_NAME = 'SmallGridData'
-BASEDIR = osp.dirname(osp.abspath(__file__))
-with open(osp.join(BASEDIR, '../..', NETWORK_NAME, ALLPATHTABLE), 'rb') as f:
-# with open(BASEDIR + '/' + NETWORK_NAME+ '/' + ALLPATHTABLE, 'rb') as f:
-    all_path_table = pickle.load(f)
-
 print(f"[INFO] Route functions are ready. ")
-
 
 def retrieve_route(origin: int, destination: int):
         route = all_path_table[origin][destination][0]

@@ -26,11 +26,11 @@ with open(osp.join(BASEDIR, '../..', NETWORK_NAME, ALLPATHTABLE), 'rb') as f:
 print(f"[INFO] Route functions are ready. ")
 
 
-def retrieve_route(origin: int, destination: int):
+def retrieve_route(all_path_table, origin: int, destination: int):
         route = all_path_table[origin][destination][0]
         return route
     
-def retrive_TimeCost(origin: int, destination: int):
+def retrive_TimeCost(all_path_table, origin: int, destination: int):
         time = all_path_table[origin][destination][1]
         return time
 

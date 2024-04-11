@@ -44,8 +44,6 @@ def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, in
     # Constrain 2: each request can only be assigned to at most one veh_trip_pair(vehicle).
     for i in range(len(reqs)): #iterates over requests
         for j in range(len(veh_trip_pairs)): #iterates over vehicle-trip pairs
-            if veh_trip_pairs[j][1] == None: #empty assign
-                continue
             if reqs[i] in veh_trip_pairs[j]: #veh_trip_pairs contain current request
                 request_check[i] += veh_trip_pairs_check[j]
         model.addConstr(request_check[i] <= 1.0) #Number of constrain equal to number of requests
@@ -54,9 +52,7 @@ def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, in
     object_score = 0.0
 
     for i in range(len(veh_trip_pairs)): #veh_trip_pairs = [veh, trip, sche, cost, score], len(veh_trip_pairs) = len(veh_trip_pairs_check)
-        if veh_trip_pairs[i][1] == None: #empty assign
-            continue
-        time_to_origin = retrive_TimeCost(veh_trip_pairs[i][0].current_node, veh_trip_pairs[i][1].Ori_id) #time to travel to origin node, also need to be minimized
+        time_to_origin = retrive_TimeCost(veh_trip_pairs[i][0].current_node, veh_trip_pairs[i][1][0].Ori_id) #time to travel to origin node, also need to be minimized
         # object_score = Delay + Time_to_Origin(Pickup) + Penalty_of_Ignoring, for each veh_trip_pair
         object_score += veh_trip_pairs_check[i] * (veh_trip_pairs[i][4] + time_to_origin) + (1.0 - veh_trip_pairs_check[i]) * PENALTY
     

@@ -35,19 +35,18 @@ def compute_schedule_time_cost(schedule: list):
 
 def test_constraints(schedule: list, veh: Veh): 
     # node[node_id, type, num_people, max_wait_time, shortest_Trip_Time]
-    current_load = veh.load #initial load
-    max_capacity = veh.capacity #initial capacity
+    capacity = veh.capacity #initial capacity
     current_time = veh.veh_time #initial time
     current_node = veh.current_node #initial node
     for node in schedule:
         #1. Capacity
         if node[1] == 1: #PU
-            current_load += node[2] #add the number of people to the current load
-            if current_load > max_capacity: #if the current load exceeds the vehicle's capacity
+            capacity += node[2] #add the number of people to the capacity
+            if capacity > veh.capacity: #if the capacity exceeds the vehicle's capacity
                 return False
         elif node[1] == -1: #DO
-            current_load -= node[2] #subtract the number of people from the capacity
-            if current_load < 0: #if the capacity is negative
+            capacity -= node[2] #subtract the number of people from the capacity
+            if capacity < 0: #if the capacity is negative
                 assert "Error: Negative capacity"
                 return False
         #2. Time        
@@ -65,9 +64,8 @@ def test_constraints(schedule: list, veh: Veh):
 def insert_request_into_schedule(schedule: list, request: Req, PU_node_position: int, DO_node_position: int):
     PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT]
     DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time]
-    new_schedule = schedule
-    new_schedule.insert(PU_node_position, PU_node)
-    new_schedule.insert(DO_node_position, DO_node)
+    new_schedule = schedule.insert(PU_node_position, PU_node)
+    new_schedule = new_schedule.insert(DO_node_position, DO_node)
     return new_schedule
 
 
@@ -81,7 +79,7 @@ def compute_schedule(veh: Veh, req: Req, system_time: float):
         for DO_node_position in range(PU_node_position + 1, len(current_schedule) + 2):
             new_schedule = insert_request_into_schedule(current_schedule, req, PU_node_position, DO_node_position)
 
-            if test_constraints(new_schedule, veh): #check if the new schedule satisfies all constraints
+            if test_constraints(new_schedule): #check if the new schedule satisfies all constraints
                 time_cost = compute_schedule_time_cost(new_schedule)
                 feasible_schedules.append(new_schedule) #store the feasible schedule, but not the best one
                 if time_cost < min_time_cost: #update the best schedule
@@ -94,13 +92,9 @@ def upd_schedule_for_vehicles_in_selected_vt_pairs(candidate_veh_trip_pairs: lis
                                                    selected_veh_trip_pair_indices: List[int]):
     
     for idx in selected_veh_trip_pair_indices:
-        
-        #For Simonetto's Method, there is only one req for each trip.
-        [veh, req, sche, cost, score] = candidate_veh_trip_pairs[idx]
-        req.Status = OrderStatus.PICKING
-        # [veh, trip, sche, cost, score] = candidate_veh_trip_pairs[idx]
-        # for req in trip:
-        #     req.status = OrderStatus.PICKING
+        [veh, trip, sche, cost, score] = candidate_veh_trip_pairs[idx]
+        for req in trip:
+            req.status = OrderStatus.PICKING
         veh.update_schedule(sche)
         # veh.sche_has_been_updated_at_current_epoch = True
 

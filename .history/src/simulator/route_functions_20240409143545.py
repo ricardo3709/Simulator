@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 from src.utility.utility_functions import *
 from src.simulator.Simulator_platform import *
-import os.path as osp
 
 with open(PATH_SMALLGRID_ARCS, "rb") as f:
     network_arcs = pd.read_csv(f)
@@ -15,16 +14,7 @@ with open(PATH_SMALLGRID_TIMECOST, "rb") as f:
     network_timecost = pd.read_csv(f)
 with open(PATH_SMALLGRID_REQUESTS, "rb") as f:
     network_requests = pd.read_csv(f)    
-
-ALLPATHTABLE = 'SmallGrid_AllPathTable.pickle'
-NETWORK_NAME = 'SmallGridData'
-BASEDIR = osp.dirname(osp.abspath(__file__))
-with open(osp.join(BASEDIR, '../..', NETWORK_NAME, ALLPATHTABLE), 'rb') as f:
-# with open(BASEDIR + '/' + NETWORK_NAME+ '/' + ALLPATHTABLE, 'rb') as f:
-    all_path_table = pickle.load(f)
-
 print(f"[INFO] Route functions are ready. ")
-
 
 def retrieve_route(origin: int, destination: int):
         route = all_path_table[origin][destination][0]

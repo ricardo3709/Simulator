@@ -58,7 +58,6 @@ def compute_candidate_veh_req_pairs(current_cycle_requests: List[Req], vehs:List
                 candidate_veh_req_pairs.append([veh, req, best_sche, cost, 0.0]) #vt_pair = [veh, trip, sche, cost, score]
 
     # 2. Add the basic schedule of each vehicle, which denotes the "empty assign" option in ILP.
-    # trip is None because it is "empty assign", else it should be req
     for veh in vehs:
         candidate_veh_req_pairs.append([veh, None, copy.copy(veh.schedule), compute_schedule_time_cost(veh.schedule), 0.0])
 

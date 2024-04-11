@@ -55,7 +55,7 @@ def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, in
 
     for i in range(len(veh_trip_pairs)): #veh_trip_pairs = [veh, trip, sche, cost, score], len(veh_trip_pairs) = len(veh_trip_pairs_check)
         if veh_trip_pairs[i][1] == None: #empty assign
-            continue
+                        continue
         time_to_origin = retrive_TimeCost(veh_trip_pairs[i][0].current_node, veh_trip_pairs[i][1].Ori_id) #time to travel to origin node, also need to be minimized
         # object_score = Delay + Time_to_Origin(Pickup) + Penalty_of_Ignoring, for each veh_trip_pair
         object_score += veh_trip_pairs_check[i] * (veh_trip_pairs[i][4] + time_to_origin) + (1.0 - veh_trip_pairs_check[i]) * PENALTY

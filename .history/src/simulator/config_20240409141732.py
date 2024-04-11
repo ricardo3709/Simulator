@@ -17,9 +17,9 @@ ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 # PATH_TO_TRAVEL_DISTANCE_TABLE = f"{ROOT_PATH}/datalog-gitignore/map-data/dist-table.pickle"
 
 # small-grid-data
-PATH_SMALLGRID_ARCS = f"{ROOT_PATH}/SmallGridData/SmallGrid_Arcs.csv"
-PATH_SMALLGRID_REQUESTS = f"{ROOT_PATH}/SmallGridData/SmallGrid_Requests.csv"
-PATH_SMALLGRID_TIMECOST = f"{ROOT_PATH}/SmallGridData/SmallGrid_TimeCost.csv"
+PATH_SMALLGRID_ARCS = f"{ROOT_PATH}/SmallGridData/SmallGrid-Arcs.csv"
+PATH_SMALLGRID_REQUESTS = f"{ROOT_PATH}/SmallGridData/SmallGrid-Requests.csv"
+PATH_SMALLGRID_TIMECOST = f"{ROOT_PATH}/SmallGridData/SmallGrid-TimeCost.csv"
 
 # taxi-data
 # SIMULATION_DAYs = ["03", "04", "05", "10", "11", "12", "17", "18", "19"]

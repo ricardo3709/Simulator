@@ -75,7 +75,7 @@ class Simulator_Platform(object):
 
         # 2. Pick up requests in the current cycle. #current_cycle_requests is NONE!@!!
         current_cycle_requests = self.get_current_cycle_request(current_step_time)
-        self.reject_long_waited_requests(current_cycle_requests)
+        self.reject_long_waited_requests(current_cycle_requests, current_step_time)
 
         # 3. Assign pending orders to vehicles.
         availiable_vehicels = self.get_availiable_vehicels()

@@ -75,7 +75,6 @@ class Simulator_Platform(object):
 
         # 2. Pick up requests in the current cycle. #current_cycle_requests is NONE!@!!
         current_cycle_requests = self.get_current_cycle_request(current_step_time)
-        self.reject_long_waited_requests(current_cycle_requests)
 
         # 3. Assign pending orders to vehicles.
         availiable_vehicels = self.get_availiable_vehicels()
@@ -87,14 +86,6 @@ class Simulator_Platform(object):
         if self.rebalancer == RebalancerMethod.NPO:
             reposition_idle_vehicles_to_nearest_pending_orders(current_cycle_requests, self.vehs)
     
-    def reject_long_waited_requests(self, current_cycle_requests):
-        # Reject the long waited orders.
-        for req in current_cycle_requests:
-            if req.Status != OrderStatus.PENDING:
-                continue
-            if self.system_time >= req.Req_time + req.Max_wait or self.system_time >= req.Latest_PU_Time:
-                req.Status = OrderStatus.REJECTED
-                self.statistic.total_rejected_requests += 1
     
     # update vehs and reqs status to their planned positions at time self.system_time
     def update_veh_req_to_current_time(self):
@@ -105,13 +96,13 @@ class Simulator_Platform(object):
         for veh in self.vehs:
             Veh.move_to_time(veh, self.system_time)
 
-        # # Reject the long waited orders.
-        # for req in self.reqs:
-        #     if req.Status != OrderStatus.PENDING:
-        #         continue
-        #     if self.system_time >= req.Req_time + req.Max_wait or self.system_time >= req.Latest_PU_Time:
-        #         req.Status = OrderStatus.REJECTED
-        #         self.statistic.total_rejected_requests += 1
+        # Reject the long waited orders.
+        for req in self.reqs:
+            if req.Status != OrderStatus.PENDING:
+                continue
+            if self.system_time >= req.Req_time + req.Max_wait or self.system_time >= req.Latest_PU_Time:
+                req.Status = OrderStatus.REJECTED
+                self.statistic.total_rejected_requests += 1
 
     def get_current_cycle_request(self, current_time) -> list:
         current_cycle_requests = []

@@ -42,8 +42,8 @@ class Veh(object):
     # to avoid confusing, use schedule instead of route, also delete nodes in schedule after visiting it. 
     def move_to_time(self, current_system_time:float): 
         while self.veh_time < current_system_time and len(self.schedule) > 0: #update veh_time until it reaches current_system_time
-            current_target_node = self.schedule[0][0]
-            arc_time = retrive_TimeCost(self.current_node, current_target_node)
+
+            arc_time = retrive_TimeCost(self.current_node, self.target_node)
             self.time_to_complete_current_arc = arc_time * (1 - self.arc_completion_percentage)
 
             if self.veh_time + self.time_to_complete_current_arc <= current_system_time: #able to complete the arc
@@ -58,7 +58,7 @@ class Veh(object):
                     self.target_node = self.schedule[0][0]
 
             else: #unable to complete the arc
-                self.arc_completion_percentage += (current_system_time - self.veh_time)/arc_time 
+                self.arc_completion_percentage = (current_system_time - self.veh_time)/arc_time + self.arc_completion_percentage
                 self.veh_time = current_system_time
 
     def update_schedule(self, new_schedule: list):

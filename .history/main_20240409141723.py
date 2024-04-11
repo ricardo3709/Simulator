@@ -13,9 +13,7 @@ def run_sim():
     # 1. Run Simulation
     while system_time < SIMULATION_DURATION:
       # 1.1. Initialize the simulator and print its configuration.
-      print(f"\n[INFO] Running simulation using dispatcher: {DISPATCHER}")
-      print(f"\n[INFO] Running simulation using fleet size: {FLEET_SIZE[0]}")
-      print(f"\n[INFO] Running simulation using vehicle capacity: {VEH_CAPACITY[0]}")
+      print(f"\n[INFO] Running simulation using {DISPATCHER, FLEET_SIZE[0], VEH_CAPACITY[0]}")
       platform = Simulator_Platform(system_time)
       # 1.2. Run simulation. ("frames_system_states" is only recorded If RENDER_VIDEO is enabled, or it is None.)
       frames_system_states = platform.run_simulation()

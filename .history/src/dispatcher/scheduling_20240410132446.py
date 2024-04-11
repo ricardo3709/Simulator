@@ -46,8 +46,8 @@ def test_constraints(schedule: list, veh: Veh):
             if current_load > max_capacity: #if the current load exceeds the vehicle's capacity
                 return False
         elif node[1] == -1: #DO
-            current_load -= node[2] #subtract the number of people from the capacity
-            if current_load < 0: #if the capacity is negative
+            capacity -= node[2] #subtract the number of people from the capacity
+            if capacity < 0: #if the capacity is negative
                 assert "Error: Negative capacity"
                 return False
         #2. Time        
@@ -94,13 +94,9 @@ def upd_schedule_for_vehicles_in_selected_vt_pairs(candidate_veh_trip_pairs: lis
                                                    selected_veh_trip_pair_indices: List[int]):
     
     for idx in selected_veh_trip_pair_indices:
-        
-        #For Simonetto's Method, there is only one req for each trip.
-        [veh, req, sche, cost, score] = candidate_veh_trip_pairs[idx]
-        req.Status = OrderStatus.PICKING
-        # [veh, trip, sche, cost, score] = candidate_veh_trip_pairs[idx]
-        # for req in trip:
-        #     req.status = OrderStatus.PICKING
+        [veh, trip, sche, cost, score] = candidate_veh_trip_pairs[idx]
+        for req in trip:
+            req.status = OrderStatus.PICKING
         veh.update_schedule(sche)
         # veh.sche_has_been_updated_at_current_epoch = True
 

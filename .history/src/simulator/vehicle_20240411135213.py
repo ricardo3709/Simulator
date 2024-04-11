@@ -58,7 +58,7 @@ class Veh(object):
                     self.target_node = self.schedule[0][0]
 
             else: #unable to complete the arc
-                self.arc_completion_percentage += (current_system_time - self.veh_time)/arc_time 
+                self.arc_completion_percentage = (current_system_time - self.veh_time)/arc_time + self.arc_completion_percentage
                 self.veh_time = current_system_time
 
     def update_schedule(self, new_schedule: list):
