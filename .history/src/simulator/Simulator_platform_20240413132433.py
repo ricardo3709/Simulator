@@ -130,8 +130,8 @@ class Simulator_Platform(object):
             if req.Status == OrderStatus.REJECTED:
                 self.statistic.total_rejected_requests += 1
             elif req.Status == OrderStatus.PICKING:
-                self.statistic.total_served_requests += 1
+                self.statistic.total_picked_requests += 1
         print(f"Simulation Report:")
         print(f"Total Requests: {len(self.reqs)}")
         print(f"Total Rejected Requests: {self.statistic.total_rejected_requests}")
-        print(f"Total Served Requests: {self.statistic.total_served_requests}")
+        print(f"Total Picked Requests: {self.statistic.total_picked_requests}")

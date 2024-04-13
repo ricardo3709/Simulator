@@ -28,7 +28,6 @@ class Simulator_Platform(object):
         self.end_time = self.start_time + SIMULATION_DURATION
         self.recorded_end_time = self.start_time
         self.total_time_step = SIMULATION_DURATION // TIME_STEP
-        self.accumulated_request = []
 
         # Initialize the fleet with random initial positions.
         self.vehs = []
@@ -67,37 +66,37 @@ class Simulator_Platform(object):
             current_actual_time = current_time_step * TIME_STEP
             self.end_time_stamp = current_actual_time
             self.system_time = current_actual_time
-            self.run_cycle()
+            accumulated_request = []
+            self.run_cycle(current_actual_time, accumulated_request)
     
 
-    def run_cycle(self):
+    def run_cycle(self, current_step_time: float, accumulated_request: list):
         # 1. Update the vehicles' positions and the orders' statuses.
         self.update_veh_req_to_current_time()
 
         # 2. Pick up requests in the current cycle. add the requests to the accumulated_request list
-        current_cycle_requests = self.get_current_cycle_request(self.system_time)
-        self.accumulated_request.extend(current_cycle_requests)
-        self.reject_long_waited_requests()
+        current_cycle_requests = self.get_current_cycle_request(current_step_time)
+        accumulated_request.extent(current_cycle_requests)
+        self.reject_long_waited_requests(accumulated_request)
 
         # 3. Assign pending orders to vehicles.
         availiable_vehicels = self.get_availiable_vehicels()
         if self.dispatcher == DispatcherMethod.SBA:
-            assign_orders_through_sba(self.accumulated_request, availiable_vehicels, self.system_time)
+            assign_orders_through_sba(accumulated_request, availiable_vehicels, current_step_time)
       
         # 4. Reposition idle vehicles to high demand areas.
         if self.rebalancer == RebalancerMethod.NPO:
-            reposition_idle_vehicles_to_nearest_pending_orders(self.accumulated_request, self.vehs)
+            reposition_idle_vehicles_to_nearest_pending_orders(accumulated_request, self.vehs)
     
-    def reject_long_waited_requests(self):
+    def reject_long_waited_requests(self, accumulated_request):
         # Reject the long waited orders.
-        for req in self.accumulated_request:
+        for req in accumulated_request:
             if req.Status != OrderStatus.PENDING:
                 continue
             if self.system_time >= req.Req_time + req.Max_wait or self.system_time >= req.Latest_PU_Time:
                 req.Status = OrderStatus.REJECTED
-                # self.statistic.total_rejected_requests += 1
-                # print(f"Request {req.Req_ID} has been rejected.")
-                # print(f"Total Rejected Requests: {self.statistic.total_rejected_requests}")
+                self.statistic.total_rejected_requests += 1
+                print(f"Request {req.Req_ID} has been rejected.")
     
     # update vehs and reqs status to their planned positions at time self.system_time
     def update_veh_req_to_current_time(self):
@@ -108,6 +107,13 @@ class Simulator_Platform(object):
         for veh in self.vehs:
             Veh.move_to_time(veh, self.system_time)
 
+        # # Reject the long waited orders.
+        # for req in self.reqs:
+        #     if req.Status != OrderStatus.PENDING:
+        #         continue
+        #     if self.system_time >= req.Req_time + req.Max_wait or self.system_time >= req.Latest_PU_Time:
+        #         req.Status = OrderStatus.REJECTED
+        #         self.statistic.total_rejected_requests += 1
 
     def get_current_cycle_request(self, current_time) -> list:
         current_cycle_requests = []
@@ -126,12 +132,6 @@ class Simulator_Platform(object):
         return availiable_vehicels
     
     def create_report(self):
-        for req in self.reqs:
-            if req.Status == OrderStatus.REJECTED:
-                self.statistic.total_rejected_requests += 1
-            elif req.Status == OrderStatus.PICKING:
-                self.statistic.total_served_requests += 1
         print(f"Simulation Report:")
-        print(f"Total Requests: {len(self.reqs)}")
+        print(f"Total Requests: {self.statistic.total_requests}")
         print(f"Total Rejected Requests: {self.statistic.total_rejected_requests}")
-        print(f"Total Served Requests: {self.statistic.total_served_requests}")

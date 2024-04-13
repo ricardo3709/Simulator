@@ -82,7 +82,7 @@ class Simulator_Platform(object):
         # 3. Assign pending orders to vehicles.
         availiable_vehicels = self.get_availiable_vehicels()
         if self.dispatcher == DispatcherMethod.SBA:
-            assign_orders_through_sba(self.accumulated_request, availiable_vehicels, self.system_time)
+            assign_orders_through_sba(self.accumulated_request, availiable_vehicels, current_step_time)
       
         # 4. Reposition idle vehicles to high demand areas.
         if self.rebalancer == RebalancerMethod.NPO:
@@ -95,9 +95,9 @@ class Simulator_Platform(object):
                 continue
             if self.system_time >= req.Req_time + req.Max_wait or self.system_time >= req.Latest_PU_Time:
                 req.Status = OrderStatus.REJECTED
-                # self.statistic.total_rejected_requests += 1
-                # print(f"Request {req.Req_ID} has been rejected.")
-                # print(f"Total Rejected Requests: {self.statistic.total_rejected_requests}")
+                self.statistic.total_rejected_requests += 1
+                print(f"Request {req.Req_ID} has been rejected.")
+                print(f"Total Rejected Requests: {self.statistic.total_rejected_requests}")
     
     # update vehs and reqs status to their planned positions at time self.system_time
     def update_veh_req_to_current_time(self):
@@ -108,6 +108,13 @@ class Simulator_Platform(object):
         for veh in self.vehs:
             Veh.move_to_time(veh, self.system_time)
 
+        # # Reject the long waited orders.
+        # for req in self.reqs:
+        #     if req.Status != OrderStatus.PENDING:
+        #         continue
+        #     if self.system_time >= req.Req_time + req.Max_wait or self.system_time >= req.Latest_PU_Time:
+        #         req.Status = OrderStatus.REJECTED
+        #         self.statistic.total_rejected_requests += 1
 
     def get_current_cycle_request(self, current_time) -> list:
         current_cycle_requests = []
@@ -126,12 +133,6 @@ class Simulator_Platform(object):
         return availiable_vehicels
     
     def create_report(self):
-        for req in self.reqs:
-            if req.Status == OrderStatus.REJECTED:
-                self.statistic.total_rejected_requests += 1
-            elif req.Status == OrderStatus.PICKING:
-                self.statistic.total_served_requests += 1
         print(f"Simulation Report:")
-        print(f"Total Requests: {len(self.reqs)}")
+        print(f"Total Requests: {self.statistic.total_requests}")
         print(f"Total Rejected Requests: {self.statistic.total_rejected_requests}")
-        print(f"Total Served Requests: {self.statistic.total_served_requests}")

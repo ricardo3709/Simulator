@@ -42,7 +42,7 @@ REBALANCER = "NPO"        # 2 options: NONE, NPO
 
 # fleet_config:
 FLEET_SIZE = [10]
-VEH_CAPACITY = [4]
+VEH_CAPACITY = [100]
 
 # request_config: WIP
 # REQUEST_DENSITY = 1    # <= 1  
