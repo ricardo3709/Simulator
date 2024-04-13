@@ -75,9 +75,9 @@ def compute_schedule(veh: Veh, req: Req, system_time: float):
     feasible_schedules = []
     best_schedule = None
     min_time_cost = np.inf
-    # veh.schedule = veh.remove_duplicate_sublists(veh.schedule)
+    veh.schedule = veh.remove_duplicate_sublists(veh.schedule)
     current_schedule = copy.deepcopy(veh.schedule) ####where the fuck is this element been updated?????
-    # assert len(current_schedule) < 5 #DEBUG CODE
+    assert len(current_schedule) < 5 #DEBUG CODE
 
     for PU_node_position in range(len(current_schedule) + 1):
         for DO_node_position in range(PU_node_position + 1, len(current_schedule) + 2):
@@ -103,7 +103,7 @@ def upd_schedule_for_vehicles_in_selected_vt_pairs(candidate_veh_trip_pairs: lis
         # [veh, trip, sche, cost, score] = candidate_veh_trip_pairs[idx]
         # for req in trip:
         #     req.status = OrderStatus.PICKING
-        # assert len(sche) < 5 #DEBUG CODE
+        assert len(sche) < 5 #DEBUG CODE
         veh.update_schedule(sche)
         # veh.sche_has_been_updated_at_current_epoch = True
 

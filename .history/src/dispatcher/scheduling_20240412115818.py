@@ -65,7 +65,7 @@ def test_constraints(schedule: list, veh: Veh):
 def insert_request_into_schedule(schedule: list, request: Req, PU_node_position: int, DO_node_position: int):
     PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT]
     DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time]
-    new_schedule = copy.deepcopy(schedule)
+    new_schedule = schedule
     new_schedule.insert(PU_node_position, PU_node)
     new_schedule.insert(DO_node_position, DO_node)
     return new_schedule
@@ -75,9 +75,8 @@ def compute_schedule(veh: Veh, req: Req, system_time: float):
     feasible_schedules = []
     best_schedule = None
     min_time_cost = np.inf
-    # veh.schedule = veh.remove_duplicate_sublists(veh.schedule)
-    current_schedule = copy.deepcopy(veh.schedule) ####where the fuck is this element been updated?????
-    # assert len(current_schedule) < 5 #DEBUG CODE
+    current_schedule = veh.schedule #List: [node_id, type, num_people, max_wait_time], type = 1 for PU, -1 for DO
+    assert len(current_schedule) < 5 #DEBUG CODE
 
     for PU_node_position in range(len(current_schedule) + 1):
         for DO_node_position in range(PU_node_position + 1, len(current_schedule) + 2):
@@ -87,7 +86,7 @@ def compute_schedule(veh: Veh, req: Req, system_time: float):
                 time_cost = compute_schedule_time_cost(new_schedule)
                 feasible_schedules.append(new_schedule) #store the feasible schedule, but not the best one
                 if time_cost < min_time_cost: #update the best schedule
-                    best_schedule = copy.deepcopy(new_schedule)
+                    best_schedule = new_schedule
                     min_time_cost = time_cost
 
     return best_schedule, min_time_cost, feasible_schedules
@@ -103,7 +102,7 @@ def upd_schedule_for_vehicles_in_selected_vt_pairs(candidate_veh_trip_pairs: lis
         # [veh, trip, sche, cost, score] = candidate_veh_trip_pairs[idx]
         # for req in trip:
         #     req.status = OrderStatus.PICKING
-        # assert len(sche) < 5 #DEBUG CODE
+        assert len(sche) < 5 #DEBUG CODE
         veh.update_schedule(sche)
         # veh.sche_has_been_updated_at_current_epoch = True
 

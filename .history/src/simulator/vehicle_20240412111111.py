@@ -42,9 +42,6 @@ class Veh(object):
     # to avoid confusing, use schedule instead of route, also delete nodes in schedule after visiting it. 
     def move_to_time(self, current_system_time:float): 
         while self.veh_time < current_system_time and len(self.schedule) > 0: #update veh_time until it reaches current_system_time
-            
-            assert self.current_node != None
-
             current_target_node = self.schedule[0][0]
 
             #DEBUG CODE
@@ -72,22 +69,7 @@ class Veh(object):
                 self.veh_time = current_system_time
 
     def update_schedule(self, new_schedule: list):
-        # assert len(new_schedule) < 5 #DEBUG CODE
         self.schedule = new_schedule
         self.target_node = self.schedule[0][0]
         self.status = VehicleStatus.WORKING
-        # self.schedule = self.remove_duplicate_sublists(self.schedule)
 
-    def remove_duplicate_sublists(self, lst):
-        seen = set()
-        result = []
-        for sublist in lst:
-            # Convert the sublist to a tuple to make it hashable
-            sublist_tuple = tuple(sublist)
-            # Check if the sublist is not in the set of seen sublists
-            if sublist_tuple not in seen:
-                # Add the sublist to the result list
-                result.append(sublist)
-                # Add the sublist to the set of seen sublists
-                seen.add(sublist_tuple)
-        return result

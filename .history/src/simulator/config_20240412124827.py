@@ -41,12 +41,12 @@ DISPATCHER = "SBA"        # 3 options: SBA, OSP-NR, OSP
 REBALANCER = "NPO"        # 2 options: NONE, NPO
 
 # fleet_config:
-FLEET_SIZE = [5]
+FLEET_SIZE = [1]
 VEH_CAPACITY = [4]
 
 # request_config: WIP
 # REQUEST_DENSITY = 1    # <= 1  
-MAX_PICKUP_WAIT_TIME_MIN = [1]
+MAX_PICKUP_WAIT_TIME_MIN = [0.1]
 # MAX_ONBOARD_DETOUR = 1.3   # < 2
 
 ##################################################################################

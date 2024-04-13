@@ -103,7 +103,7 @@ def upd_schedule_for_vehicles_in_selected_vt_pairs(candidate_veh_trip_pairs: lis
         # [veh, trip, sche, cost, score] = candidate_veh_trip_pairs[idx]
         # for req in trip:
         #     req.status = OrderStatus.PICKING
-        # assert len(sche) < 5 #DEBUG CODE
+        assert len(sche) < 5 #DEBUG CODE
         veh.update_schedule(sche)
         # veh.sche_has_been_updated_at_current_epoch = True
 

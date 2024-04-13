@@ -72,22 +72,9 @@ class Veh(object):
                 self.veh_time = current_system_time
 
     def update_schedule(self, new_schedule: list):
-        # assert len(new_schedule) < 5 #DEBUG CODE
+        assert len(new_schedule) < 5 #DEBUG CODE
         self.schedule = new_schedule
         self.target_node = self.schedule[0][0]
         self.status = VehicleStatus.WORKING
-        # self.schedule = self.remove_duplicate_sublists(self.schedule)
+        assert len(self.schedule) < 5 #DEBUG CODE
 
-    def remove_duplicate_sublists(self, lst):
-        seen = set()
-        result = []
-        for sublist in lst:
-            # Convert the sublist to a tuple to make it hashable
-            sublist_tuple = tuple(sublist)
-            # Check if the sublist is not in the set of seen sublists
-            if sublist_tuple not in seen:
-                # Add the sublist to the result list
-                result.append(sublist)
-                # Add the sublist to the set of seen sublists
-                seen.add(sublist_tuple)
-        return result

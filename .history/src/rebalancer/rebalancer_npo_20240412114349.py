@@ -5,8 +5,6 @@ def reposition_idle_vehicles_to_nearest_pending_orders(reqs: List[Req], vehs: Li
 
     # 1. Get a list of the unassigned orders.
     pending_reqs = [req for req in reqs if req.Status == OrderStatus.PENDING]
-    if len(pending_reqs) == 0: #no pending requests
-        return
 
     # if DEBUG_PRINT:
     #     num_of_idle_vehs = 0
@@ -54,7 +52,6 @@ def reposition_idle_vehicles_to_nearest_pending_orders(reqs: List[Req], vehs: Li
         selected_rids.append(req.Req_ID)
 
         # 4. Push the rebalancing task to the assigned vehicle.
-        # assert len(sche) < 5 #DEBUG CODE
         veh.update_schedule(sche)
         # 5. Update the vehicle status.
         veh.status = VehicleStatus.REBALANCING

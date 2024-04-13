@@ -54,7 +54,6 @@ def reposition_idle_vehicles_to_nearest_pending_orders(reqs: List[Req], vehs: Li
         selected_rids.append(req.Req_ID)
 
         # 4. Push the rebalancing task to the assigned vehicle.
-        # assert len(sche) < 5 #DEBUG CODE
         veh.update_schedule(sche)
         # 5. Update the vehicle status.
         veh.status = VehicleStatus.REBALANCING
