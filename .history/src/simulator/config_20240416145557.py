@@ -47,7 +47,6 @@ VEH_CAPACITY = [4]
 # request_config: WIP
 # REQUEST_DENSITY = 1    # <= 1  
 MAX_PICKUP_WAIT_TIME_MIN = [1]
-MAX_DETOUR_TIME = 10
 # MAX_ONBOARD_DETOUR = 1.3   # < 2
 
 ##################################################################################

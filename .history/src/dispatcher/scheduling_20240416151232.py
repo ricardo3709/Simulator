@@ -80,7 +80,7 @@ def test_constraints(schedule: list, veh: Veh):
 
 def insert_request_into_schedule(schedule: list, request: Req, PU_node_position: int, DO_node_position: int):
     PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT]
-    DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT]
+    DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time]
     new_schedule = copy.deepcopy(schedule)
     new_schedule.insert(PU_node_position, PU_node)
     new_schedule.insert(DO_node_position, DO_node)
@@ -110,12 +110,82 @@ def compute_schedule(veh: Veh, req: Req, system_time: float):
 
 def upd_schedule_for_vehicles_in_selected_vt_pairs(candidate_veh_trip_pairs: list,
                                                    selected_veh_trip_pair_indices: List[int]):
-    assigned_reqs = []
+    
     for idx in selected_veh_trip_pair_indices:
+        
         #For Simonetto's Method, there is only one req for each trip.
         [veh, req, sche, cost, score] = candidate_veh_trip_pairs[idx]
         req.Status = OrderStatus.PICKING
+        # [veh, trip, sche, cost, score] = candidate_veh_trip_pairs[idx]
+        # for req in trip:
+        #     req.status = OrderStatus.PICKING
+        # assert len(sche) < 5 #DEBUG CODE
         veh.update_schedule(sche)
-        assigned_reqs.append(req)
-    return assigned_reqs
-        
+        # veh.sche_has_been_updated_at_current_epoch = True
+
+    # if DEBUG_PRINT:
+    #     print(f"                *Executing assignment with {len(selected_veh_trip_pair_indices)} pairs... "
+    #           f"({timer_end(t)})")
+
+
+# def score_vt_pairs_with_num_of_orders_and_sche_cost(veh_trip_pairs: list, reqs: list[Req], system_time: float):
+#     # 1. Get the coefficients for NumOfOrders and ScheduleCost.
+#     max_sche_cost = 1
+#     for vt_pair in veh_trip_pairs: #vt_pair = [veh, trip, sche, cost, score], all eligible pairs for this cycle
+#         [veh, trip, sche, cost, score] = vt_pair
+#         vt_pair[3] = compute_sche_delay(veh, sche, reqs, system_time)
+#         if vt_pair[3] > max_sche_cost:
+#             max_sche_cost = vt_pair[3]
+#     max_sche_cost = int(max_sche_cost)
+#     num_length = 0
+#     while max_sche_cost:
+#         max_sche_cost //= 10
+#         num_length += 1
+#     reward_for_serving_a_req = pow(10, num_length)
+
+#     # # 2. Score the vt_pairs with NumOfOrders and ScheduleCost.
+#     # # (The objective is to maximize the number of assigned orders and minimize the schedule cost (travel delay).)
+#     # for vt_pair in veh_trip_pairs:
+#     #     vt_pair[4] = reward_for_serving_a_req * len(vt_pair[1]) - vt_pair[3]
+
+#     for vt_pair in veh_trip_pairs:
+#         vt_pair[4] = len(vt_pair[1])
+
+
+# ("is_reoptimization" only influences the calculation of rewards in "compute_post_decision_state".)
+# def score_vt_pairs_with_num_of_orders_and_value_of_post_decision_state(num_of_new_reqs: int,
+#                                                                        vehs: list[Veh],
+#                                                                        reqs: list[Req],
+#                                                                        veh_trip_pairs: list,
+#                                                                        value_func: ValueFunction,
+#                                                                        system_time_sec: int,
+#                                                                        is_reoptimization: bool = False):
+#     expected_vt_scores = value_func.compute_expected_values_for_veh_trip_pairs(num_of_new_reqs, vehs,
+#                                                                                copy.deepcopy(veh_trip_pairs),
+#                                                                                system_time_sec, is_reoptimization)
+#     for idx, vt_pair in enumerate(veh_trip_pairs):
+#         vt_pair[4] = expected_vt_scores[idx]
+
+    # # 1. Get the coefficients for NumOfOrders and ScheduleCost.
+    # max_sche_cost = 1
+    # for vt_pair in veh_trip_pairs:
+    #     [veh, trip, sche, cost, score] = vt_pair
+    #     vt_pair[3] = compute_sche_delay(veh, sche, reqs, system_time_sec)
+    #     if vt_pair[3] > max_sche_cost:
+    #         max_sche_cost = vt_pair[3]
+    # max_sche_cost = int(max_sche_cost)
+    # num_length = 0
+    # while max_sche_cost:
+    #     max_sche_cost //= 10
+    #     num_length += 1
+    # reward_for_serving_a_req = pow(10, num_length)
+    #
+    # if ONLINE_TRAINING:
+    #     # 2. Score the vt_pairs with NumOfOrders and ScheduleCost.
+    #     for idx, vt_pair in enumerate(veh_trip_pairs):
+    #         vt_pair[4] = reward_for_serving_a_req * expected_vt_scores[idx] - vt_pair[3]
+    # else:
+    #     # 2. Score the vt_pairs with NumOfOrders and ScheduleCost.
+    #     for idx, vt_pair in enumerate(veh_trip_pairs):
+    #         vt_pair[4] = expected_vt_scores[idx]
+

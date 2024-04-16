@@ -80,7 +80,7 @@ class Simulator_Platform(object):
 
         # 2.1 Prune the accumulated requests. (Assigned requests and rejected requests are removed.)
         self.accumulated_request.extend(current_cycle_requests)
-        self.prune_requests()
+        self.accumulated_request = self.prune_requests()
         # self.reject_long_waited_requests()
 
         # 3. Assign pending orders to vehicles.

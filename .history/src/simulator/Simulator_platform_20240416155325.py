@@ -80,7 +80,7 @@ class Simulator_Platform(object):
 
         # 2.1 Prune the accumulated requests. (Assigned requests and rejected requests are removed.)
         self.accumulated_request.extend(current_cycle_requests)
-        self.prune_requests()
+        self.accumulated_request = self.prune_requests()
         # self.reject_long_waited_requests()
 
         # 3. Assign pending orders to vehicles.
@@ -97,13 +97,14 @@ class Simulator_Platform(object):
         if DEBUG_PRINT:
             print("                *Pruning candidate vehicle order pairs...", end=" ")
 
-        for req in self.accumulated_request:
+        self.accumulated_request
+        for req in self.accumulated_reqs:
             # 1. Remove the assigned requests from the accumulated requests.
             if req.Status == OrderStatus.PICKING:
-                self.accumulated_request.remove(req)
+                self.accumulated_reqs.remove(req)
             # 2. Remove the rejected requests from the accumulated requests.
             elif req.Status == OrderStatus.REJECTED:
-                self.accumulated_request.remove(req)
+                self.accumulated_reqs.remove(req)
     
     def reject_long_waited_requests(self):
         # Reject the long waited orders.

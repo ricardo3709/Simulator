@@ -17,10 +17,8 @@ def assign_orders_through_sba(current_cycle_requests: List[Req], vehs: List[Veh]
     score_vt_pair_with_delay(candidate_veh_req_pairs)
 
     # 3. Compute the assignment policy, indicating which vehicle to pick which request.
-
     # 3.1 Pruning the candidate veh-req pairs. Assigned and Rejected requests are removed from the candidate list.
-    # candidate_veh_req_pairs = prune_candidate_veh_req_pairs(candidate_veh_req_pairs)
-    
+    candidate_veh_req_pairs = prune_candidate_veh_req_pairs(candidate_veh_req_pairs)
     selected_veh_req_pair_indices = ilp_assignment(candidate_veh_req_pairs, current_cycle_requests, vehs)
     # selected_veh_req_pair_indices = greedy_assignment(feasible_veh_req_pairs)
 
@@ -70,20 +68,20 @@ def compute_candidate_veh_req_pairs(current_cycle_requests: List[Req], vehs:List
 
     return candidate_veh_req_pairs
 
-# def prune_candidate_veh_req_pairs(candidate_veh_req_pairs):
-#     if DEBUG_PRINT:
-#         print("                *Pruning candidate vehicle order pairs...", end=" ")
+def prune_candidate_veh_req_pairs(candidate_veh_req_pairs):
+    if DEBUG_PRINT:
+        print("                *Pruning candidate vehicle order pairs...", end=" ")
 
-#     for vt_pair in candidate_veh_req_pairs:
-#         veh, req, sche, cost, score = vt_pair
-#         # 1. Remove the assigned requests from the candidate list.
-#         if req.Status == OrderStatus.PICKING:
-#             candidate_veh_req_pairs.remove(vt_pair)
-#         # 2. Remove the rejected requests from the candidate list.
-#         elif req.Status == OrderStatus.REJECTED:
-#             candidate_veh_req_pairs.remove(vt_pair)
+    for vt_pair in candidate_veh_req_pairs:
+        veh, req, sche, cost, score = vt_pair
+        # 1. Remove the assigned requests from the candidate list.
+        if req.Status == OrderStatus.PICKING:
+            candidate_veh_req_pairs.remove(vt_pair)
+        # 2. Remove the rejected requests from the candidate list.
+        elif req.Status == OrderStatus.REJECTED:
+            candidate_veh_req_pairs.remove(vt_pair)
 
-#     return candidate_veh_req_pairs
+    return candidate_veh_req_pairs
 
 def immediate_reject_unassigned_requests(current_cycle_requests: List[Req], assigned_reqs: List[Req]):
     if DEBUG_PRINT:
