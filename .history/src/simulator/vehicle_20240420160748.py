@@ -78,7 +78,6 @@ class Veh(object):
                         else: #update route
                             target_end_node = self.schedule[0][0]
                             self.update_route(target_end_node)
-                            assert self.route != [] #DEBUG CODE, vehicle should have a route
 
                 else: #unable to complete the arc
                     self.arc_completion_percentage += (current_system_time - self.veh_time)/arc_time 

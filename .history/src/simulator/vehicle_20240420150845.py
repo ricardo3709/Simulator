@@ -74,11 +74,9 @@ class Veh(object):
                         if len(self.schedule) == 0: #no more nodes to visit
                             self.status = VehicleStatus.IDLE  
                             self.veh_time = current_system_time #vehicle will stay idle until next round of requests
-                            break
                         else: #update route
                             target_end_node = self.schedule[0][0]
                             self.update_route(target_end_node)
-                            assert self.route != [] #DEBUG CODE, vehicle should have a route
 
                 else: #unable to complete the arc
                     self.arc_completion_percentage += (current_system_time - self.veh_time)/arc_time 
@@ -91,24 +89,19 @@ class Veh(object):
         self.status = VehicleStatus.WORKING
         
         #update route according to the new schedule
+        self.target_node = self.route[0]
         if len(self.route) == 0: # vehicle has no route
-            if self.current_node == self.schedule[0][0]: #vehicle is at target end node
-                self.route = [self.current_node]
-                assert len(self.route) != 0 #DEBUG CODE, vehicle should have a route
-            else:
-                new_route = retrieve_route(self.current_node, self.schedule[0][0])
-                self.route = new_route
-                assert len(self.route) != 0 #DEBUG CODE, vehicle should have a route
-                
-        else: # vehicle has a route, but overwrites it, self.target_node = self.route[0](where the vehicle is going to visit next)
-            assert self.target_node != None
-            new_route = retrieve_route(self.target_node, self.schedule[0][0])
-            self.route = new_route  
-            assert len(self.route) != 0 #DEBUG CODE, vehicle should have a route
+            route_to_target = retrieve_route(self.current_node, self.schedule[0][0])
+            self.route = route_to_target
+        else: # vehicle has a route, but overwrites it, self.target_node = self.route[0]
+            route_to_target = retrieve_route(self.target_node, self.schedule[0][0])
+            self.route = [self.target_node] # keep the upcoming node to visit
+            self.route.append(route_to_target) # add the new route to the end of the current route
 
+        self.target_node = self.route[0]
 
     def update_route(self, target_end_node):
-        assert len(self.route) == 0 #DEBUG CODE, when trigger this, vehicle should have no route
+        assert len(self.route) > 0 #DEBUG CODE, when trigger this, vehicle should have no route
     
         route_to_target = retrieve_route(self.current_node, target_end_node)
         self.route = route_to_target

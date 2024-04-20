@@ -26,7 +26,7 @@ with open(osp.join(BASEDIR, '../..', NETWORK_NAME, ALLPATHTABLE), 'rb') as f:
 print(f"[INFO] Route functions are ready. ")
 
 def check_problem_node(number_of_nodes: int):
-    # for some nodes, the data has bug: no path from the node to itself (92)
+    # for some nodes, the data has bug: no path from the node to itself
     wrong_node = []
     for i in range(0,number_of_nodes):
         route = retrieve_route(i,i)
@@ -36,7 +36,7 @@ def check_problem_node(number_of_nodes: int):
 
 def retrieve_route(origin: int, destination: int):
         route = all_path_table[origin][destination][0]
-        if origin == destination:
+        if origin == destination: #Special Case, there is a bug in the SmallGridData. Overwrite the route with current node
             route = [origin]
         return route
     

@@ -25,19 +25,11 @@ with open(osp.join(BASEDIR, '../..', NETWORK_NAME, ALLPATHTABLE), 'rb') as f:
 
 print(f"[INFO] Route functions are ready. ")
 
-def check_problem_node(number_of_nodes: int):
-    # for some nodes, the data has bug: no path from the node to itself (92)
-    wrong_node = []
-    for i in range(0,number_of_nodes):
-        route = retrieve_route(i,i)
-        if route == []:
-            wrong_node.append(i)
-    print(wrong_node) 
 
 def retrieve_route(origin: int, destination: int):
         route = all_path_table[origin][destination][0]
-        if origin == destination:
-            route = [origin]
+        if route[0] == origin: #remove the origin node
+            route = route[1:]
         return route
     
 def retrive_TimeCost(origin: int, destination: int):

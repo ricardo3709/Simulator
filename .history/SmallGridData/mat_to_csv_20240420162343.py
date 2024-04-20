@@ -30,9 +30,6 @@ df_Requests = pd.DataFrame(mat_Requests)
 # Origin-node, Destination-node, request time, number of people in the request, max waiting time of this request, ID
 df_Requests = df_Requests.rename(columns={0: 'Oid', 1: 'Did', 2: 'Req_t', 3: 'Num_ppl', 4: 'Max_wait', 5: 'Req_ID'})
 df_Requests = df_Requests.sort_values(by='Req_ID') #sort by request id
-# Request nodes range is [1,100], change it to [0,99]
-df_Requests['Oid'] = df_Requests['Oid'] - 1
-df_Requests['Did'] = df_Requests['Did'] - 1
 df_t_V = pd.DataFrame(mat_t_V)
 # df_t_V.sort_values(by=[0,1], inplace=True)
 

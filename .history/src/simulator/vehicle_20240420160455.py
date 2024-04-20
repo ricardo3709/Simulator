@@ -78,7 +78,6 @@ class Veh(object):
                         else: #update route
                             target_end_node = self.schedule[0][0]
                             self.update_route(target_end_node)
-                            assert self.route != [] #DEBUG CODE, vehicle should have a route
 
                 else: #unable to complete the arc
                     self.arc_completion_percentage += (current_system_time - self.veh_time)/arc_time 
@@ -94,17 +93,13 @@ class Veh(object):
         if len(self.route) == 0: # vehicle has no route
             if self.current_node == self.schedule[0][0]: #vehicle is at target end node
                 self.route = [self.current_node]
-                assert len(self.route) != 0 #DEBUG CODE, vehicle should have a route
             else:
                 new_route = retrieve_route(self.current_node, self.schedule[0][0])
                 self.route = new_route
-                assert len(self.route) != 0 #DEBUG CODE, vehicle should have a route
-                
         else: # vehicle has a route, but overwrites it, self.target_node = self.route[0](where the vehicle is going to visit next)
-            assert self.target_node != None
             new_route = retrieve_route(self.target_node, self.schedule[0][0])
             self.route = new_route  
-            assert len(self.route) != 0 #DEBUG CODE, vehicle should have a route
+        assert len(self.route) != 0 #DEBUG CODE, vehicle should have a route
 
 
     def update_route(self, target_end_node):
