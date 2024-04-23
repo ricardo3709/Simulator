@@ -41,7 +41,7 @@ DISPATCHER = "SBA"        # 3 options: SBA, OSP-NR, OSP
 REBALANCER = "NJO"        # 3 options: NONE, NPO, NJO
 
 # fleet_config:
-FLEET_SIZE = [30]
+FLEET_SIZE = [300]
 VEH_CAPACITY = [4]
 
 # request_config: WIP

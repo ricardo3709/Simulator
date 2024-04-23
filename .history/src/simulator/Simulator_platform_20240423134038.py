@@ -207,7 +207,7 @@ class Simulator_Platform(object):
     def create_video(self):
         # Define the size of the map and vehicles
         VIDEO_RESOLUTION = (1000,1000)  # Adjust as needed, pixels
-        VEHICLE_SIZE = 10  # Adjust as needed, pixels
+        VEHICLE_SIZE = 5  # Adjust as needed, pixels
         VEHICLE_COLOR = (0,0,200) #Light Red color for vehicles, (Blue, Green, Red) for opencv
         GRID_SIZE = (10, 10)
         GRID_COLOR = (128,128,128)  # Grey color for grid lines
@@ -222,8 +222,8 @@ class Simulator_Platform(object):
             vehicle_coordinates.append(frame_coordinate)
 
         # Create a VideoWriter object
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        out = cv2.VideoWriter('output.mp4', fourcc, 15.0, VIDEO_RESOLUTION)
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        out = cv2.VideoWriter('output.avi', fourcc, 30.0, VIDEO_RESOLUTION)
 
         # Draw frames and write to video
         for frame_coordinates in vehicle_coordinates:

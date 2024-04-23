@@ -206,12 +206,10 @@ class Simulator_Platform(object):
 
     def create_video(self):
         # Define the size of the map and vehicles
-        VIDEO_RESOLUTION = (1000,1000)  # Adjust as needed, pixels
-        VEHICLE_SIZE = 10  # Adjust as needed, pixels
-        VEHICLE_COLOR = (0,0,200) #Light Red color for vehicles, (Blue, Green, Red) for opencv
-        GRID_SIZE = (10, 10)
-        GRID_COLOR = (128,128,128)  # Grey color for grid lines
-        
+        Video_Size = (1000,1000)  # Adjust as needed, pixels
+
+        # Generate some example data (position of vehicles at each frame)
+        # num_frames = 480  # Adjust as needed
         vehicle_positions = copy.deepcopy(self.statistic.all_veh_position_series)
         vehicle_coordinates = [] # List of frames, each frame is a list of vehicle coordinates
         for frame in vehicle_positions:
@@ -222,22 +220,17 @@ class Simulator_Platform(object):
             vehicle_coordinates.append(frame_coordinate)
 
         # Create a VideoWriter object
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        out = cv2.VideoWriter('output.mp4', fourcc, 15.0, VIDEO_RESOLUTION)
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        out = cv2.VideoWriter('output.avi', fourcc, 30.0, Video_Size)
 
         # Draw frames and write to video
         for frame_coordinates in vehicle_coordinates:
             # Create a blank image representing the map
-            frame = np.zeros((VIDEO_RESOLUTION[1], VIDEO_RESOLUTION[0], 3), dtype=np.uint8)
-            # Draw grid lines
-            for i in range(1, GRID_SIZE[0]):
-                cv2.line(frame, (i * (VIDEO_RESOLUTION[0] // GRID_SIZE[0]), 0), (i * (VIDEO_RESOLUTION[0] // GRID_SIZE[0]), VIDEO_RESOLUTION[1]), GRID_COLOR, 1)
-            for i in range(1, GRID_SIZE[1]):
-                cv2.line(frame, (0, i * (VIDEO_RESOLUTION[1] // GRID_SIZE[1])), (VIDEO_RESOLUTION[0], i * (VIDEO_RESOLUTION[1] // GRID_SIZE[1])), GRID_COLOR, 1)
+            frame = np.zeros((Video_Size[1], Video_Size[0], 3), dtype=np.uint8)
 
             # Draw vehicles at their positions
             for vehicle_coordinate in frame_coordinates:
-                cv2.circle(frame, tuple(vehicle_coordinate), VEHICLE_SIZE, VEHICLE_COLOR, -1)
+                cv2.circle(frame, tuple(vehicle_coordinate), 5, (0, 255, 0), -1)
 
             # Write frame to video
             out.write(frame)

@@ -207,10 +207,9 @@ class Simulator_Platform(object):
     def create_video(self):
         # Define the size of the map and vehicles
         VIDEO_RESOLUTION = (1000,1000)  # Adjust as needed, pixels
-        VEHICLE_SIZE = 10  # Adjust as needed, pixels
-        VEHICLE_COLOR = (0,0,200) #Light Red color for vehicles, (Blue, Green, Red) for opencv
+        VEHICLE_SIZE = 5  # Adjust as needed, pixels
         GRID_SIZE = (10, 10)
-        GRID_COLOR = (128,128,128)  # Grey color for grid lines
+        GRID_COLOR = (255, 255, 255)  # White color for grid lines
         
         vehicle_positions = copy.deepcopy(self.statistic.all_veh_position_series)
         vehicle_coordinates = [] # List of frames, each frame is a list of vehicle coordinates
@@ -222,8 +221,8 @@ class Simulator_Platform(object):
             vehicle_coordinates.append(frame_coordinate)
 
         # Create a VideoWriter object
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        out = cv2.VideoWriter('output.mp4', fourcc, 15.0, VIDEO_RESOLUTION)
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        out = cv2.VideoWriter('output.avi', fourcc, 30.0, VIDEO_RESOLUTION)
 
         # Draw frames and write to video
         for frame_coordinates in vehicle_coordinates:
@@ -237,7 +236,7 @@ class Simulator_Platform(object):
 
             # Draw vehicles at their positions
             for vehicle_coordinate in frame_coordinates:
-                cv2.circle(frame, tuple(vehicle_coordinate), VEHICLE_SIZE, VEHICLE_COLOR, -1)
+                cv2.circle(frame, tuple(vehicle_coordinate), VEHICLE_SIZE, (0, 255, 0), -1)
 
             # Write frame to video
             out.write(frame)

@@ -222,7 +222,7 @@ class Simulator_Platform(object):
             vehicle_coordinates.append(frame_coordinate)
 
         # Create a VideoWriter object
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
         out = cv2.VideoWriter('output.mp4', fourcc, 15.0, VIDEO_RESOLUTION)
 
         # Draw frames and write to video

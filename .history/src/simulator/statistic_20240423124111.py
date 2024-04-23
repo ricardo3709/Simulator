@@ -18,4 +18,4 @@ class Statistic(object):
         self.total_served_requests = 0
         self.total_rejected_requests = 0
         self.total_veh_run_time = 0.0
-        self.all_veh_position_series = []
+        self.veh_positions = []
