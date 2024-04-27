@@ -203,20 +203,6 @@ class Simulator_Platform(object):
         video_width = 1000 #adjust as needed
         scale_factor = video_width / map_width
         return (int(node_id % 10 * scale_factor), int(node_id // 10 * scale_factor))
-    
-    def interpolate_position(self, vehicle_coordinates, scale_factor):
-        interpolated_coordinates = []
-        for frame in vehicle_coordinates:
-            interpolated_coordinates.append(frame)
-            next_frame = vehicle_coordinates[vehicle_coordinates.index(frame) + 1]
-            for i in range(1, scale_factor):
-                interpolated_frame = []
-                for j in range(len(frame)):
-                    interpolated_frame.append((int(frame[j][0] + (next_frame[j][0] - frame[j][0]) * i / scale_factor), int(frame[j][1] + (next_frame[j][1] - frame[j][1]) * i / scale_factor)))
-                interpolated_coordinates.append(interpolated_frame)
-        return interpolated_coordinates
-
-
 
     def create_video(self):
         # Define the size of the map and vehicles
@@ -234,21 +220,16 @@ class Simulator_Platform(object):
                 veh_coordinate = self.mapping_node_to_coordinate(veh_node_id) 
                 frame_coordinate.append(veh_coordinate)
             vehicle_coordinates.append(frame_coordinate)
-        interpolated_vehicle_coordinates = self.interpolate_position(vehicle_coordinates, 5)
 
         # Create a VideoWriter object
-        # cv2.cv.CV_FOURCC(*'XVID')
-        # fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        
-        FILE_TYPE = '.mp4'
-        # BASEDIR = osp.dirname(osp.abspath(__file__)) + '/'
-        OUTPUT_NAME = str(FLEET_SIZE[0]) + 'Vehs_' + str(VEH_CAPACITY[0]) + 'Ppl_' + str(MAX_PICKUP_WAIT_TIME) + 'MaxWait_' + str(MAX_DETOUR_TIME) + 'MaxDetour_' + REBALANCER + 'Rebalancer_' + DISPATCHER + 'Dispatcher' + FILE_TYPE
-
-        # fourcc = cv2.VideoWriter_fourcc(*'avc1')
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        out = cv2.VideoWriter(OUTPUT_NAME, fourcc, 60.0, VIDEO_RESOLUTION)
+        FILE_TYPE = '.mp4'
+        OUTPUT_NAME = FLEET_SIZE[0] + 'Vehs_' + VEH_CAPACITY + 'Ppl_' + MAX_PICKUP_WAIT_TIME + 'MaxWait_' //
+        + MAX_DETOUR_TIME + 'MaxDetour_' + REBALANCER + 'Rebalancer_' + DISPATCHER + 'Dispatcher' + FILE_TYPE
+        out = cv2.VideoWriter(OUTPUT_NAME, fourcc, 15.0, VIDEO_RESOLUTION)
+
         # Draw frames and write to video
-        for frame_coordinates in interpolated_vehicle_coordinates:
+        for frame_coordinates in vehicle_coordinates:
             # Create a blank image representing the map
             frame = np.zeros((VIDEO_RESOLUTION[1], VIDEO_RESOLUTION[0], 3), dtype=np.uint8)
             # Draw grid lines
@@ -266,4 +247,3 @@ class Simulator_Platform(object):
 
         # Release the VideoWriter
         out.release()
-        

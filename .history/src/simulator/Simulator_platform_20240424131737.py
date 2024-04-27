@@ -234,7 +234,7 @@ class Simulator_Platform(object):
                 veh_coordinate = self.mapping_node_to_coordinate(veh_node_id) 
                 frame_coordinate.append(veh_coordinate)
             vehicle_coordinates.append(frame_coordinate)
-        interpolated_vehicle_coordinates = self.interpolate_position(vehicle_coordinates, 5)
+        interpolated_vehicle_coordinates = self.interpolate_position(vehicle_coordinates, 3)
 
         # Create a VideoWriter object
         # cv2.cv.CV_FOURCC(*'XVID')
@@ -246,7 +246,7 @@ class Simulator_Platform(object):
 
         # fourcc = cv2.VideoWriter_fourcc(*'avc1')
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        out = cv2.VideoWriter(OUTPUT_NAME, fourcc, 60.0, VIDEO_RESOLUTION)
+        out = cv2.VideoWriter(OUTPUT_NAME, fourcc, 15.0, VIDEO_RESOLUTION)
         # Draw frames and write to video
         for frame_coordinates in interpolated_vehicle_coordinates:
             # Create a blank image representing the map

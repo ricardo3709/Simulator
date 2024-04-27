@@ -1,0 +1,4 @@
+*.mat
+/NYC/NYC_Manhattan_Map.mat
+/NYC/Requests.mat
+*.mp4

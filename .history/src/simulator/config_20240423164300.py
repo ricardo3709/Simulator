@@ -62,7 +62,6 @@ DEBUG_PRINT = False
 SIMULATION_DURATION = 60.0 #SmallGridData has 60 minutes of data
 TIME_STEP = 0.25 # 15 seconds
 COOL_DOWN_DURATION = 60.0 # 60 minutes
-PENALTY = 5.0 #penalty for ignoring a vehicle-trip pair
 
 ##################################################################################
 # Value Function Config

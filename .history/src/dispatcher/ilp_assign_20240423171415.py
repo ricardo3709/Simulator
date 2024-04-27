@@ -18,7 +18,7 @@ def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, in
     model = gp.Model("ilp")
     model.setParam("LogToConsole", 0) #0: no log output, 1: log output
 
-    
+    PENALTY = 20.0 #penalty for ignoring a vehicle-trip pair
     vehicle_check = [] #check if vehicle is assigned, 1 for assigned, 0 for not assigned
     request_check = [] #check if request is assigned, 1 for assigned, 0 for not assigned
     veh_trip_pairs_check = [] #check if vehicle-trip pair is assigned, 1 for assigned, 0 for not assigned
