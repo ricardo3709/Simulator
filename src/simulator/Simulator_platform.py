@@ -39,20 +39,36 @@ class Simulator_Platform(object):
 
         # Initialize the fleet with random initial positions.
         self.vehs = []
-        for i in range(FLEET_SIZE[0]):
-            node_id = np.random.randint(0, 100)
-            self.vehs.append(Veh(i, self.system_time, node_id, VEH_CAPACITY[0]))
-
         # Initialize the demand generator.
         self.reqs = []
-        reqs = pd.read_csv(PATH_SMALLGRID_REQUESTS)
-        reqs_data = reqs.to_numpy()
-        for i in range(reqs_data.shape[0]):
-            self.reqs.append(Req(int(reqs_data[i, 0]), int(reqs_data[i, 1]), float(reqs_data[i, 2]), int(reqs_data[i, 3]), float(reqs_data[i, 4]), int(reqs_data[i, 5])))
+
+        if MAP_NAME == 'Manhattan': # [ReqID Oid Did ReqTime Size]
+            reqs = pd.read_csv(PATH_MANHATTAN_REQUESTS)
+            reqs_data = reqs.to_numpy()
+            for i in range(reqs_data.shape[0]):
+                self.reqs.append(Req(int(reqs_data[i, 0]), int(reqs_data[i, 1]), int(reqs_data[i, 2]), int(reqs_data[i, 3], int(reqs_data[i,4]))))
+            print(f"[INFO] Requests Initialization finished")
+            for i in range(FLEET_SIZE[0]):
+                node_id = np.random.randint(1, NUM_NODES_MANHATTAN+1)
+                self.vehs.append(Veh(i, self.system_time, node_id, VEH_CAPACITY[0]))
+            print(f"[INFO] Vehicles Initialization finished")
+
+        elif MAP_NAME == 'SmallGrid':
+            reqs = pd.read_csv(PATH_SMALLGRID_REQUESTS)
+            reqs_data = reqs.to_numpy()
+            for i in range(reqs_data.shape[0]):
+                self.reqs.append(Req(int(reqs_data[i, 0]), int(reqs_data[i, 1]), float(reqs_data[i, 2]), int(reqs_data[i, 3]), float(reqs_data[i, 4]), int(reqs_data[i, 5])))
+            print(f"[INFO] Requests Initialization finished")
+            for i in range(FLEET_SIZE[0]):
+                node_id = np.random.randint(0, 100)
+                self.vehs.append(Veh(i, self.system_time, node_id, VEH_CAPACITY[0]))
+            print(f"[INFO] Vehicles Initialization finished")
+
+        else:
+            assert (False and "[ERROR] WRONG MAP NAME SETTING! Please check the name of map in config!")
         
         self.req_init_idx = 1
         self.statistic.total_requests = len(self.reqs)
-        print(f"[INFO] Demand Generator is ready. ")
 
         # Initialize the dispatcher and the rebalancer.
         if DISPATCHER == "SBA":

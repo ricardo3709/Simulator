@@ -4,26 +4,21 @@ route planning functions
 import copy
 import pickle
 import os.path as osp
-# from src.simulator import const
+from src.simulator.config import *
 
-# with open(PATH_SMALLGRID_ARCS, "rb") as f:
-#     network_arcs = pd.read_csv(f)
-# with open(PATH_SMALLGRID_TIMECOST, "rb") as f:
-#     network_timecost = pd.read_csv(f)
-# with open(PATH_SMALLGRID_REQUESTS, "rb") as f:
-#     network_requests = pd.read_csv(f)    
+# BASEDIR = osp.dirname(osp.abspath(__file__))
 
-ALLPATHTABLE = 'SmallGrid_AllPathTable.pickle'
-NETWORK_NAME = 'SmallGridData'
-BASEDIR = osp.dirname(osp.abspath(__file__))
-number_of_nodes = 100
+if MAP_NAME == "SmallGrid":
+    PATH_ALL_PATH_TABLE = PATH_SMALLGRID_ALL_PATH_TABLE
+    number_of_nodes = NUM_NODES_SMALLGRID
+elif MAP_NAME == "Manhattan":
+    PATH_ALL_PATH_TABLE = PATH_MANHATTAN_ALL_PATH_TABLE
+    number_of_nodes = NUM_NODES_MANHATTAN 
 
-with open(osp.join(BASEDIR, '../..', NETWORK_NAME, ALLPATHTABLE), 'rb') as f:
-# with open(BASEDIR + '/' + NETWORK_NAME+ '/' + ALLPATHTABLE, 'rb') as f:
-    ALL_PATH_TABLE = copy.deepcopy(pickle.load(f))
 
-# wrong_nodes_pair = check_problem_node(number_of_nodes)
-# assert len(wrong_nodes_pair) == 0 #check if there is any problem with the path table
+with open(PATH_ALL_PATH_TABLE, 'rb') as f:
+    # ALL_PATH_TABLE = copy.deepcopy(pickle.load(f))
+    ALL_PATH_TABLE = pickle.load(f)
 
 print(f"[INFO] Route functions are ready. ")
 
@@ -38,12 +33,11 @@ def check_problem_node(number_of_nodes: int):
 
 def retrieve_route(origin: int, destination: int):
         route = copy.deepcopy(ALL_PATH_TABLE[origin][destination][0]) 
-        # if origin == destination:
-        #     route = [origin]
         return route
     
 def retrive_TimeCost(origin: int, destination: int):
-        time = copy.deepcopy(ALL_PATH_TABLE[origin][destination][1]) * 1.5
+        # time = copy.deepcopy(ALL_PATH_TABLE[origin][destination][1]) * 1.5 for smallgriddata
+        time = copy.deepcopy(ALL_PATH_TABLE[origin][destination][1])
         return time
 
 
