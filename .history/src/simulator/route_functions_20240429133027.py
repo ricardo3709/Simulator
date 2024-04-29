@@ -28,25 +28,25 @@ def check_problem_node(number_of_nodes: int):
     wrong_nodes_pair = []
     for i in range (0,number_of_nodes):
         for j in range (0,number_of_nodes):
-            route = get_route(i,j)
+            route = retrieve_route(i,j)
             if route == []:
                 wrong_nodes_pair.append([i,j])
     return wrong_nodes_pair
 
-def get_route(origin: int, destination: int):
+def retrieve_route(origin: int, destination: int):
         if MAP_NAME == "SmallGrid":
             route = copy.deepcopy(ALL_PATH_TABLE[origin][destination][0])
         elif MAP_NAME == "Manhattan":
-            route, _ = copy.deepcopy(get_route_and_time_by_matrix(origin, destination, ALL_PATH_TABLE, ALL_PATH_TIME_MATRIX))
+            route, _ = get_route_and_time_by_matrix(origin, destination, ALL_PATH_TABLE, ALL_PATH_TIME_MATRIX)
         else:
             raise ValueError("Invalid MAP_NAME")
         return route
     
-def get_timeCost(origin: int, destination: int):
+def retrive_TimeCost(origin: int, destination: int):
         if MAP_NAME == "SmallGrid":
             time = copy.deepcopy(ALL_PATH_TABLE[origin][destination][1]) * 1.5 
         elif MAP_NAME == "Manhattan":
-            _ , time = copy.deepcopy(get_route_and_time_by_matrix(origin, destination, ALL_PATH_TABLE, ALL_PATH_TIME_MATRIX))
+            _ , time = get_route_and_time_by_matrix(origin, destination, ALL_PATH_TABLE, ALL_PATH_TIME_MATRIX)
         else:
             raise ValueError("Invalid MAP_NAME")
         return time

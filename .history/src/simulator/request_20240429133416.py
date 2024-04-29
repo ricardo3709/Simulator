@@ -37,7 +37,7 @@ class Req(object):
     #     self.Num_people = Num_people
     #     self.Max_wait = Max_wait
     #     self.Req_ID = Req_ID
-    #     self.Shortest_TT = get_timeCost(self.Ori_id, self.Des_id)
+    #     self.Shortest_TT = retrive_TimeCost(self.Ori_id, self.Des_id)
     #     self.Latest_PU_Time = self.Req_time + self.Max_wait
     #     self.Latest_DO_Time = self.Req_time + self.Shortest_TT + Max_wait * 2
     #     self.Actual_PU_Time = -1.0
@@ -51,7 +51,7 @@ class Req(object):
         self.Req_time = Req_time
         self.Num_people = Num_people
         self.Req_ID = Req_ID
-        self.Shortest_TT = get_timeCost(self.Ori_id, self.Des_id)
+        self.Shortest_TT = retrive_TimeCost(self.Ori_id, self.Des_id)
         self.Latest_PU_Time = self.Req_time + MAX_PICKUP_WAIT_TIME
         self.Status = OrderStatus.PENDING
 

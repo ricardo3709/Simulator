@@ -2,8 +2,8 @@
 definition of requests for the Ricardo's Simulator
 """
 
+from src.simulator.Simulator_platform import *
 from src.simulator.route_functions import *
-
 
 class Req(object):
     """
@@ -29,21 +29,30 @@ class Req(object):
         D: detour factor
         
     """
+    # Small Grid Data
+    # def __init__(self, Ori_id: int, Des_id: int, Req_time: float, Num_people: int, Max_wait: float, Req_ID: int):
+    #     self.Ori_id = Ori_id
+    #     self.Des_id = Des_id
+    #     self.Req_time = Req_time
+    #     self.Num_people = Num_people
+    #     self.Max_wait = Max_wait
+    #     self.Req_ID = Req_ID
+    #     self.Shortest_TT = get_timeCost(self.Ori_id, self.Des_id)
+    #     self.Latest_PU_Time = self.Req_time + self.Max_wait
+    #     self.Latest_DO_Time = self.Req_time + self.Shortest_TT + Max_wait * 2
+    #     self.Actual_PU_Time = -1.0
+    #     self.Actual_DO_Time = -1.0
+    #     self.Status = OrderStatus.PENDING
 
-    def __init__(self, Ori_id: int, Des_id: int, Req_time: float, Num_people: int, Max_wait: float, Req_ID: int):
+    # Manhattan Data
+    def __init__(self, Req_ID: int, Ori_id: int, Des_id: int, Req_time: int, Num_people: int):
         self.Ori_id = Ori_id
         self.Des_id = Des_id
         self.Req_time = Req_time
         self.Num_people = Num_people
-        self.Max_wait = Max_wait
         self.Req_ID = Req_ID
-        self.Shortest_TT = retrive_TimeCost(self.Ori_id, self.Des_id)
-        self.Latest_PU_Time = self.Req_time + self.Max_wait
-        self.Latest_DO_Time = self.Req_time + self.Shortest_TT + Max_wait * 2 #WIP: Assuming Constrain like this first
-        self.Actual_PU_Time = -1.0
-        self.Actual_DO_Time = -1.0
-        # self.D = 0.0
-        
+        self.Shortest_TT = get_timeCost(self.Ori_id, self.Des_id)
+        self.Latest_PU_Time = self.Req_time + MAX_PICKUP_WAIT_TIME
         self.Status = OrderStatus.PENDING
 
     def update_pick_info(self, system_time: float):
