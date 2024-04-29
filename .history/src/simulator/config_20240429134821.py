@@ -38,8 +38,6 @@ REBALANCER = "NJO"        # 3 options: NONE, NPO, NJO
 # for small-grid-data
 # FLEET_SIZE = [100]
 # VEH_CAPACITY = [4]
-# MAX_PICKUP_WAIT_TIME = 5 # 5 min
-# MAX_DETOUR_TIME = 10 # 10 min
 
 # for Manhattan-data
 FLEET_SIZE = [1500]

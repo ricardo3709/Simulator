@@ -53,7 +53,7 @@ class Req(object):
         self.Req_ID = Req_ID
         self.Shortest_TT = get_timeCost(self.Ori_id, self.Des_id)
         self.Latest_PU_Time = self.Req_time + MAX_PICKUP_WAIT_TIME
-        self.Latest_DO_Time = self.Req_time + self.Shortest_TT + MAX_DETOUR_TIME #not used
+        self.Latest_DO_Time = self.Req_time + self.Shortest_TT + MAX_DETOUR_TIME
         self.Status = OrderStatus.PENDING
 
     def update_pick_info(self, system_time: float):
