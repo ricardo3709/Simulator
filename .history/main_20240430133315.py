@@ -13,9 +13,9 @@ def run_sim():
     main_sim_results = []
     # 1. Run Simulation
     # 1.1. Initialize the simulator and print its configuration.
-    print(f"[INFO] Running simulation using dispatcher: {DISPATCHER}")
-    print(f"[INFO] Running simulation using fleet size: {FLEET_SIZE[0]}")
-    print(f"[INFO] Running simulation using vehicle capacity: {VEH_CAPACITY[0]}")
+    print(f"\n[INFO] Running simulation using dispatcher: {DISPATCHER}")
+    print(f"\n[INFO] Running simulation using fleet size: {FLEET_SIZE[0]}")
+    print(f"\n[INFO] Running simulation using vehicle capacity: {VEH_CAPACITY[0]}")
     platform = Simulator_Platform(system_time)
     # 1.2. Run simulation. ("frames_system_states" is only recorded If RENDER_VIDEO is enabled, or it is None.)
     frames_system_states = platform.run_simulation()
@@ -67,7 +67,7 @@ def run_sim():
 
 
 if __name__ == '__main__':
-   cProfile.run("run_sim()",filename="result.out")
+   cProfile.run(run_sim())
 
     # VC = [2, 4, 6, 8]
     # for vc in VC:

@@ -99,7 +99,7 @@ class Simulator_Platform(object):
                 print("Cooling down...")
                 cool_down_flag = False
             self.run_cycle()
-            # self.statistic.all_veh_position_series.append(self.get_all_veh_positions())
+            self.statistic.all_veh_position_series.append(self.get_all_veh_positions())
         
 
     
@@ -204,7 +204,7 @@ class Simulator_Platform(object):
         avg_req_shortest_TT = np.mean([req.Shortest_TT for req in self.reqs])
         avg_veh_runtime = self.statistic.total_veh_run_time / len(self.vehs)
         avg_req_runtime = self.statistic.total_veh_run_time / len(self.reqs)
-        # self.create_video()
+        self.create_video()
         print(f"Simulation Report:")
         print(f"Total Requests: {len(self.reqs)}")
         print(f"Total Rejected Requests: {self.statistic.total_rejected_requests}")
@@ -212,7 +212,7 @@ class Simulator_Platform(object):
         print(f"Average Shortest Travel Time: {avg_req_shortest_TT}")
         print(f"Average Vehicle Runtime: {avg_veh_runtime}")
         print(f"Average Request Runtime: {avg_req_runtime}")
-        # print(f"Video has been created.")
+        print(f"Video has been created.")
     
     def mapping_node_to_coordinate(self, node_id):
         map_width = 10 #adjust as needed
@@ -242,9 +242,7 @@ class Simulator_Platform(object):
         GRID_SIZE = (10, 10)
         GRID_COLOR = (128,128,128)  # Grey color for grid lines
         
-        # vehicle_positions = copy.deepcopy(self.statistic.all_veh_position_series)
-        vehicle_positions = pickle.loads(pickle.dumps(self.statistic.all_veh_position_series))
-        
+        vehicle_positions = copy.deepcopy(self.statistic.all_veh_position_series)
         vehicle_coordinates = [] # List of frames, each frame is a list of vehicle coordinates
         for frame in vehicle_positions:
             frame_coordinate = []

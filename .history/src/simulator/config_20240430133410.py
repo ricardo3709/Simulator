@@ -60,9 +60,9 @@ DEBUG_PRINT = False
 # PENALTY = 5.0 #penalty for ignoring a request
 
 # for Manhattan-data
-SIMULATION_DURATION = 900 # 60 minutes = 3600 seconds
+SIMULATION_DURATION = 600 # 60 minutes = 3600 seconds
 TIME_STEP = 15 # 15 seconds
-COOL_DOWN_DURATION = 0 # 20 minutes = 1200 seconds
+COOL_DOWN_DURATION = 1200 # 20 minutes = 1200 seconds
 PENALTY = 80.0 #penalty for ignoring a request
 
 def config_change_fs(fs):

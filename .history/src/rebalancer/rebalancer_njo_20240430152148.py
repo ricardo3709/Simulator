@@ -49,7 +49,7 @@ def compute_schedule(veh: Veh, req: Req):
 
     # current_schedule = copy.deepcopy(veh.schedule) 
     current_schedule = pickle.loads(pickle.dumps(veh.schedule))
-
+    
     # assert current_schedule != None #DEBUG CODE, current_schedule should be None
     # assert len(current_schedule) < 5 #DEBUG CODE
 
@@ -69,8 +69,7 @@ def compute_schedule_time_cost(schedule: list):
 def insert_request_into_schedule(schedule: list, request: Req, PU_node_position: int, DO_node_position: int):
     PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT]
     DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT]
-    # new_schedule = copy.deepcopy(schedule)
-    new_schedule = pickle.loads(pickle.dumps(schedule))
+    new_schedule = copy.deepcopy(schedule)
     new_schedule.insert(PU_node_position, PU_node)
     new_schedule.insert(DO_node_position, DO_node)
     return new_schedule

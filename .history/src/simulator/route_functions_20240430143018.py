@@ -16,11 +16,11 @@ elif MAP_NAME == "Manhattan":
     number_of_nodes = NUM_NODES_MANHATTAN 
 
 
-with open(PATH_ALL_PATH_TABLE, 'rb') as p:
-    ALL_PATH_TABLE = pickle.load(p)
+with open(PATH_ALL_PATH_TABLE, 'rb') as f:
+    ALL_PATH_TABLE = pickle.load(f)
 
-with open(PATH_MANHATTAN_ALL_PATH_TIME_MATRIX, 'rb') as t:
-    ALL_PATH_TIME_MATRIX = pickle.load(t)
+with open(PATH_MANHATTAN_ALL_PATH_TIME_MATRIX, 'rb') as f:
+    ALL_PATH_TIME_MATRIX = pickle.load(f)
 
 print(f"[INFO] Route functions are ready. ")
 
@@ -35,35 +35,29 @@ def check_problem_node(number_of_nodes: int):
 
 def get_route(origin: int, destination: int):
         if MAP_NAME == "SmallGrid":
-            route = pickle.loads(pickle.dumps(ALL_PATH_TABLE[origin][destination][0])) #deepcopy. accerlate with pickle
-            # route = copy.deepcopy(ALL_PATH_TABLE[origin][destination][0])
+            route = copy.deepcopy(ALL_PATH_TABLE[origin][destination][0])
         elif MAP_NAME == "Manhattan":
-            route = get_route_by_matrix(origin, destination, ALL_PATH_TABLE) #No need to deepcopy
-            # route = copy.deepcopy(get_route_by_matrix(origin, destination, ALL_PATH_TABLE))
+            route = copy.deepcopy(get_route_by_matrix(origin, destination, ALL_PATH_TABLE, ALL_PATH_TIME_MATRIX))
         else:
             raise ValueError("Invalid MAP_NAME")
         return route
     
 def get_timeCost(origin: int, destination: int):
         if MAP_NAME == "SmallGrid":
-            time = pickle.loads(pickle.dumps(ALL_PATH_TABLE[origin][destination][1]))*1.5 #deepcopy. accerlate with pickle
-            # time = copy.deepcopy(ALL_PATH_TABLE[origin][destination][1]) * 1.5 
+            time = copy.deepcopy(ALL_PATH_TABLE[origin][destination][1]) * 1.5 
         elif MAP_NAME == "Manhattan":
-            time = ALL_PATH_TIME_MATRIX[origin][destination] #deepcopy. accerlate with pickle
-            # time = copy.deepcopy(ALL_PATH_TIME_MATRIX[origin][destination])
+            time = ALL_PATH_TIME_MATRIX[origin][destination]
         else:
             raise ValueError("Invalid MAP_NAME")
         return time
 
-def get_route_by_matrix(Oid: int, Did: int, all_path_matrix):
+def get_route_by_matrix(Oid: int, Did: int, all_path_matrix, all_path_time_matrix):
     current_node = Oid
     route = [Oid]
     # time_cost = 0.0
 
     while current_node != Did:
-        next_node = pickle.loads(pickle.dumps(int(all_path_matrix[current_node][Did]))) #deepcopy. accerlate with pickle
-        # next_node = copy.deepcopy(int(all_path_matrix[current_node][Did]))
-
+        next_node = int(all_path_matrix[current_node][Did])
         # time_to_next_node = all_path_time_matrix[current_node][next_node]
         route.append(next_node)         
         # time_cost += time_to_next_node

@@ -14,8 +14,7 @@ def compute_schedule(veh: Veh, req: Req, system_time: float):
     best_schedule = None
     min_time_cost = np.inf
     # veh.schedule = veh.remove_duplicate_sublists(veh.schedule)
-    # current_schedule = copy.deepcopy(veh.schedule) 
-    current_schedule = pickle.loads(pickle.dumps(veh.schedule))
+    current_schedule = copy.deepcopy(veh.schedule) ####where the fuck is this element been updated?????
     # assert len(current_schedule) < 5 #DEBUG CODE
 
     for PU_node_position in range(len(current_schedule) + 1):
@@ -26,8 +25,7 @@ def compute_schedule(veh: Veh, req: Req, system_time: float):
                 time_cost = compute_schedule_time_cost(new_schedule)
                 feasible_schedules.append(new_schedule) #store the feasible schedule, but not the best one
                 if time_cost < min_time_cost: #update the best schedule
-                    # best_schedule = copy.deepcopy(new_schedule)
-                    best_schedule = new_schedule #try shallow copy first. If it doesn't work, use deep copy
+                    best_schedule = copy.deepcopy(new_schedule)
                     min_time_cost = time_cost
 
     return best_schedule, min_time_cost, feasible_schedules

@@ -49,7 +49,7 @@ def get_timeCost(origin: int, destination: int):
             time = pickle.loads(pickle.dumps(ALL_PATH_TABLE[origin][destination][1]))*1.5 #deepcopy. accerlate with pickle
             # time = copy.deepcopy(ALL_PATH_TABLE[origin][destination][1]) * 1.5 
         elif MAP_NAME == "Manhattan":
-            time = ALL_PATH_TIME_MATRIX[origin][destination] #deepcopy. accerlate with pickle
+            time = pickle.loads(pickle.dumps(ALL_PATH_TIME_MATRIX[origin][destination])) #deepcopy. accerlate with pickle
             # time = copy.deepcopy(ALL_PATH_TIME_MATRIX[origin][destination])
         else:
             raise ValueError("Invalid MAP_NAME")

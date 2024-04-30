@@ -242,9 +242,7 @@ class Simulator_Platform(object):
         GRID_SIZE = (10, 10)
         GRID_COLOR = (128,128,128)  # Grey color for grid lines
         
-        # vehicle_positions = copy.deepcopy(self.statistic.all_veh_position_series)
-        vehicle_positions = pickle.loads(pickle.dumps(self.statistic.all_veh_position_series))
-        
+        vehicle_positions = copy.deepcopy(self.statistic.all_veh_position_series)
         vehicle_coordinates = [] # List of frames, each frame is a list of vehicle coordinates
         for frame in vehicle_positions:
             frame_coordinate = []
