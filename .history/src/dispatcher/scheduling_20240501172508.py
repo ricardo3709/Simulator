@@ -35,12 +35,12 @@ def compute_schedule(veh: Veh, req: Req, system_time: float):
         time_cost = compute_schedule_time_cost(new_schedule)
         feasible_schedules.append([new_schedule, time_cost, PU_node_position]) #store the feasible schedule, but not the best one
     
-    if len(feasible_schedules) == 0: #if no feasible schedule found
-        return None, None
-    
     # Sort feasible schedules by time cost, minimize time cost
     feasible_schedules.sort(key = lambda x: x[1])
 
+    if len(feasible_schedules) == 0: #if no feasible schedule found
+        return None, None
+    
     for new_schedule, time_cost, PU_node_position in feasible_schedules:
         if test_constraints(new_schedule, veh): #check if the new schedule satisfies all constraints
            # found the best PU node position
@@ -59,17 +59,18 @@ def compute_schedule(veh: Veh, req: Req, system_time: float):
         time_cost = compute_schedule_time_cost(new_schedule)
         feasible_schedules.append([new_schedule,time_cost, DO_node_position]) #store the feasible schedule, but not the best one
     
-    if len(feasible_schedules) == 0: #if no feasible schedule found
-        return None, None
-    
     # Sort feasible schedules by time cost, minimize time cost
     feasible_schedules.sort(key = lambda x: x[1])
+    
+    if len(feasible_schedules) == 0: #if no feasible schedule found
+        return None, None
     
     for new_schedule, time_cost, PU_node_position in feasible_schedules:
         if test_constraints(new_schedule, veh): #check if the new schedule satisfies all constraints
            # found the best DO node position
            return new_schedule, time_cost
            
+
     return None, None
 
 

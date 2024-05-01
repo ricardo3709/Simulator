@@ -43,7 +43,7 @@ REBALANCER = "NJO"        # 3 options: NONE, NPO, NJO
 
 # for Manhattan-data
 FLEET_SIZE = [1000]
-VEH_CAPACITY = [6]
+VEH_CAPACITY = [4]
 
 MAX_PICKUP_WAIT_TIME = 5*60 # 5 min
 MAX_DETOUR_TIME = 10*60 # 10 min
@@ -60,7 +60,7 @@ DEBUG_PRINT = False
 # PENALTY = 5.0 #penalty for ignoring a request
 
 # for Manhattan-data
-SIMULATION_DURATION = 3600 # 60 minutes = 3600 seconds
+SIMULATION_DURATION = 600 # 60 minutes = 3600 seconds
 TIME_STEP = 15 # 15 seconds
 COOL_DOWN_DURATION = 0 # 20 minutes = 1200 seconds
 PENALTY = 80.0 #penalty for ignoring a request

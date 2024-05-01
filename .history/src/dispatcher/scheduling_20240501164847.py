@@ -15,7 +15,7 @@ def compute_schedule(veh: Veh, req: Req, system_time: float):
     min_time_cost = np.inf
     best_PU_node_position = None
     flag_PU = False
-    
+    flag_DO = False
     # veh.schedule = veh.remove_duplicate_sublists(veh.schedule)
     # current_schedule = copy.deepcopy(veh.schedule) 
     if veh.status == VehicleStatus.REBALANCING: #temp clear rebalancing schedule, if not assigned, schedule will not be changed
@@ -24,53 +24,33 @@ def compute_schedule(veh: Veh, req: Req, system_time: float):
         current_schedule = pickle.loads(pickle.dumps(veh.schedule))
     # assert len(current_schedule) < 5 #DEBUG CODE
 
-    if current_schedule == []: #if the vehicle has no schedule
-        current_schedule.append([req.Ori_id, 1, req.Num_people, req.Latest_PU_Time, req.Shortest_TT, req.Req_ID])
-        current_schedule.append([req.Des_id, -1, req.Num_people, req.Latest_DO_Time, req.Shortest_TT, req.Req_ID])
-        return current_schedule, req.Shortest_TT
-    
     # Consider PU node pisition first, find best one
     for PU_node_position in range(len(current_schedule) + 1):
-        new_schedule = insert_request_into_schedule_half(current_schedule, req, PU_node_position, None)
-        time_cost = compute_schedule_time_cost(new_schedule)
-        feasible_schedules.append([new_schedule, time_cost, PU_node_position]) #store the feasible schedule, but not the best one
-    
-    if len(feasible_schedules) == 0: #if no feasible schedule found
-        return None, None
-    
-    # Sort feasible schedules by time cost, minimize time cost
-    feasible_schedules.sort(key = lambda x: x[1])
-
-    for new_schedule, time_cost, PU_node_position in feasible_schedules:
+        new_schedule = insert_request_into_schedule(current_schedule, req, PU_node_position, None)
         if test_constraints(new_schedule, veh): #check if the new schedule satisfies all constraints
-           # found the best PU node position
-           flag_PU = True
-           best_PU_node_position = PU_node_position
-           best_schedule = new_schedule
-           break
+            time_cost = compute_schedule_time_cost(new_schedule)
+            if time_cost < min_time_cost:
+                best_schedule = new_schedule
+                best_PU_node_position = PU_node_position
+                min_time_cost = time_cost
+                flag_PU = True
 
     if not flag_PU: #if no feasible schedule found
-        return None, None
+        return None, None, None
     
-    feasible_schedules = [] #clear the list
-    # Consider DO node position, find best one
     for DO_node_position in range(best_PU_node_position + 1, len(current_schedule) + 2):
-        new_schedule = insert_request_into_schedule_half(best_schedule, req, best_PU_node_position, DO_node_position)
-        time_cost = compute_schedule_time_cost(new_schedule)
-        feasible_schedules.append([new_schedule,time_cost, DO_node_position]) #store the feasible schedule, but not the best one
-    
-    if len(feasible_schedules) == 0: #if no feasible schedule found
-        return None, None
-    
-    # Sort feasible schedules by time cost, minimize time cost
-    feasible_schedules.sort(key = lambda x: x[1])
-    
-    for new_schedule, time_cost, PU_node_position in feasible_schedules:
+        new_schedule = insert_request_into_schedule(best_schedule, req, best_PU_node_position, DO_node_position)
         if test_constraints(new_schedule, veh): #check if the new schedule satisfies all constraints
-           # found the best DO node position
-           return new_schedule, time_cost
-           
-    return None, None
+            time_cost = compute_schedule_time_cost(new_schedule)
+            if time_cost < min_time_cost:
+                best_schedule = new_schedule
+                best_PU_node_position = PU_node_position
+                min_time_cost = time_cost
+                flag_DO = True
+    
+    if not flag_DO: #if no feasible schedule found
+        return None, None, None
+    return best_schedule, min_time_cost, feasible_schedules
 
 
 
@@ -87,7 +67,7 @@ def compute_schedule(veh: Veh, req: Req, system_time: float):
                     best_schedule = new_schedule #try shallow copy first. If it doesn't work, use deep copy
                     min_time_cost = time_cost
 
-    return best_schedule, min_time_cost
+    return best_schedule, min_time_cost, feasible_schedules
 
 def score_vt_pair_with_delay(candidate_veh_trip_pairs: list):
     #candidate_veh_trip_pairs[veh, req, sche, cost, score]
@@ -186,58 +166,30 @@ def test_constraints(schedule: list, veh: Veh):
 
 
 
-def insert_request_into_schedule_half(schedule: list, request: Req, PU_node_position: int, DO_node_position):
-    if DO_node_position == None: #only PU node
-        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID]
-        new_schedule = schedule
-        new_schedule_part1 = new_schedule[:PU_node_position]
-        new_schedule_part2 = new_schedule[PU_node_position:]
-        new_schedule_part1.append(PU_node)
-        new_schedule_part1.extend(new_schedule_part2)
-        return new_schedule_part1
-    
-    else:
-        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID]
-        
-        # # new_schedule = copy.deepcopy(schedule) 
-        # new_schedule =pickle.loads(pickle.dumps(schedule))  #must use deepcopy. otherwise will stuck in infinite loop
-        # new_schedule.insert(PU_node_position, PU_node)
-        # new_schedule.insert(DO_node_position, DO_node)
-        # return new_schedule
-
-        # use extend/append instead of insert, much faster when shcedule is long
-        new_schedule = schedule
-
-        new_schedule_part3 = new_schedule[:DO_node_position]
-        new_schedule_part4 = new_schedule[DO_node_position:]
-        new_schedule_part3.append(DO_node)
-        new_schedule_part3.extend(new_schedule_part4)
-
-        return new_schedule_part3
-
 def insert_request_into_schedule(schedule: list, request: Req, PU_node_position: int, DO_node_position: int):
-        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID]
-        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID]
-        
-        # # new_schedule = copy.deepcopy(schedule) 
-        # new_schedule =pickle.loads(pickle.dumps(schedule))  #must use deepcopy. otherwise will stuck in infinite loop
-        # new_schedule.insert(PU_node_position, PU_node)
-        # new_schedule.insert(DO_node_position, DO_node)
-        # return new_schedule
+    PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID]
+    DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID]
+    
+    # # new_schedule = copy.deepcopy(schedule) 
+    # new_schedule =pickle.loads(pickle.dumps(schedule))  #must use deepcopy. otherwise will stuck in infinite loop
+    # new_schedule.insert(PU_node_position, PU_node)
+    # new_schedule.insert(DO_node_position, DO_node)
+    # return new_schedule
 
-        # use extend/append instead of insert, much faster when shcedule is long
-        new_schedule = schedule
-        new_schedule_part1 = new_schedule[:PU_node_position]
-        new_schedule_part2 = new_schedule[PU_node_position:]
-        new_schedule_part1.append(PU_node)
-        new_schedule_part1.extend(new_schedule_part2)
+    # use extend/append instead of insert, much faster when shcedule is long
+    new_schedule = schedule
+    new_schedule_part1 = new_schedule[:PU_node_position]
+    new_schedule_part2 = new_schedule[PU_node_position:]
+    new_schedule_part1.append(PU_node)
+    new_schedule_part1.extend(new_schedule_part2)
 
-        new_schedule_part3 = new_schedule_part1[:DO_node_position]
-        new_schedule_part4 = new_schedule_part1[DO_node_position:]
-        new_schedule_part3.append(DO_node)
-        new_schedule_part3.extend(new_schedule_part4)
+    new_schedule_part3 = new_schedule_part1[:DO_node_position]
+    new_schedule_part4 = new_schedule_part1[DO_node_position:]
+    new_schedule_part3.append(DO_node)
+    new_schedule_part3.extend(new_schedule_part4)
 
-        return new_schedule_part3
+    return new_schedule_part3
+
     
 
 
