@@ -182,9 +182,9 @@ class Simulator_Platform(object):
         return availiable_vehicels
     
     def get_all_veh_positions(self):
-        veh_positions = [veh.current_node for veh in self.vehs]
-        # for veh in self.vehs:
-        #     veh_positions.append(veh.current_node)
+        veh_positions = []
+        for veh in self.vehs:
+            veh_positions.append(veh.current_node)
         return veh_positions
 
     def create_report(self):

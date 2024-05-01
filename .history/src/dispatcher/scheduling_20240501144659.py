@@ -121,9 +121,9 @@ def test_constraints(schedule: list, veh: Veh):
             # if current_load < 0: #if the capacity is negative
             #     assert "Error: Negative capacity"
             #     return False
-
             #2.2 Max Waiting for Dropoff
-            if accumulated_time > current_time + node[4] + MAX_DETOUR_TIME : #if the time to travel to node exceeds the max detour
+            max_detour_time_dropoff = current_time + node[4] + MAX_DETOUR_TIME 
+            if accumulated_time > max_detour_time_dropoff: #if the time to travel to node exceeds the max detour
                 return False
             current_time = accumulated_time #update current time
             current_node = node[0] #update current node

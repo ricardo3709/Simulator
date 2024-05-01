@@ -67,7 +67,7 @@ def run_sim():
 
 
 if __name__ == '__main__':
-   cProfile.run("run_sim()",filename="30mins_result.out")
+   cProfile.run("run_sim()",filename="60+2-mins_result.out")
 
     # VC = [2, 4, 6, 8]
     # for vc in VC:

@@ -60,40 +60,6 @@ def compute_schedule_time_cost(schedule: list):
     return total_schedule_time
 
 def test_constraints(schedule: list, veh: Veh): 
-    # # node[node_id, type, num_people, max_wait_time, shortest_Trip_Time]
-    # current_load = veh.load #initial load
-    # max_capacity = veh.capacity #initial capacity
-    # current_time = veh.veh_time #initial time
-    # current_node = veh.current_node #initial node
-    # accumulated_time = 0.0 #initial accumulated time
-    # for node in schedule:
-    #     #1. Capacity
-    #     if node[1] == 1: #PU
-    #         current_load += node[2] #add the number of people to the current load
-    #         if current_load > max_capacity: #if the current load exceeds the vehicle's capacity
-    #             return False
-    #     elif node[1] == -1: #DO
-    #         current_load -= node[2] #subtract the number of people from the capacity
-    #         if current_load < 0: #if the capacity is negative
-    #             assert "Error: Negative capacity"
-    #             return False
-    #     #2.1 Max Waiting for Pickup
-    #     time_to_next_node = get_timeCost(current_node, node[0]) #time to travel to node
-    #     accumulated_time += time_to_next_node #time to travel to node + current time
-    #     if node[1] == 1: #PU
-    #         time_to_pickup = time_to_next_node #time to travel to node
-    #         # max_waiting_time_pickup = node[3]*60 #max wait time in sec
-    #         if time_to_pickup > MAX_PICKUP_WAIT_TIME:
-    #             return False
-    #         current_node = node[0] #update current node
-    #     #2.2 Max Waiting for Dropoff
-    #     if node[1] == -1: #DO
-    #         max_detour_time_dropoff = current_time + node[4] + MAX_DETOUR_TIME 
-    #         if accumulated_time > max_detour_time_dropoff: #if the time to travel to node exceeds the max detour
-    #             return False
-    #         current_time = accumulated_time #update current time
-    #         current_node = node[0] #update current node
-
     # node[node_id, type, num_people, max_wait_time, shortest_Trip_Time]
     current_load = veh.load #initial load
     max_capacity = veh.capacity #initial capacity
@@ -101,32 +67,40 @@ def test_constraints(schedule: list, veh: Veh):
     current_node = veh.current_node #initial node
     accumulated_time = 0.0 #initial accumulated time
     for node in schedule:
-
-        time_to_next_node = get_timeCost(current_node, node[0]) #time to travel to node
-        accumulated_time += time_to_next_node #time to travel to node + current time
-
+        #1. Capacity
         if node[1] == 1: #PU
-            #1. Capacity
             current_load += node[2] #add the number of people to the current load
             if current_load > max_capacity: #if the current load exceeds the vehicle's capacity
                 return False
-            #2.1 Max Waiting for Pickup
-            if time_to_next_node > MAX_PICKUP_WAIT_TIME:
+        elif node[1] == -1: #DO
+            current_load -= node[2] #subtract the number of people from the capacity
+            if current_load < 0: #if the capacity is negative
+                assert "Error: Negative capacity"
+                return False
+        #2.1 Max Waiting for Pickup
+        time_to_next_node = get_timeCost(current_node, node[0]) #time to travel to node
+        accumulated_time += time_to_next_node #time to travel to node + current time
+        if node[1] == 1: #PU
+            time_to_pickup = time_to_next_node #time to travel to node
+            # max_waiting_time_pickup = node[3]*60 #max wait time in sec
+            if time_to_pickup > MAX_PICKUP_WAIT_TIME:
                 return False
             current_node = node[0] #update current node
-
-        else: #DO
-            #1. Capacity
-            current_load -= node[2] #subtract the number of people from the capacity
-            # if current_load < 0: #if the capacity is negative
-            #     assert "Error: Negative capacity"
-            #     return False
-
-            #2.2 Max Waiting for Dropoff
-            if accumulated_time > current_time + node[4] + MAX_DETOUR_TIME : #if the time to travel to node exceeds the max detour
+        #2.2 Max Waiting for Dropoff
+        if node[1] == -1: #DO
+            max_detour_time_dropoff = current_time + node[4] + MAX_DETOUR_TIME 
+            if accumulated_time > max_detour_time_dropoff: #if the time to travel to node exceeds the max detour
                 return False
             current_time = accumulated_time #update current time
             current_node = node[0] #update current node
+
+        # #2. Time        
+        # time_to_next_node = get_timeCost(current_node, node[0]) #time to travel to node
+        # accumulated_time = current_time + time_to_next_node #time to travel to node + current time
+        # if accumulated_time > node[3]: #if the time to travel to node exceeds the max wait time
+        #     return False
+        # current_time = accumulated_time #update current time
+        # current_node = node[0] #update current node
 
     return True
 
@@ -142,7 +116,7 @@ def insert_request_into_schedule(schedule: list, request: Req, PU_node_position:
     # new_schedule.insert(DO_node_position, DO_node)
     # return new_schedule
 
-    # use extend/append instead of insert, much faster when shcedule is long
+    #use extend instead of insert
     new_schedule = schedule
     new_schedule_part1 = new_schedule[:PU_node_position]
     new_schedule_part2 = new_schedule[PU_node_position:]

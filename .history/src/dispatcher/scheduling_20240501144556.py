@@ -111,19 +111,21 @@ def test_constraints(schedule: list, veh: Veh):
             if current_load > max_capacity: #if the current load exceeds the vehicle's capacity
                 return False
             #2.1 Max Waiting for Pickup
-            if time_to_next_node > MAX_PICKUP_WAIT_TIME:
+            time_to_pickup = time_to_next_node #time to travel to node
+            # max_waiting_time_pickup = node[3]*60 #max wait time in sec
+            if time_to_pickup > MAX_PICKUP_WAIT_TIME:
                 return False
             current_node = node[0] #update current node
 
         else: #DO
             #1. Capacity
             current_load -= node[2] #subtract the number of people from the capacity
-            # if current_load < 0: #if the capacity is negative
-            #     assert "Error: Negative capacity"
-            #     return False
-
+            if current_load < 0: #if the capacity is negative
+                assert "Error: Negative capacity"
+                return False
             #2.2 Max Waiting for Dropoff
-            if accumulated_time > current_time + node[4] + MAX_DETOUR_TIME : #if the time to travel to node exceeds the max detour
+            max_detour_time_dropoff = current_time + node[4] + MAX_DETOUR_TIME 
+            if accumulated_time > max_detour_time_dropoff: #if the time to travel to node exceeds the max detour
                 return False
             current_time = accumulated_time #update current time
             current_node = node[0] #update current node
