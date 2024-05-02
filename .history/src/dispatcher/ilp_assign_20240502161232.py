@@ -49,26 +49,21 @@ def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, in
                 request_check[i] += veh_trip_pairs_check[j]
         model.addConstr(request_check[i] <= 1.0) #Number of constrain equal to number of requests
     
-    
+    # Anticipatory Method Objective
+    cost = 0.0
+    reward = 0.0
+    anticipate_method_object_score = cost - REWARD_THETA * reward
+
 
     # Objective: minimize the total delay of all veh_trip_pairs.
     object_score = 0.0
 
     for i in range(len(veh_trip_pairs)): #veh_trip_pairs = [veh, trip, sche, cost, score], len(veh_trip_pairs) = len(veh_trip_pairs_check)
-        # if veh_trip_pairs[i][1] == None: #empty assign
-        #     continue
-        
-        # Normal Method Objective
+        if veh_trip_pairs[i][1] == None: #empty assign
+            continue
         time_to_origin = get_timeCost(veh_trip_pairs[i][0].current_node, veh_trip_pairs[i][1].Ori_id) #time to travel to origin node, also need to be minimized
         # object_score = Delay + Time_to_Origin(Pickup) + Penalty_of_Ignoring, for each veh_trip_pair
         object_score += veh_trip_pairs_check[i] * (veh_trip_pairs[i][4] + time_to_origin) + (1.0 - veh_trip_pairs_check[i]) * PENALTY
-        
-        
-        # Anticipatory Method Objective WIP
-        cost = anticipatory_cost(veh_trip_pairs[i][1], veh_trip_pairs[0]) #Need to specify which vt_pair and which veh. WIP
-        
-        reward = 0.0 #WIP
-        anticipate_method_object_score = cost - REWARD_THETA * reward
 
     model.setObjective(object_score, GRB.MINIMIZE) #set the objective function to be minimized
     
@@ -195,75 +190,36 @@ def anticipatory_cost(new_schedule: list, veh: Veh):
         elif node[-1] == 'NEW_DO':
             DO_position = index
             break
-    # First term in objective function
-    t_wait_new, detour_new = get_delay_and_detour_for_new_req(new_schedule, veh, PU_position, DO_position)
-    first_term = PW * t_wait_new + PV * detour_new
-
-    # Second term in objective function
-    extra_delay_NEWPU = compute_extra_delay(new_schedule, PU_position, veh)
-    extra_delay_NEWDO = compute_extra_delay(new_schedule, DO_position, veh)
-    req_pair_dict = get_req_pair_dict(new_schedule)
-    extra_delay, extra_detour = get_extra_delay_and_detour(new_schedule, veh, req_pair_dict, PU_position, DO_position, extra_delay_NEWPU, extra_delay_NEWDO)
-    second_term = PW * extra_delay + PV * extra_detour
-
-    # Third term in objective function
-    third_term = PO * (extra_delay_NEWDO + extra_delay_NEWPU)
-    
-    # Anticipatory Cost Value
-    anticipatory_cost_value = first_term + second_term + third_term
-    return anticipatory_cost_value
-
-
-def get_delay_and_detour_for_new_req(new_schedule: list, veh: Veh, PU_position: int, DO_position: int):
     new_req = new_schedule[PU_position]
     schedule_up_to_NEWPU = new_schedule[:PU_position+1]
     schedule_NEWPU_to_NEWDO = new_schedule[PU_position:DO_position+1]
     t_wait_new = compute_schedule_time_cost(schedule_up_to_NEWPU) #tw(r,pi)
     detour_new = compute_schedule_time_cost(schedule_NEWPU_to_NEWDO) - new_req[4] #D(r,pi), new_req[4] is the shortest travel time
-    return t_wait_new, detour_new
+    extra_delay_NEWPU = compute_extra_delay(new_schedule, PU_position, veh)
+    extra_delay_NEWDO = compute_extra_delay(new_schedule, DO_position, veh)
+    extra_waiting_time = 0.0
+    extra_detour = 0.0
+    for index in range(PU_position+1, len(new_schedule)): #schedule after NEW_PU
+        if index < DO_position: # before NEW_DO
+            if new_schedule[index][1] == 1: #pickup node
+                extra_waiting_time += extra_delay_NEWPU
+            else: #dropoff node
+                extra_detour += extra_delay_NEWPU
+        else: # after NEW_DO
+            if new_schedule[index][1] == 1: #pickup node
+                extra_waiting_time += extra_delay_NEWPU + extra_delay_NEWDO
+            else: #dropoff node
+                extra_detour += extra_delay_NEWPU + extra_delay_NEWDO
+    pass
 
 def get_req_pair_dict(schedule: list):
-    req_ids = (set(node[5] for node in schedule)) # get all request ids
-    req_pair_dict = {req_id: [] for req_id in req_ids} # create a dictionary with request id as key
-
+    req_pair_dict = {}
     for index in range(len(schedule)):
         node = schedule[index]
         req_id = node[5]
         req_type = node[1]
-        req_pair_dict[req_id].append([index, req_type])
-    req_pair_dict = dict(sorted(req_pair_dict.items(), key=lambda x: x[0])) # {req_id: [[index, 1(PU)], [index, -1(DO)]}
-
+        req_pair_dict[req_id] = [index, req_type]
     return req_pair_dict
-
-def get_extra_delay_and_detour(schedule: list, veh: Veh, req_pair_dict: dict, PU_position: int, DO_position: int, extra_delay_NEWPU: float, extra_delay_NEWDO: float):
-    extra_delay= 0.0
-    extra_detour = 0.0
-    for req_id, [PU_node, DO_node] in req_pair_dict.items():
-        for index, req_type in [PU_node, DO_node]:
-            if index < PU_position+1: # before NEW_PU
-                continue # no extra delay or detour
-
-            else: # after NEW_PU
-                if index < DO_position: # before NEW_DO
-                    if req_type == 1: #pickup node
-                        extra_delay += extra_delay_NEWPU
-                    else: #dropoff node
-                        if req_pair_dict[req_id][0][0] < PU_position: #PU of this req is before NEW_PU
-                            extra_detour += extra_delay_NEWPU #extra detour for this DO node
-                        else: #PU of this req is after NEW_PU
-                            continue # no extra detour for this DO node, entire trip is in between NEW_PU and NEW_DO
-
-                else: # after NEW_DO
-                    if req_type == 1: #pickup node
-                        extra_delay += extra_delay_NEWPU + extra_delay_NEWDO 
-                    else: #dropoff node
-                        if req_pair_dict[req_id][0][0] > DO_position: # PU of this req is after NEW_DO
-                            continue # no extra detour for this DO node, entire trip is after finishing the new req
-                        else: # PU of this req is before NEW_DO
-                            extra_detour += extra_delay_NEWDO
-
-    return extra_delay, extra_detour
-
 
 def greedy_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, int, int, float]], float, float]]) -> List[int]:
     if DEBUG_PRINT:

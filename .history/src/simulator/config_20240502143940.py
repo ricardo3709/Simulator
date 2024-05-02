@@ -49,16 +49,7 @@ MAX_PICKUP_WAIT_TIME = 5*60 # 5 min
 MAX_DETOUR_TIME = 10*60 # 10 min
 
 MAX_NUM_VEHICLES_TO_CONSIDER = 20
-MAX_SCHEDULE_LENGTH = 30
-
-##################################################################################
-# Anticipatory ILP Config
-##################################################################################
-REWARD_THETA = 0.0
-PW = 4.64/3600 # usd/s User's Cost of waiting
-PV = 2.32/3600 # usd/s User's Cost of travelling in vehicle
-PO = 3.48/3600 # usd/s Operator's Cost of operating a vehicle
-
+MAX_SCHEDULE_LENGTH = 25
 
 ##################################################################################
 # Simulation Config

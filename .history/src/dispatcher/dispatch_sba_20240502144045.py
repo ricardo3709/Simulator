@@ -62,9 +62,9 @@ def compute_candidate_veh_req_pairs(current_cycle_requests: List[Req], vehs:List
             available_veh.append([veh,time_to_origin])
         
         # if too many vehicles, we can use a heuristic to reduce the number of vehicles to consider
-        if len(available_veh) > MAX_NUM_VEHICLES_TO_CONSIDER:
-            available_veh.sort(key = lambda x: x[1])
-            available_veh = available_veh[:MAX_NUM_VEHICLES_TO_CONSIDER]
+        if len(availiable_vehicels) > MAX_NUM_VEHICLES_TO_CONSIDER:
+            availiable_vehicels.sort(key = lambda x: x[1])
+            availiable_vehicels = availiable_vehicels[:20]
 
         for veh, _ in available_veh:
             best_sche, cost = compute_schedule(veh, req)

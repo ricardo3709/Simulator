@@ -10,17 +10,18 @@ print(f"[INFO] Initializing the simulator (fleet_size = {FLEET_SIZE[0]}, capacit
 
 
 def run_sim():
+    main_sim_results = []
     print(f"[INFO] Running simulation using dispatcher: {DISPATCHER}")
     print(f"[INFO] Running simulation using fleet size: {FLEET_SIZE[0]}")
     print(f"[INFO] Running simulation using vehicle capacity: {VEH_CAPACITY[0]}")
     platform = Simulator_Platform(system_time)
-    platform.run_simulation()
+    frames_system_states = platform.run_simulation()
     platform.create_report()
 
 
 
 if __name__ == '__main__':
-   cProfile.run("run_sim()",filename="60mins_result(threshold=20).out")
+   cProfile.run("run_sim()",filename="60+20mins_result.out")
 
 
 

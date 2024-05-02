@@ -19,15 +19,14 @@ def compute_schedule(veh: Veh, req: Req):
     # assert len(current_schedule) < 5 #DEBUG CODE
 
     if current_schedule == []: #if the vehicle has no schedule
-        # For new req, one extra elements at last. Use in anticipatory ILP
-        current_schedule.append([req.Ori_id, 1, req.Num_people, req.Latest_PU_Time, req.Shortest_TT, req.Req_ID, 'NEW_PU']) 
-        current_schedule.append([req.Des_id, -1, req.Num_people, req.Latest_DO_Time, req.Shortest_TT, req.Req_ID, 'NEW_DO'])
+        current_schedule.append([req.Ori_id, 1, req.Num_people, req.Latest_PU_Time, req.Shortest_TT, req.Req_ID])
+        current_schedule.append([req.Des_id, -1, req.Num_people, req.Latest_DO_Time, req.Shortest_TT, req.Req_ID])
         return current_schedule, req.Shortest_TT
     
-    if len(current_schedule) <= MAX_SCHEDULE_LENGTH: #if the vehicle has less than 46 nodes in the schedule
-        return compute_schedule_normal(veh, req, current_schedule) #use normal method, lower rej rate, exponential time cost
+    if len(current_schedule) <= 6: #if the vehicle has less than 6 nodes in the schedule
+        return compute_schedule_normal(veh, req, current_schedule) #use normal method, lower rej rate
     else:
-        return compute_schedule_by_half(veh, req, current_schedule) #use half method, higher reh rate, linear time cost
+        return compute_schedule_by_half(veh, req, current_schedule) #use half method, lower time cost
 
 
 def compute_schedule_normal(veh: Veh, req: Req, current_schedule: list):
@@ -215,7 +214,7 @@ def test_constraints(schedule: list, veh: Veh):
 
 def insert_request_into_schedule_half(schedule: list, request: Req, PU_node_position: int, DO_node_position):
     if DO_node_position == None: #only PU node
-        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID, 'NEW_PU']
+        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID]
         new_schedule = schedule
         new_schedule_part1 = new_schedule[:PU_node_position]
         new_schedule_part2 = new_schedule[PU_node_position:]
@@ -224,7 +223,7 @@ def insert_request_into_schedule_half(schedule: list, request: Req, PU_node_posi
         return new_schedule_part1
     
     else:
-        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID, 'NEW_DO']
+        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID]
         
         # # new_schedule = copy.deepcopy(schedule) 
         # new_schedule =pickle.loads(pickle.dumps(schedule))  #must use deepcopy. otherwise will stuck in infinite loop
@@ -243,8 +242,8 @@ def insert_request_into_schedule_half(schedule: list, request: Req, PU_node_posi
         return new_schedule_part3
 
 def insert_request_into_schedule(schedule: list, request: Req, PU_node_position: int, DO_node_position: int):
-        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID, 'NEW_PU']
-        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID, 'NEW_DO']
+        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID]
+        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID]
         
         # # new_schedule = copy.deepcopy(schedule) 
         # new_schedule =pickle.loads(pickle.dumps(schedule))  #must use deepcopy. otherwise will stuck in infinite loop

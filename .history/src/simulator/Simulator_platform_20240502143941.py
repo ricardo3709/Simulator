@@ -179,6 +179,10 @@ class Simulator_Platform(object):
 
     def get_availiable_vehicels(self) -> list: #vehicle should has at least 1 capacity
         availiable_vehicels = [veh for veh in self.vehs if veh.load < veh.capacity]
+        # if too many vehicles, we can use a heuristic to reduce the number of vehicles to consider
+        if len(availiable_vehicels) > MAX_NUM_VEHICLES_TO_CONSIDER:
+            availiable_vehicels.sort(key = lambda x: x[1])
+            availiable_vehicels = availiable_vehicels[:20]
         return availiable_vehicels
     
     def get_all_veh_positions(self):

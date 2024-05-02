@@ -60,14 +60,14 @@ def compute_candidate_veh_req_pairs(current_cycle_requests: List[Req], vehs:List
                 continue
             # All other vehicles are able to serve current request, find best schedule for each vehicle.
             available_veh.append([veh,time_to_origin])
-        
+
         # if too many vehicles, we can use a heuristic to reduce the number of vehicles to consider
-        if len(available_veh) > MAX_NUM_VEHICLES_TO_CONSIDER:
+        if len(available_veh) > 20:
             available_veh.sort(key = lambda x: x[1])
-            available_veh = available_veh[:MAX_NUM_VEHICLES_TO_CONSIDER]
+        available_veh = available_veh[:20]
 
         for veh, _ in available_veh:
-            best_sche, cost = compute_schedule(veh, req)
+            best_sche, cost = compute_schedule(veh, req, system_time)
             if best_sche: #best schedule exists
                 candidate_veh_req_pairs.append([veh, req, best_sche, cost, 0.0]) #vt_pair = [veh, trip, sche, cost, score]
     

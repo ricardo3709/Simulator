@@ -215,7 +215,7 @@ def test_constraints(schedule: list, veh: Veh):
 
 def insert_request_into_schedule_half(schedule: list, request: Req, PU_node_position: int, DO_node_position):
     if DO_node_position == None: #only PU node
-        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID, 'NEW_PU']
+        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID]
         new_schedule = schedule
         new_schedule_part1 = new_schedule[:PU_node_position]
         new_schedule_part2 = new_schedule[PU_node_position:]
@@ -224,7 +224,7 @@ def insert_request_into_schedule_half(schedule: list, request: Req, PU_node_posi
         return new_schedule_part1
     
     else:
-        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID, 'NEW_DO']
+        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID]
         
         # # new_schedule = copy.deepcopy(schedule) 
         # new_schedule =pickle.loads(pickle.dumps(schedule))  #must use deepcopy. otherwise will stuck in infinite loop
@@ -243,8 +243,8 @@ def insert_request_into_schedule_half(schedule: list, request: Req, PU_node_posi
         return new_schedule_part3
 
 def insert_request_into_schedule(schedule: list, request: Req, PU_node_position: int, DO_node_position: int):
-        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID, 'NEW_PU']
-        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID, 'NEW_DO']
+        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID]
+        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID]
         
         # # new_schedule = copy.deepcopy(schedule) 
         # new_schedule =pickle.loads(pickle.dumps(schedule))  #must use deepcopy. otherwise will stuck in infinite loop

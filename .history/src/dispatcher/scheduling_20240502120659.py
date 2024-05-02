@@ -9,7 +9,13 @@ from src.simulator.route_functions import *
 from src.utility.utility_functions import *
 from typing import List, Tuple, Union
 
-def compute_schedule(veh: Veh, req: Req): 
+def compute_schedule(veh: Veh, req: Req, system_time: float):
+    feasible_schedules = []
+    best_schedule = None
+    min_time_cost = np.inf
+    best_PU_node_position = None
+    flag_PU = False
+    
     # veh.schedule = veh.remove_duplicate_sublists(veh.schedule)
     # current_schedule = copy.deepcopy(veh.schedule) 
     if veh.status == VehicleStatus.REBALANCING: #temp clear rebalancing schedule, if not assigned, schedule will not be changed
@@ -19,56 +25,23 @@ def compute_schedule(veh: Veh, req: Req):
     # assert len(current_schedule) < 5 #DEBUG CODE
 
     if current_schedule == []: #if the vehicle has no schedule
-        # For new req, one extra elements at last. Use in anticipatory ILP
-        current_schedule.append([req.Ori_id, 1, req.Num_people, req.Latest_PU_Time, req.Shortest_TT, req.Req_ID, 'NEW_PU']) 
-        current_schedule.append([req.Des_id, -1, req.Num_people, req.Latest_DO_Time, req.Shortest_TT, req.Req_ID, 'NEW_DO'])
+        current_schedule.append([req.Ori_id, 1, req.Num_people, req.Latest_PU_Time, req.Shortest_TT, req.Req_ID])
+        current_schedule.append([req.Des_id, -1, req.Num_people, req.Latest_DO_Time, req.Shortest_TT, req.Req_ID])
         return current_schedule, req.Shortest_TT
     
-    if len(current_schedule) <= MAX_SCHEDULE_LENGTH: #if the vehicle has less than 46 nodes in the schedule
-        return compute_schedule_normal(veh, req, current_schedule) #use normal method, lower rej rate, exponential time cost
-    else:
-        return compute_schedule_by_half(veh, req, current_schedule) #use half method, higher reh rate, linear time cost
-
-
-def compute_schedule_normal(veh: Veh, req: Req, current_schedule: list):
-    feasible_schedules = []
-    best_schedule = None
-    min_time_cost = np.inf 
-
-    for PU_node_position in range(len(current_schedule) + 1):
-        for DO_node_position in range(PU_node_position + 1, len(current_schedule) + 2):
-            new_schedule = insert_request_into_schedule(current_schedule, req, PU_node_position, DO_node_position)
-
-            if test_constraints(new_schedule, veh): #check if the new schedule satisfies all constraints
-                time_cost = compute_schedule_time_cost(new_schedule)
-                feasible_schedules.append(new_schedule) #store the feasible schedule, but not the best one
-                if time_cost < min_time_cost: #update the best schedule
-                    # best_schedule = copy.deepcopy(new_schedule)
-                    best_schedule = new_schedule #try shallow copy first. If it doesn't work, use deep copy
-                    min_time_cost = time_cost
-
-    return best_schedule, min_time_cost
-
-def compute_schedule_by_half(veh: Veh, req: Req, current_schedule: list):
-    feasible_schedules = []
-    best_schedule = None
-    best_PU_node_position = None
-    flag_PU = False
-
     # Consider PU node pisition first, find best one
     for PU_node_position in range(len(current_schedule) + 1):
         new_schedule = insert_request_into_schedule_half(current_schedule, req, PU_node_position, None)
-        # time_cost = compute_schedule_time_cost(new_schedule)
-        extra_delay = compute_extra_delay(new_schedule, PU_node_position, veh)
-        feasible_schedules.append([new_schedule, extra_delay, PU_node_position]) #store the feasible schedule, but not the best one
+        time_cost = compute_schedule_time_cost(new_schedule)
+        feasible_schedules.append([new_schedule, time_cost, PU_node_position]) #store the feasible schedule, but not the best one
     
     if len(feasible_schedules) == 0: #if no feasible schedule found
         return None, None
     
-    # Sort feasible schedules by extra_delay, minimize extra_delay
+    # Sort feasible schedules by time cost, minimize time cost
     feasible_schedules.sort(key = lambda x: x[1])
 
-    for new_schedule, extra_delay, PU_node_position in feasible_schedules:
+    for new_schedule, time_cost, PU_node_position in feasible_schedules:
         if test_constraints(new_schedule, veh): #check if the new schedule satisfies all constraints
            # found the best PU node position
            flag_PU = True
@@ -84,7 +57,7 @@ def compute_schedule_by_half(veh: Veh, req: Req, current_schedule: list):
     for DO_node_position in range(best_PU_node_position + 1, len(current_schedule) + 2):
         new_schedule = insert_request_into_schedule_half(best_schedule, req, best_PU_node_position, DO_node_position)
         # time_cost = compute_schedule_time_cost(new_schedule)
-        extra_delay = compute_extra_delay(new_schedule, DO_node_position, veh)
+        extra_delay = compute_extra_delay(new_schedule, DO_node_position)
         feasible_schedules.append([new_schedule, extra_delay, DO_node_position]) #store the feasible schedule, but not the best one
     
     if len(feasible_schedules) == 0: #if no feasible schedule found
@@ -100,6 +73,23 @@ def compute_schedule_by_half(veh: Veh, req: Req, current_schedule: list):
            return new_schedule, time_cost
            
     return None, None
+
+
+
+
+    for PU_node_position in range(len(current_schedule) + 1):
+        for DO_node_position in range(PU_node_position + 1, len(current_schedule) + 2):
+            new_schedule = insert_request_into_schedule(current_schedule, req, PU_node_position, DO_node_position)
+
+            if test_constraints(new_schedule, veh): #check if the new schedule satisfies all constraints
+                time_cost = compute_schedule_time_cost(new_schedule)
+                feasible_schedules.append(new_schedule) #store the feasible schedule, but not the best one
+                if time_cost < min_time_cost: #update the best schedule
+                    # best_schedule = copy.deepcopy(new_schedule)
+                    best_schedule = new_schedule #try shallow copy first. If it doesn't work, use deep copy
+                    min_time_cost = time_cost
+
+    return best_schedule, min_time_cost
 
 def score_vt_pair_with_delay(candidate_veh_trip_pairs: list):
     #candidate_veh_trip_pairs[veh, req, sche, cost, score]
@@ -125,20 +115,11 @@ def compute_schedule_time_cost(schedule: list):
 
     return total_schedule_time
 
-def compute_extra_delay(inserted_schedule: list, insert_position: int, veh: Veh):
-    if insert_position == len(inserted_schedule) - 1: #if the inserted node is the last node
-        extra_delay = get_timeCost(inserted_schedule[insert_position-1][0], inserted_schedule[insert_position][0]) # use time to insert node as extra delay
-        return extra_delay
-    elif insert_position == 0: #if the inserted node is the first node
-        new_time = get_timeCost(veh.current_node, inserted_schedule[0][0]) + get_timeCost(inserted_schedule[0][0], inserted_schedule[1][0])
-        original_time = get_timeCost(veh.current_node, inserted_schedule[1][0]) 
-        extra_delay = new_time - original_time
-        return extra_delay
-    else:
-        original_time = get_timeCost(inserted_schedule[insert_position-1][0], inserted_schedule[insert_position+1][0])
-        new_time = get_timeCost(inserted_schedule[insert_position-1][0], inserted_schedule[insert_position][0]) + get_timeCost(inserted_schedule[insert_position][0], inserted_schedule[insert_position+1][0])
-        extra_delay = new_time - original_time
-        return extra_delay
+def compute_extra_delay(inserted_schedule: list, insert_position: int):
+    original_time = get_timeCost(inserted_schedule[insert_position-1][0], inserted_schedule[insert_position+1][0])
+    new_time = get_timeCost(inserted_schedule[insert_position-1][0], inserted_schedule[insert_position][0]) + get_timeCost(inserted_schedule[insert_position][0], inserted_schedule[insert_position+1][0])
+    extra_delay = new_time - original_time
+    return extra_delay
 
 def test_constraints(schedule: list, veh: Veh): 
     # # node[node_id, type, num_people, max_wait_time, shortest_Trip_Time]
@@ -215,7 +196,7 @@ def test_constraints(schedule: list, veh: Veh):
 
 def insert_request_into_schedule_half(schedule: list, request: Req, PU_node_position: int, DO_node_position):
     if DO_node_position == None: #only PU node
-        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID, 'NEW_PU']
+        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID]
         new_schedule = schedule
         new_schedule_part1 = new_schedule[:PU_node_position]
         new_schedule_part2 = new_schedule[PU_node_position:]
@@ -224,7 +205,7 @@ def insert_request_into_schedule_half(schedule: list, request: Req, PU_node_posi
         return new_schedule_part1
     
     else:
-        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID, 'NEW_DO']
+        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID]
         
         # # new_schedule = copy.deepcopy(schedule) 
         # new_schedule =pickle.loads(pickle.dumps(schedule))  #must use deepcopy. otherwise will stuck in infinite loop
@@ -243,8 +224,8 @@ def insert_request_into_schedule_half(schedule: list, request: Req, PU_node_posi
         return new_schedule_part3
 
 def insert_request_into_schedule(schedule: list, request: Req, PU_node_position: int, DO_node_position: int):
-        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID, 'NEW_PU']
-        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID, 'NEW_DO']
+        PU_node = [request.Ori_id, 1, request.Num_people, request.Latest_PU_Time, request.Shortest_TT, request.Req_ID]
+        DO_node = [request.Des_id, -1, request.Num_people, request.Latest_DO_Time, request.Shortest_TT, request.Req_ID]
         
         # # new_schedule = copy.deepcopy(schedule) 
         # new_schedule =pickle.loads(pickle.dumps(schedule))  #must use deepcopy. otherwise will stuck in infinite loop

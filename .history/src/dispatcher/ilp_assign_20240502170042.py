@@ -64,7 +64,7 @@ def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, in
         object_score += veh_trip_pairs_check[i] * (veh_trip_pairs[i][4] + time_to_origin) + (1.0 - veh_trip_pairs_check[i]) * PENALTY
         
         
-        # Anticipatory Method Objective WIP
+        # Anticipatory Method Objective
         cost = anticipatory_cost(veh_trip_pairs[i][1], veh_trip_pairs[0]) #Need to specify which vt_pair and which veh. WIP
         
         reward = 0.0 #WIP
