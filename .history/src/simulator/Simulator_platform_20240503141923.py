@@ -121,7 +121,7 @@ class Simulator_Platform(object):
         # 3. Assign pending orders to vehicles.
         availiable_vehicels = self.get_availiable_vehicels()
         if self.dispatcher == DispatcherMethod.SBA:
-            assign_orders_through_sba(self.accumulated_request, availiable_vehicels, self.system_time, self.num_of_rejected_req_for_nodes_dict)
+            assign_orders_through_sba(self.accumulated_request, availiable_vehicels, self.system_time)
       
         # 4. Reposition idle vehicles to high demand areas.
         if self.rebalancer == RebalancerMethod.NJO:

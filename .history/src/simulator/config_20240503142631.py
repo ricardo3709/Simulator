@@ -18,7 +18,6 @@ PATH_SMALLGRID_ARCS = f"{ROOT_PATH}/SmallGridData/SmallGrid_Arcs.csv"
 PATH_SMALLGRID_REQUESTS = f"{ROOT_PATH}/SmallGridData/SmallGrid_Requests.csv"
 PATH_SMALLGRID_TIMECOST = f"{ROOT_PATH}/SmallGridData/SmallGrid_TimeCost.csv"
 PATH_SMALLGRID_ALL_PATH_TABLE = f"{ROOT_PATH}/SmallGridData/SmallGrid_AllPathTable.pickle"
-
 NUM_NODES_SMALLGRID = 100
 
 # Manhattan-data
@@ -46,7 +45,7 @@ REBALANCER = "NJO"        # 3 options: NONE, NPO, NJO
 
 # for Manhattan-data
 FLEET_SIZE = [1000]
-VEH_CAPACITY = [4]
+VEH_CAPACITY = [6]
 
 MAX_PICKUP_WAIT_TIME = 5*60 # 5 min
 MAX_DETOUR_TIME = 10*60 # 10 min
@@ -62,8 +61,7 @@ PW = 4.64/3600 # usd/s User's Cost of waiting
 PV = 2.32/3600 # usd/s User's Cost of travelling in vehicle
 PO = 3.48/3600 # usd/s Operator's Cost of operating a vehicle
 
-REJ_LAYERS = 1 # number of layers of rejected rate to consider
-PSI = 1 #𝜓 is a tuning parameter (the higher this parameter, the more uniform the resulting rates).
+
 ##################################################################################
 # Simulation Config
 ##################################################################################

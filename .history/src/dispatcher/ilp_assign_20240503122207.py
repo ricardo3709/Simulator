@@ -12,7 +12,7 @@ def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, in
                 #    considered_rids: List[int],
                    reqs: List[Req],
                    vehs: List[Veh],
-                   num_of_rejected_req_for_nodes_dict) -> List[int]:
+                   ensure_assigning_orders_that_are_picking: bool = True) -> List[int]:
     
     # Create a new model
     model = gp.Model("ilp")
@@ -59,15 +59,16 @@ def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, in
         #     continue
         
         # Normal Method Objective
-        # time_to_origin = get_timeCost(veh_trip_pairs[i][0].current_node, veh_trip_pairs[i][1].Ori_id) #time to travel to origin node, also need to be minimized
+        time_to_origin = get_timeCost(veh_trip_pairs[i][0].current_node, veh_trip_pairs[i][1].Ori_id) #time to travel to origin node, also need to be minimized
         # object_score = Delay + Time_to_Origin(Pickup) + Penalty_of_Ignoring, for each veh_trip_pair
-        # object_score += veh_trip_pairs_check[i] * (veh_trip_pairs[i][4] + time_to_origin) + (1.0 - veh_trip_pairs_check[i]) * PENALTY
+        object_score += veh_trip_pairs_check[i] * (veh_trip_pairs[i][4] + time_to_origin) + (1.0 - veh_trip_pairs_check[i]) * PENALTY
         
-        # Anticipatory Method Objective 
-        cost = anticipatory_cost(veh_trip_pairs[i][2], veh_trip_pairs[i][0]) # WIP
-        reward = reward_function(veh_trip_pairs[i][2], veh_trip_pairs[i][0], num_of_rejected_req_for_nodes_dict)
+        
+        # Anticipatory Method Objective WIP
+        cost = anticipatory_cost(veh_trip_pairs[i][2], veh_trip_pairs[0]) #Need to specify which vt_pair and which veh. WIP
+        
+        reward = 0.0 #WIP
         anticipate_method_object_score = cost - REWARD_THETA * reward
-        object_score += veh_trip_pairs_check[i] * anticipate_method_object_score + (1.0 - veh_trip_pairs_check[i]) * PENALTY
 
     model.setObjective(object_score, GRB.MINIMIZE) #set the objective function to be minimized
     
@@ -198,11 +199,6 @@ def anticipatory_cost(new_schedule: list, veh: Veh):
     t_wait_new, detour_new = get_delay_and_detour_for_new_req(new_schedule, veh, PU_position, DO_position)
     first_term = PW * t_wait_new + PV * detour_new
 
-    # For insertion in empty schedule
-    if len(new_schedule) == 2: # only newly inserted req
-        anticipatory_cost_value = first_term + PO * get_timeCost(new_schedule[0][0], new_schedule[1][0])
-        return anticipatory_cost_value
-    
     # Second term in objective function
     extra_delay_NEWPU = compute_extra_delay(new_schedule, PU_position, veh)
     extra_delay_NEWDO = compute_extra_delay(new_schedule, DO_position, veh)
@@ -217,17 +213,13 @@ def anticipatory_cost(new_schedule: list, veh: Veh):
     anticipatory_cost_value = first_term + second_term + third_term
     return anticipatory_cost_value
 
+
 def get_delay_and_detour_for_new_req(new_schedule: list, veh: Veh, PU_position: int, DO_position: int):
-    time_to_first_node = get_timeCost(veh.current_node, new_schedule[0][0])
     new_req = new_schedule[PU_position]
     schedule_up_to_NEWPU = new_schedule[:PU_position+1]
     schedule_NEWPU_to_NEWDO = new_schedule[PU_position:DO_position+1]
-    if PU_position == 0: # new req is the first node in the schedule
-        t_wait_new = time_to_first_node
-        detour_new = compute_schedule_time_cost(schedule_NEWPU_to_NEWDO) - new_req[4] #D(r,pi), new_req[4] is the shortest travel time
-    else:     
-        t_wait_new = compute_schedule_time_cost(schedule_up_to_NEWPU) #tw(r,pi)
-        detour_new = compute_schedule_time_cost(schedule_NEWPU_to_NEWDO) - new_req[4] #D(r,pi), new_req[4] is the shortest travel time
+    t_wait_new = compute_schedule_time_cost(schedule_up_to_NEWPU) #tw(r,pi)
+    detour_new = compute_schedule_time_cost(schedule_NEWPU_to_NEWDO) - new_req[4] #D(r,pi), new_req[4] is the shortest travel time
     return t_wait_new, detour_new
 
 def get_req_pair_dict(schedule: list):
@@ -246,12 +238,8 @@ def get_req_pair_dict(schedule: list):
 def get_extra_delay_and_detour(schedule: list, veh: Veh, req_pair_dict: dict, PU_position: int, DO_position: int, extra_delay_NEWPU: float, extra_delay_NEWDO: float):
     extra_delay= 0.0
     extra_detour = 0.0
-    # for req_id, [PU_node, DO_node] in req_pair_dict.items():
-    for req_id, nodes in req_pair_dict.items():
-        for index, req_type in nodes:    
-        # for index, req_type in [PU_node, DO_node]:
-            if schedule[index][-1] == 'NEW_PU' or schedule[index][-1] == 'NEW_DO': #skip new req
-                continue
+    for req_id, [PU_node, DO_node] in req_pair_dict.items():
+        for index, req_type in [PU_node, DO_node]:
             if index < PU_position+1: # before NEW_PU
                 continue # no extra delay or detour
 
@@ -275,25 +263,6 @@ def get_extra_delay_and_detour(schedule: list, veh: Veh, req_pair_dict: dict, PU
                             extra_detour += extra_delay_NEWDO
 
     return extra_delay, extra_detour
-
-def reward_function(new_schedule: list, veh: Veh, num_of_rejected_req_for_nodes_dict):
-    reward = 0.0
-    #using Last Node for reward calculation
-    last_node = new_schedule[-1]
-    # generation_rate = 0.0
-    rejection_rate = get_rejection_rate_smooth(last_node[0], REJ_LAYERS, num_of_rejected_req_for_nodes_dict)
-
-    # Using Smooth Rejection Rate of Last Node as Reward
-    reward = rejection_rate
-
-    return reward
-def get_rejection_rate_smooth(target_node: int, num_layers: int, num_of_rejected_req_for_nodes_dict):
-    considered_nodes = get_surrounding_nodes(target_node, num_layers)
-    smooth_rejection_rate = 0.0
-    for node in considered_nodes:
-        smooth_rejection_rate += num_of_rejected_req_for_nodes_dict[node]/(PSI + get_timeCost(target_node, node))
-    
-    return smooth_rejection_rate
 
 
 def greedy_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, int, int, float]], float, float]]) -> List[int]:

@@ -46,7 +46,7 @@ REBALANCER = "NJO"        # 3 options: NONE, NPO, NJO
 
 # for Manhattan-data
 FLEET_SIZE = [1000]
-VEH_CAPACITY = [4]
+VEH_CAPACITY = [6]
 
 MAX_PICKUP_WAIT_TIME = 5*60 # 5 min
 MAX_DETOUR_TIME = 10*60 # 10 min

@@ -226,6 +226,7 @@ def get_delay_and_detour_for_new_req(new_schedule: list, veh: Veh, PU_position: 
         t_wait_new = time_to_first_node
         detour_new = compute_schedule_time_cost(schedule_NEWPU_to_NEWDO) - new_req[4] #D(r,pi), new_req[4] is the shortest travel time
     else:     
+       
         t_wait_new = compute_schedule_time_cost(schedule_up_to_NEWPU) #tw(r,pi)
         detour_new = compute_schedule_time_cost(schedule_NEWPU_to_NEWDO) - new_req[4] #D(r,pi), new_req[4] is the shortest travel time
     return t_wait_new, detour_new
@@ -246,12 +247,8 @@ def get_req_pair_dict(schedule: list):
 def get_extra_delay_and_detour(schedule: list, veh: Veh, req_pair_dict: dict, PU_position: int, DO_position: int, extra_delay_NEWPU: float, extra_delay_NEWDO: float):
     extra_delay= 0.0
     extra_detour = 0.0
-    # for req_id, [PU_node, DO_node] in req_pair_dict.items():
-    for req_id, nodes in req_pair_dict.items():
-        for index, req_type in nodes:    
-        # for index, req_type in [PU_node, DO_node]:
-            if schedule[index][-1] == 'NEW_PU' or schedule[index][-1] == 'NEW_DO': #skip new req
-                continue
+    for req_id, [PU_node, DO_node] in req_pair_dict.items():
+        for index, req_type in [PU_node, DO_node]:
             if index < PU_position+1: # before NEW_PU
                 continue # no extra delay or detour
 

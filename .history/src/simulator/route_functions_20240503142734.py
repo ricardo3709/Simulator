@@ -4,7 +4,6 @@ route planning functions
 import copy
 import pickle
 import os.path as osp
-import pandas as pd
 from src.simulator.config import *
 
 # BASEDIR = osp.dirname(osp.abspath(__file__))
@@ -79,15 +78,3 @@ def get_route_by_matrix(Oid: int, Did: int, all_path_matrix):
         current_node = next_node
 
     return route
-
-def get_surrounding_nodes(target_node, num_layers):
-    connected_nodes = set()
-    connected_nodes.add(target_node)
-    
-    for layer in range(1, num_layers+1):
-        new_nodes = set()
-        for node in connected_nodes:
-            new_nodes.update(CITYARC[node][CITYARC[node] == 1].index)
-        connected_nodes.update(new_nodes)
-    
-    return connected_nodes

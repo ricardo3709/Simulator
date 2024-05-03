@@ -26,7 +26,7 @@ def compute_schedule(veh: Veh, req: Req):
     
     #schedule is not empty, remove all 'NEW_PU' and 'NEW_DO' marks in nodes
     for index in range(len(current_schedule)):
-        current_schedule[index] = current_schedule[index][:6]#remove the sixth element
+        current_schedule[index] = current_schedule[index][:5]#remove the sixth element
     if len(current_schedule) <= MAX_SCHEDULE_LENGTH: #if the vehicle has less than 46 nodes in the schedule
         return compute_schedule_normal(veh, req, current_schedule) #use normal method, lower rej rate, exponential time cost
     else:

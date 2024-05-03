@@ -246,12 +246,8 @@ def get_req_pair_dict(schedule: list):
 def get_extra_delay_and_detour(schedule: list, veh: Veh, req_pair_dict: dict, PU_position: int, DO_position: int, extra_delay_NEWPU: float, extra_delay_NEWDO: float):
     extra_delay= 0.0
     extra_detour = 0.0
-    # for req_id, [PU_node, DO_node] in req_pair_dict.items():
-    for req_id, nodes in req_pair_dict.items():
-        for index, req_type in nodes:    
-        # for index, req_type in [PU_node, DO_node]:
-            if schedule[index][-1] == 'NEW_PU' or schedule[index][-1] == 'NEW_DO': #skip new req
-                continue
+    for req_id, [PU_node, DO_node] in req_pair_dict.items():
+        for index, req_type in [PU_node, DO_node]:
             if index < PU_position+1: # before NEW_PU
                 continue # no extra delay or detour
 

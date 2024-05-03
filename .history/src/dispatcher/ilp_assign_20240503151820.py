@@ -250,8 +250,6 @@ def get_extra_delay_and_detour(schedule: list, veh: Veh, req_pair_dict: dict, PU
     for req_id, nodes in req_pair_dict.items():
         for index, req_type in nodes:    
         # for index, req_type in [PU_node, DO_node]:
-            if schedule[index][-1] == 'NEW_PU' or schedule[index][-1] == 'NEW_DO': #skip new req
-                continue
             if index < PU_position+1: # before NEW_PU
                 continue # no extra delay or detour
 

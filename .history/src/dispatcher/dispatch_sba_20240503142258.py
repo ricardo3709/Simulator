@@ -22,7 +22,7 @@ def assign_orders_through_sba(current_cycle_requests: List[Req], vehs: List[Veh]
     #3.1 Pruning the candidate veh-req pairs. (Empty Assign)
     # candidate_veh_req_pairs = prune_candidate_veh_req_pairs(candidate_veh_req_pairs)
     
-    selected_veh_req_pair_indices = ilp_assignment(candidate_veh_req_pairs, current_cycle_requests, vehs, num_of_rejected_req_for_nodes_dict)
+    selected_veh_req_pair_indices = ilp_assignment(candidate_veh_req_pairs, current_cycle_requests, vehs)
     # selected_veh_req_pair_indices = greedy_assignment(feasible_veh_req_pairs)
 
     # 000. Convert and store the vehicles' states at current epoch and their post-decision states as an experience.
