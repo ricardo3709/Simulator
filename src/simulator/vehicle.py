@@ -86,8 +86,9 @@ class Veh(object):
 
     def update_schedule(self, new_schedule: list):
         # assert len(new_schedule) < 5 #DEBUG CODE
+        # assert self.route == []
         self.schedule = new_schedule
-        self.status = VehicleStatus.WORKING
+        # self.status = VehicleStatus.WORKING
         
         #update route according to the new schedule
         if len(self.route) == 0: # vehicle has no route
@@ -100,7 +101,8 @@ class Veh(object):
                 assert len(self.route) != 0 #DEBUG CODE, vehicle should have a route
                 
         else: # vehicle has a route, but overwrites it, self.target_node = self.route[0](where the vehicle is going to visit next)
-            assert self.target_node != None
+            assert self.target_node != None 
+            # self.target_node = self.route[0]
             new_route = get_route(self.target_node, self.schedule[0][0])
             self.route = new_route  
             assert len(self.route) != 0 #DEBUG CODE, vehicle should have a route

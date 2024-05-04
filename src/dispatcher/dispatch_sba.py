@@ -12,7 +12,9 @@ def assign_orders_through_sba(current_cycle_requests: List[Req], vehs: List[Veh]
         print(f"        -Assigning {len(current_cycle_requests)} orders to vehicles through SBA...")
 
     # 1. Compute all possible veh-req pairs, each indicating that the request can be served by the vehicle.
-    candidate_veh_req_pairs = compute_candidate_veh_req_pairs(current_cycle_requests, vehs, system_time)
+    candidate_veh_req_pairs, considered_vehs = compute_candidate_veh_req_pairs(current_cycle_requests, vehs, system_time)
+    # 1.1 Remove identical vehs in considered_vehs
+    considered_vehs = list(set(considered_vehs))
 
     # 2. Score the candidate veh-req pairs. 
     score_vt_pair_with_delay(candidate_veh_req_pairs)
@@ -22,7 +24,7 @@ def assign_orders_through_sba(current_cycle_requests: List[Req], vehs: List[Veh]
     #3.1 Pruning the candidate veh-req pairs. (Empty Assign)
     # candidate_veh_req_pairs = prune_candidate_veh_req_pairs(candidate_veh_req_pairs)
     
-    selected_veh_req_pair_indices = ilp_assignment(candidate_veh_req_pairs, current_cycle_requests, vehs, num_of_rejected_req_for_nodes_dict)
+    selected_veh_req_pair_indices = ilp_assignment(candidate_veh_req_pairs, current_cycle_requests, considered_vehs, num_of_rejected_req_for_nodes_dict)
     # selected_veh_req_pair_indices = greedy_assignment(feasible_veh_req_pairs)
 
     # 000. Convert and store the vehicles' states at current epoch and their post-decision states as an experience.
@@ -51,13 +53,18 @@ def compute_candidate_veh_req_pairs(current_cycle_requests: List[Req], vehs:List
 
     # Each veh_req_pair = [veh, trip, sche, cost, score]
     candidate_veh_req_pairs = []
+    considered_vehs = []
 
     # 1. Compute the feasible veh-req pairs for new received requests.
     for req in current_cycle_requests:
         available_veh = []
         for veh in vehs: 
+            # Check if the vehicle can reach the origin node before the latest pickup time.
             time_to_origin = get_timeCost(veh.current_node, req.Ori_id)
             if time_to_origin + system_time > req.Latest_PU_Time: #vehicle cannot reach the origin node before the latest pickup time
+                continue
+            # Check if the vehicle has enough capacity to serve the request.
+            if veh.capacity - veh.load < req.Num_people:
                 continue
             # All other vehicles are able to serve current request, find best schedule for each vehicle.
             available_veh.append([veh,time_to_origin])
@@ -66,8 +73,12 @@ def compute_candidate_veh_req_pairs(current_cycle_requests: List[Req], vehs:List
         if len(available_veh) > MAX_NUM_VEHICLES_TO_CONSIDER:
             available_veh.sort(key = lambda x: x[1])
             available_veh = available_veh[:MAX_NUM_VEHICLES_TO_CONSIDER]
+        
+        # Delete time to origin and add vehicle to considered_vehs
+        available_veh = [available_veh[0] for available_veh in available_veh]
+        considered_vehs.extend(available_veh)   
 
-        for veh, _ in available_veh:
+        for veh in available_veh:
             best_sche, cost = compute_schedule(veh, req)
             if best_sche: #best schedule exists
                 candidate_veh_req_pairs.append([veh, req, best_sche, cost, 0.0]) #vt_pair = [veh, trip, sche, cost, score]
@@ -78,8 +89,8 @@ def compute_candidate_veh_req_pairs(current_cycle_requests: List[Req], vehs:List
     # for veh in vehs:
     #     # candidate_veh_req_pairs.append([veh, None, copy.copy(veh.schedule), compute_schedule_time_cost(veh.schedule), 0.0])
     #     candidate_veh_req_pairs.append([veh, None, [], 0.0, 0.0])
-
-    return candidate_veh_req_pairs
+    
+    return candidate_veh_req_pairs, considered_vehs
 
 def prune_candidate_veh_req_pairs(candidate_veh_req_pairs):
     if DEBUG_PRINT:

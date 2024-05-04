@@ -54,6 +54,8 @@ MAX_DETOUR_TIME = 10*60 # 10 min
 MAX_NUM_VEHICLES_TO_CONSIDER = 20
 MAX_SCHEDULE_LENGTH = 30
 
+MAX_DELAY_REBALANCE = 10*60 # 10 min
+
 ##################################################################################
 # Anticipatory ILP Config
 ##################################################################################
@@ -80,6 +82,7 @@ SIMULATION_DURATION = 3600 # 60 minutes = 3600 seconds
 TIME_STEP = 15 # 15 seconds
 COOL_DOWN_DURATION = 0 # 20 minutes = 1200 seconds
 PENALTY = 80.0 #penalty for ignoring a request
+REBALANCER_PENALTY = 800.0 #penalty for ignoring a request in rebalancer
 
 def config_change_fs(fs):
     global FLEET_SIZE

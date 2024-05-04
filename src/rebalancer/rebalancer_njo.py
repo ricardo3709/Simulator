@@ -12,18 +12,17 @@ def rebalancer_njo(reqs: List[Req], vehs: List[Veh], system_time: float):
     rejected_reqs = [req for req in reqs if req.Status == OrderStatus.REJECTED]
     if len(rejected_reqs) == 0: #no rejected requests
         return
-    for req in rejected_reqs:
-        req.Status = OrderStatus.REJECTED_REBALANCED #mark the request as rebalanced, only send one rebalancing vehicle to each rejected request
-   
     
     # 1. Compute all possible veh-req pairs, each indicating that the request can be served by the vehicle.
-    candidate_veh_req_pairs = compute_candidate_veh_req_pairs(rejected_reqs, avaliable_vehs, system_time)
+    candidate_veh_req_pairs, considered_vehs = compute_candidate_veh_req_pairs(rejected_reqs, avaliable_vehs, system_time)
+    # 1.1 Remove identical vehs in considered_vehs
+    considered_vehs = list(set(considered_vehs))
 
     # 2. Compute the assignment policy, indicating which vehicle to pick which request.
-    selected_veh_req_pair_indices = rebalancer_ilp_assignment(candidate_veh_req_pairs, rejected_reqs, avaliable_vehs)
+    selected_veh_req_pair_indices = rebalancer_ilp_assignment(candidate_veh_req_pairs, rejected_reqs, considered_vehs)
 
     # 3. Update the assigned vehicles' schedules and the assigned requests' statuses.
-    assigned_reqs = upd_schedule_for_vehicles_in_selected_vt_pairs(candidate_veh_req_pairs, selected_veh_req_pair_indices)
+    upd_schedule_for_vehicles_in_selected_vt_pairs(candidate_veh_req_pairs, selected_veh_req_pair_indices)
         
 
 def compute_candidate_veh_req_pairs(reqs: List[Req], vehs:List[Veh], system_time: float) \
@@ -33,15 +32,35 @@ def compute_candidate_veh_req_pairs(reqs: List[Req], vehs:List[Veh], system_time
 
     # Each veh_req_pair = [veh, trip, sche, cost, score]
     candidate_veh_req_pairs = []
+    considered_vehs = []
 
     # 1. Compute all veh-req pairs for new received requests.
     for req in reqs:
+        available_veh = []
         for veh in vehs: 
-            # All other vehicles are able to serve current request, find best schedule for each vehicle.
+            # Check if the vehicle can reach the origin node before the MAX_DELAY_REBALANCE
+            time_to_origin = get_timeCost(veh.current_node, req.Ori_id)
+            if time_to_origin > MAX_DELAY_REBALANCE:
+                continue
+            available_veh.append([veh, time_to_origin])
+
+        if len(available_veh) == 0: #no vehicle can reach the origin node before the MAX_DELAY_REBALANCE
+            continue
+        # if too many vehicles, we can use a heuristic to reduce the number of vehicles to consider
+        if len(available_veh) > MAX_NUM_VEHICLES_TO_CONSIDER:
+            available_veh.sort(key = lambda x: x[1])
+            available_veh = available_veh[:MAX_NUM_VEHICLES_TO_CONSIDER]
+
+         # Delete time to origin and add vehicle to considered_vehs
+        available_veh = [available_veh[0] for available_veh in available_veh]
+        considered_vehs.extend(available_veh)   
+
+        # All other vehicles are able to serve current request, find best schedule for each vehicle.
+        for veh in available_veh:
             best_sche, cost = compute_schedule(veh, req)
             candidate_veh_req_pairs.append([veh, req, best_sche, cost, 0.0]) #vt_pair = [veh, trip, sche, cost, score]
 
-    return candidate_veh_req_pairs
+    return candidate_veh_req_pairs, considered_vehs
 
 def compute_schedule(veh: Veh, req: Req):
     # best_schedule = None
@@ -79,12 +98,13 @@ def insert_request_into_schedule(schedule: list, request: Req, PU_node_position:
 
 def upd_schedule_for_vehicles_in_selected_vt_pairs(candidate_veh_trip_pairs: list,
                                                    selected_veh_trip_pair_indices: List[int]):
-    assigned_reqs = []
+    # assigned_reqs = []
     for idx in selected_veh_trip_pair_indices:
         #For Simonetto's Method, there is only one req for each trip.
         [veh, req, sche, cost, score] = candidate_veh_trip_pairs[idx]
         veh.update_schedule(sche)
         veh.status = VehicleStatus.REBALANCING
-        assigned_reqs.append(req)
-    return assigned_reqs
+        req.Status = OrderStatus.REJECTED_REBALANCED
+        # assigned_reqs.append(req)
+    # return assigned_reqs
         

@@ -27,7 +27,7 @@ def compute_schedule(veh: Veh, req: Req):
     #schedule is not empty, remove all 'NEW_PU' and 'NEW_DO' marks in nodes
     for index in range(len(current_schedule)):
         current_schedule[index] = current_schedule[index][:6]#remove the sixth element
-    if len(current_schedule) <= MAX_SCHEDULE_LENGTH: #if the vehicle has less than 46 nodes in the schedule
+    if len(current_schedule) <= MAX_SCHEDULE_LENGTH: #if the vehicle has less than 30 nodes in the schedule
         return compute_schedule_normal(veh, req, current_schedule) #use normal method, lower rej rate, exponential time cost
     else:
         return compute_schedule_by_half(veh, req, current_schedule) #use half method, higher reh rate, linear time cost
@@ -276,6 +276,7 @@ def upd_schedule_for_vehicles_in_selected_vt_pairs(candidate_veh_trip_pairs: lis
         #For Simonetto's Method, there is only one req for each trip.
         [veh, req, sche, cost, score] = candidate_veh_trip_pairs[idx]
         req.Status = OrderStatus.PICKING
+        veh.status = VehicleStatus.WORKING
         veh.update_schedule(sche)
         assigned_reqs.append(req)
     return assigned_reqs

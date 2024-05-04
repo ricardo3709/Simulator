@@ -20,7 +20,7 @@ def run_sim():
 
 
 if __name__ == '__main__':
-   cProfile.run("run_sim()",filename="60mins_result(threshold=20).out")
+   cProfile.run("run_sim()",filename="60mins_may1.out")
 
 
 

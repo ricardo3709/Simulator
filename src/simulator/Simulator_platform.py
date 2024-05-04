@@ -36,6 +36,7 @@ class Simulator_Platform(object):
         self.recorded_end_time = self.start_time
         self.total_time_step = SIMULATION_DURATION // TIME_STEP
         self.accumulated_request = []
+        self.rejected_reqs = []
         self.num_of_rejected_req_for_nodes_dict = {i: 0 for i in range(1, NUM_NODES_MANHATTAN+1)} # {node_id: num_of_rejected_req} used in reward calculation
 
         # Initialize the fleet with random initial positions.
@@ -114,7 +115,8 @@ class Simulator_Platform(object):
 
         # 2.1 Prune the accumulated requests. (Assigned requests and rejected requests are removed.)
         self.accumulated_request.extend(current_cycle_requests)
-        self.prune_requests()
+        current_rejected_reqs = self.prune_requests()
+        self.rejected_reqs.extend(current_rejected_reqs)
         # print(f"        -Considered current cycle requests: {len(self.accumulated_request)}")
         # self.reject_long_waited_requests()
 
@@ -125,7 +127,7 @@ class Simulator_Platform(object):
       
         # 4. Reposition idle vehicles to high demand areas.
         if self.rebalancer == RebalancerMethod.NJO:
-            rebalancer_njo(self.reqs, self.vehs, self.system_time)
+            rebalancer_njo(self.rejected_reqs, self.vehs, self.system_time)
         elif self.rebalancer == RebalancerMethod.NPO:
             reposition_idle_vehicles_to_nearest_pending_orders(self.accumulated_request, self.vehs)
 
@@ -135,6 +137,7 @@ class Simulator_Platform(object):
             print("                *Pruning candidate vehicle order pairs...", end=" ")
 
         req_to_be_pruned = []
+        rejected_reqs = []
         for req in self.accumulated_request:
             # 1. Remove the assigned requests from the accumulated requests.
             if req.Status == OrderStatus.PICKING:
@@ -142,7 +145,10 @@ class Simulator_Platform(object):
             # 2. Remove the rejected requests from the accumulated requests.
             elif req.Status == OrderStatus.REJECTED or req.Status == OrderStatus.REJECTED_REBALANCED:
                 req_to_be_pruned.append(req)
+                rejected_reqs.append(req)
+
         self.accumulated_request = [req for req in self.accumulated_request if req not in req_to_be_pruned]
+        return rejected_reqs
     
     def reject_long_waited_requests(self):
         # Reject the long waited orders.
