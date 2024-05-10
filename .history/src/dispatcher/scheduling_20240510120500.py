@@ -43,7 +43,7 @@ def compute_schedule_normal(veh: Veh, req: Req, current_schedule: list):
     for PU_node_position in range(len(current_schedule) + 1):
         for DO_node_position in range(PU_node_position + 1, len(current_schedule) + 2):
             new_schedule = insert_request_into_schedule(current_schedule, req, PU_node_position, DO_node_position)
-            constrain_flag, time_cost = test_constraints(new_schedule, veh) #this time_cost includes time for veh travelling from current node to first node in new_schedule
+            constrain_flag, time_cost = test_constraints(new_schedule, veh)
             if constrain_flag: #check if the new schedule satisfies all constraints
                 # feasible_schedules.append(new_schedule) #store the feasible schedule, but not the best one
                 if time_cost < min_time_cost: #update the best schedule

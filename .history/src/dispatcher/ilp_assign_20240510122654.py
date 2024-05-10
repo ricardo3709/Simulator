@@ -26,14 +26,11 @@ def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, in
     
     # Declare Model Variables
     for i in range(len(vehs)):
-        # vehicle_check.append(model.addVar(vtype=GRB.BINARY)) # (lb = 0.0, ub = 1.0, obj = 0.0, vtype = GRB.BINARY)
-        vehicle_check.append(model.addVar(vtype=GRB.CONTINUOUS)) # (lb = 0.0, ub = 1.0, obj = 0.0, vtype = GRB.BINARY)
+        vehicle_check.append(model.addVar(vtype=GRB.BINARY)) # (lb = 0.0, ub = 1.0, obj = 0.0, vtype = GRB.BINARY)
     for i in range(len(reqs)):
-        # request_check.append(model.addVar(vtype=GRB.BINARY))
-        request_check.append(model.addVar(vtype=GRB.CONTINUOUS))
+        request_check.append(model.addVar(vtype=GRB.BINARY))
     for i in range(len(veh_trip_pairs)):
-        # veh_trip_pairs_check.append(model.addVar(vtype=GRB.BINARY))
-        veh_trip_pairs_check.append(model.addVar(vtype=GRB.CONTINUOUS))
+        veh_trip_pairs_check.append(model.addVar(vtype=GRB.BINARY))
     
     # Constrain 1: each vehicle can only be assigned at most one veh_trip_pair(request).
     for i in range(len(vehs)): #iterates over vehicles
