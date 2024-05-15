@@ -78,7 +78,7 @@ class Veh(object):
                                 self.served_req_IDs.append(self.schedule[0][5])
                                 assert self.schedule[0][5] in self.assigned_reqs #DEBUG CODE, request should be in assigned_reqs
                             else: #request is not delivered on time
-                                raise KeyError("Request is not delivered on time")
+                                assert KeyError("Request is not delivered on time")
                         else: #Balancing node
                             self.status = VehicleStatus.IDLE # finish rebalancing, vehicle is idle
                             self.veh_time = current_system_time

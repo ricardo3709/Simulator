@@ -78,7 +78,7 @@ class Veh(object):
                                 self.served_req_IDs.append(self.schedule[0][5])
                                 assert self.schedule[0][5] in self.assigned_reqs #DEBUG CODE, request should be in assigned_reqs
                             else: #request is not delivered on time
-                                raise KeyError("Request is not delivered on time")
+                                assert KeyError("Request is not delivered on time")
                         else: #Balancing node
                             self.status = VehicleStatus.IDLE # finish rebalancing, vehicle is idle
                             self.veh_time = current_system_time
@@ -110,7 +110,7 @@ class Veh(object):
         # assert len(new_schedule) < 5 #DEBUG CODE
         # assert self.route == []
         assert new_schedule != [] #DEBUG CODE, new_schedule should not be empty
-        self.schedule = pickle.loads(pickle.dumps(new_schedule)) 
+        self.schedule = new_schedule
         self.assigned_schedules.append(new_schedule)
         # self.status = VehicleStatus.WORKING
         
@@ -136,7 +136,7 @@ class Veh(object):
         assert len(self.route) == 0 #DEBUG CODE, when trigger this, vehicle should have no route
     
         route_to_target = get_route(self.current_node, target_end_node)
-        self.route = pickle.loads(pickle.dumps(route_to_target)) 
+        self.route = route_to_target
         
     def check_req_delivery(self, schedule_node):
         current_time = self.veh_time

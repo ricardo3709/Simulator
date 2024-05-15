@@ -183,30 +183,18 @@ def test_constraints(schedule: list, veh: Veh):
     #         current_node = node[0] #update current node
 
     # [req.Ori_id, 1, req.Num_people, req.Latest_PU_Time, req.Shortest_TT, req.Req_ID, 'NEW_PU'])
-    if veh.target_node == None: #if the vehicle has no target node
-        start_node = veh.current_node
-        start_time = veh.veh_time
-    else:
-        start_node = veh.target_node
-        start_time = veh.veh_time + veh.time_to_complete_current_arc
-
-    accumulated_time = start_time #initial accumulated time
-    current_node = start_node #initial node
-
     current_load = pickle.loads(pickle.dumps(veh.load)) #initial load
     max_capacity = pickle.loads(pickle.dumps(veh.capacity)) #initial capacity
-    # current_time = pickle.loads(pickle.dumps(veh.veh_time)) #initial time
-    # current_node = pickle.loads(pickle.dumps(veh.current_node)) #initial node
-    
+    current_time = pickle.loads(pickle.dumps(veh.veh_time)) #initial time
+    current_node = pickle.loads(pickle.dumps(veh.current_node)) #initial node
+    # accumulated_time = 0.0 #initial accumulated time
     # time_marks = pickle.loads(pickle.dumps(veh.time_marks_for_visited_nodes)) #time marks for visited nodes of this veh
     for node in schedule:
         
-        # time_to_next_node = get_timeCost(current_node, node[0]) #time to travel to node
         time_to_next_node = get_timeCost(current_node, node[0]) #time to travel to node
 
         # accumulated_time += time_to_next_node #time to travel to node + current time
-        # current_time += time_to_next_node #time to travel to node + current time
-        accumulated_time += time_to_next_node #time to travel to node + current time
+        current_time += time_to_next_node #time to travel to node + current time
 
         # time_marks.append([node[5], node[1] ,accumulated_time]) #[req_ID, node_type, accumulated_time when visit this node]
 
@@ -220,7 +208,7 @@ def test_constraints(schedule: list, veh: Veh):
             #     return False
 
             #2.1 Max Waiting for Pickup
-            if accumulated_time > node[3]:
+            if current_time > node[3]:
                 return False, None
             current_node = node[0] #update current node
 
@@ -240,11 +228,11 @@ def test_constraints(schedule: list, veh: Veh):
             #     return False
 
             #2.2 Max Waiting for Dropoff 
-            if accumulated_time > node[3]:
+            if current_time > node[3]:
                 return False, None
             current_node = node[0] #update current node
 
-    schedule_time = accumulated_time - start_time
+    schedule_time = current_time - veh.veh_time
     return True, schedule_time
 
 

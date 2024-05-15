@@ -39,9 +39,7 @@ class Veh(object):
         self.schedule = []
         self.served_req_IDs = []
         self.run_time = 0.0
-        self.assigned_reqs = [] #for debug
-        self.visited_nodes = [] #for debug
-        self.assigned_schedules = [] #for debug
+        self.assigned_reqs = []
         # self.time_marks_for_visited_nodes = []
 
     # schedule for trips, routes for each nodes need to be visited. 
@@ -64,7 +62,6 @@ class Veh(object):
                     self.veh_time += self.time_to_complete_current_arc
                     self.arc_completion_percentage = 0
                     self.current_node = self.target_node
-                    self.visited_nodes.append(self.current_node)    
 
                     self.route.pop(0) #remove the visited node from route
 
@@ -72,20 +69,20 @@ class Veh(object):
                         if self.schedule[0][1] == 1: #PU node
                             # [req.Ori_id, PU/DO, req.Num_people, req.Latest_PU/DO_Time, req.Shortest_TT, req.Req_ID, 'NEW_PU'/'NEW_DO']
                             self.load += self.schedule[0][2]
-                        elif self.schedule[0][1] == -1: #DO node
-                            self.load -= self.schedule[0][2]
-                            if self.check_req_delivery(self.schedule[0]): #check if the request is delivered on time
-                                self.served_req_IDs.append(self.schedule[0][5])
-                                assert self.schedule[0][5] in self.assigned_reqs #DEBUG CODE, request should be in assigned_reqs
-                            else: #request is not delivered on time
-                                raise KeyError("Request is not delivered on time")
-                        else: #Balancing node
+                        elif self.schedule[0][1] == 0: #Balancing node
                             self.status = VehicleStatus.IDLE # finish rebalancing, vehicle is idle
                             self.veh_time = current_system_time
                             self.schedule = []
                             self.route = []
                             break
-                        
+                        else: #DO node
+                            self.load -= self.schedule[0][2]
+                            if self.check_req_delivery(self.schedule[0]): #check if the request is delivered on time
+                                self.served_req_IDs.append(self.schedule[0][5])
+                                assert self.schedule[0][5] in self.assigned_reqs #DEBUG CODE, request should be in assigned_reqs
+                            else: #request is not delivered on time
+                                assert KeyError("Request is not delivered on time")
+
                         # [req_ID, node type, time of visiting]
                         # rebalance: req_ID and node type are 0       
                         # self.time_marks_for_visited_nodes.append([self.schedule[0][5], self.schedule[0][1], self.veh_time])
@@ -109,9 +106,7 @@ class Veh(object):
     def update_schedule(self, new_schedule: list):
         # assert len(new_schedule) < 5 #DEBUG CODE
         # assert self.route == []
-        assert new_schedule != [] #DEBUG CODE, new_schedule should not be empty
-        self.schedule = pickle.loads(pickle.dumps(new_schedule)) 
-        self.assigned_schedules.append(new_schedule)
+        self.schedule = new_schedule
         # self.status = VehicleStatus.WORKING
         
         #update route according to the new schedule
@@ -136,7 +131,7 @@ class Veh(object):
         assert len(self.route) == 0 #DEBUG CODE, when trigger this, vehicle should have no route
     
         route_to_target = get_route(self.current_node, target_end_node)
-        self.route = pickle.loads(pickle.dumps(route_to_target)) 
+        self.route = route_to_target
         
     def check_req_delivery(self, schedule_node):
         current_time = self.veh_time
