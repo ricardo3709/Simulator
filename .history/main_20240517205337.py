@@ -12,7 +12,6 @@ print(f"[INFO] Initializing the simulator")
 def run_sim(args:list):
     config = ConfigManager()
     REWARD_THETA = config.get("REWARD_THETA")
-
     print(f"[INFO] Running simulation using dispatcher: {DISPATCHER}")
     print(f"[INFO] Running simulation using fleet size: {FLEET_SIZE[0]}")
     print(f"[INFO] Running simulation using vehicle capacity: {VEH_CAPACITY[0]}")
@@ -22,7 +21,7 @@ def run_sim(args:list):
     print(f"[INFO] Running simulation with MAX_NUM_VEHICLES_TO_CONSIDER: {MAX_NUM_VEHICLES_TO_CONSIDER}")
     print(f"[INFO] Running simulation with MAX_SCHEDULE_LENGTH: {MAX_SCHEDULE_LENGTH}")
     print(f"[INFO] Running simulation with reward theta: {REWARD_THETA}")
-    platform = Simulator_Platform(system_initial_time,config)
+    platform = Simulator_Platform(system_initial_time)
     platform.run_simulation()
     platform.create_report()
 

@@ -11,15 +11,13 @@ from dateutil.parser import parse
 class ConfigManager:
     def __init__(self):
         self.settings = {
-            "REWARD_THETA": 1.0,
+            "REWARD_THETA": 0,
             "REWARD_TYPE": 'GEN',# or 'REJ'
             "NODE_LAYERS": 1, # number of layers of rejected rate to consider
             "MOVING_AVG_WINDOW": 12, # 3mins
         }
-    def get(self, key):
-        return self.settings[key]
-    def set(self, key, value):
-        self.settings[key] = value
+
+
 
 ##################################################################################
 # Data File Path
@@ -75,18 +73,18 @@ MAX_DELAY_REBALANCE = 10*60 # 10 min
 PENALTY = 800.0 #penalty for ignoring a request
 REBALANCER_PENALTY = 800.0 #penalty for ignoring a request in rebalancer
 
-# MOVING_AVG_WINDOW = 12 # 3mins
+MOVING_AVG_WINDOW = 12 # 3mins
 
 ##################################################################################
 # Anticipatory ILP Config
 ##################################################################################
-# REWARD_THETA = 0
+REWARD_THETA = 0
 PW = 4.64/3600 # usd/s User's Cost of waiting
 PV = 2.32/3600 # usd/s User's Cost of travelling in vehicle
 PO = 3.48/3600 # usd/s Operator's Cost of operating a vehicle
 
-# REWARD_TYPE = 'GEN' # or 'REJ'
-# NODE_LAYERS = 1 # number of layers of rejected rate to consider
+REWARD_TYPE = 'GEN' # or 'REJ'
+NODE_LAYERS = 1 # number of layers of rejected rate to consider
 PSI = 1 #𝜓 is a tuning parameter (the higher this parameter, the more uniform the resulting rates).
 ##################################################################################
 # Simulation Config

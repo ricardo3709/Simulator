@@ -11,7 +11,7 @@ from dateutil.parser import parse
 class ConfigManager:
     def __init__(self):
         self.settings = {
-            "REWARD_THETA": 1.0,
+            "REWARD_THETA": 0,
             "REWARD_TYPE": 'GEN',# or 'REJ'
             "NODE_LAYERS": 1, # number of layers of rejected rate to consider
             "MOVING_AVG_WINDOW": 12, # 3mins
