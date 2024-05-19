@@ -4,10 +4,15 @@ from main import run_sim
 import itertools
 
 # Define variable values
-REWARD_THETA = [0.5, 1.0, 1.5, 2.0]
+# REWARD_THETA = [0.5, 1.0, 1.5, 2.0]
+# REWARD_TYPE = ['GEN', 'REJ']
+# NODE_LAYERS = [1, 2, 3]
+# MOVING_AVG_WINDOW = [20, 60, 120]
+
+REWARD_THETA = [1.0]
 REWARD_TYPE = ['GEN', 'REJ']
-NODE_LAYERS = [1, 2, 3]
-MOVING_AVG_WINDOW = [20, 60, 120]
+NODE_LAYERS = [2]
+MOVING_AVG_WINDOW = [20]
 
 # Generate all combinations of the variables
 combinations = list(itertools.product(REWARD_THETA, REWARD_TYPE, NODE_LAYERS, MOVING_AVG_WINDOW))

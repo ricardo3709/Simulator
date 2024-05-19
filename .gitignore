@@ -4,3 +4,4 @@
 *.mp4
 *.pickle
 *.zip
+*.parquet

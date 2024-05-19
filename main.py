@@ -48,5 +48,6 @@ def run_sim(args:list):
 
 if __name__ == '__main__':
     # cProfile.run('run_sim([])', 'runtime.out')
-    run_sim([]) # run the simulation with default values
+    args = {'REWARD_THETA': 1.0, 'REWARD_TYPE': 'REJ', 'NODE_LAYERS': 2, 'MOVING_AVG_WINDOW': 20}
+    run_sim(args) # run the simulation with default values
 

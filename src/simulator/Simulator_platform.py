@@ -267,7 +267,7 @@ class Simulator_Platform(object):
         # print(f"Reward Theta: {REWARD_THETA}")
         
         # print(f"Video has been created.")
-        result = {f"REWARD_THETA:{REWARD_THETA},REJECTION_RATE:{rejection_rate},NODE_LAYERS:{NODE_LAYERS},MOVING_AVG_WINDOW:{MOVING_AVG_WINDOW},AVG_VEH_RUNTIME:{avg_veh_runtime},AVG_REQ_RUNTIME:{avg_req_runtime},RUNTIME:{runtime}"}
+        result = {f"REWARD_THETA:{REWARD_THETA},REWARD_TYPE:{REWARD_TYPE}REJECTION_RATE:{rejection_rate},NODE_LAYERS:{NODE_LAYERS},MOVING_AVG_WINDOW:{MOVING_AVG_WINDOW},AVG_VEH_RUNTIME:{avg_veh_runtime},AVG_REQ_RUNTIME:{avg_req_runtime},RUNTIME:{runtime}"}
         self.write_results_to_file(result)
 
     def write_results_to_file(self, results):
