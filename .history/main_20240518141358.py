@@ -7,7 +7,7 @@ from src.simulator.config import ConfigManager
 import time
 # from src.value_function.value_function import ValueFunction
 
-system_initial_time = 0
+system_initial_time = 3000
 print(f"[INFO] Initializing the simulator")
 
 

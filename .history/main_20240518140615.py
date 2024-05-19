@@ -12,8 +12,7 @@ print(f"[INFO] Initializing the simulator")
 
 
 def change_config(config: ConfigManager, args:list):
-    for variable in args.keys():
-        value = args[variable]
+    for [variable, value] in args:
         config.set(variable, value)
 
 def run_sim(args:list):
@@ -48,5 +47,5 @@ def run_sim(args:list):
 
 if __name__ == '__main__':
     # cProfile.run('run_sim([])', 'runtime.out')
-    run_sim([]) # run the simulation with default values
+    run_sim() # run the simulation with default values
 

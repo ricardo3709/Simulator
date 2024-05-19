@@ -12,8 +12,7 @@ print(f"[INFO] Initializing the simulator")
 
 
 def change_config(config: ConfigManager, args:list):
-    for variable in args.keys():
-        value = args[variable]
+    for [variable, value] in args:
         config.set(variable, value)
 
 def run_sim(args:list):
@@ -40,9 +39,7 @@ def run_sim(args:list):
     print(f"[INFO] Running simulation with moving average window: {MOVING_AVG_WINDOW}")
     platform = Simulator_Platform(system_initial_time,config)
     platform.run_simulation()
-    end_time = time.time()
-    runtime = end_time - start_time
-    platform.create_report(runtime)
+    platform.create_report()
 
 
 

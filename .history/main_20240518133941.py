@@ -4,20 +4,12 @@ from src.utility.utility_functions import *
 from src.simulator.Simulator_platform import Simulator_Platform
 import cProfile
 from src.simulator.config import ConfigManager
-import time
 # from src.value_function.value_function import ValueFunction
 
 system_initial_time = 0
 print(f"[INFO] Initializing the simulator")
 
-
-def change_config(config: ConfigManager, args:list):
-    for variable in args.keys():
-        value = args[variable]
-        config.set(variable, value)
-
 def run_sim(args:list):
-    start_time = time.time()
     config = ConfigManager()
     change_config(config, args) # change the config based on the args 
 
@@ -40,13 +32,15 @@ def run_sim(args:list):
     print(f"[INFO] Running simulation with moving average window: {MOVING_AVG_WINDOW}")
     platform = Simulator_Platform(system_initial_time,config)
     platform.run_simulation()
-    end_time = time.time()
-    runtime = end_time - start_time
-    platform.create_report(runtime)
+    platform.create_report()
 
 
 
 if __name__ == '__main__':
-    # cProfile.run('run_sim([])', 'runtime.out')
-    run_sim([]) # run the simulation with default values
+    cProfile.run('run_sim([])', 'runtime.out')
 
+
+
+def change_config(config: ConfigManager, args:list):
+    for variable, value in enumerate(args):
+        config.set(variable, value)
