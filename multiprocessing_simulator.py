@@ -1,11 +1,12 @@
 from multiprocessing import Pool
+import multiprocessing
 import cProfile
 from main import run_sim
 import itertools
 
 # Define variable values
 REWARD_THETA = [
-    0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 10.0, 20.0
+    0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 10.0, 20.0, 30.0
 ]
 
 def process_function(thetas):
@@ -14,7 +15,7 @@ def process_function(thetas):
 
 def multi_process_test():
     # The number of times each theta should be processed
-    repetitions = 4
+    repetitions = 10
     
     # Create a new list where each theta is repeated four times
     repeated_thetas = [(theta,) * repetitions for theta in REWARD_THETA]
@@ -23,7 +24,7 @@ def multi_process_test():
     flat_list = [item for sublist in repeated_thetas for item in sublist]
 
     # Number of processes (should match the number of cores or your specific requirement)
-    num_processes = 4
+    num_processes =  multiprocessing.cpu_count()
     
     # Split the flat list into chunks for each process
     # Ensure each process gets exactly one set of the repeated thetas
