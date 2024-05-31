@@ -4,27 +4,33 @@ from main import run_sim
 import itertools
 
 # Define variable values
-REWARD_THETA = [0.25, 0.75, 1.25, 1.75]
-REWARD_TYPE = ['GEN', 'REJ']
-NODE_LAYERS = [1, 2, 3]
-MOVING_AVG_WINDOW = [20, 60, 120]
+REWARD_THETA = [
+    0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 10.0, 20.0
+]
 
-
-# Generate all combinations of the variables
-combinations = list(itertools.product(REWARD_THETA, REWARD_TYPE, NODE_LAYERS, MOVING_AVG_WINDOW))
-
-# Create a list of dictionaries for each test case
-test_cases = [{'REWARD_THETA': t, 'REWARD_TYPE': r, 'NODE_LAYERS': n, 'MOVING_AVG_WINDOW': m}
-              for t, r, n, m in combinations]
-
-def process_function(test_case):
-    run_sim(test_case)  # Adjust if run_sim expects different parameters
-    # Optionally use cProfile here if profiling is necessary
+def process_function(thetas):
+    for theta in thetas:
+        run_sim(theta)
 
 def multi_process_test():
-    # Using a pool of workers equal to the number of cores, 4 cores
-    with Pool(4) as pool:
-        pool.map(process_function, test_cases)
+    # The number of times each theta should be processed
+    repetitions = 4
+    
+    # Create a new list where each theta is repeated four times
+    repeated_thetas = [(theta,) * repetitions for theta in REWARD_THETA]
+    
+    # Flatten the list to pass to Pool
+    flat_list = [item for sublist in repeated_thetas for item in sublist]
+
+    # Number of processes (should match the number of cores or your specific requirement)
+    num_processes = 4
+    
+    # Split the flat list into chunks for each process
+    # Ensure each process gets exactly one set of the repeated thetas
+    theta_chunks = [flat_list[i::num_processes] for i in range(num_processes)]
+    
+    with Pool(num_processes) as pool:
+        pool.map(process_function, theta_chunks)
 
 if __name__ == "__main__":
     multi_process_test()

@@ -12,9 +12,10 @@ print(f"[INFO] Initializing the simulator")
 
 
 def change_config(config: ConfigManager, args:list):
-    for variable in args.keys():
-        value = args[variable]
-        config.set(variable, value)
+    # for variable in args.keys():
+    #     value = args[variable]
+    #     config.set(variable, value)
+    config.set('REWARD_THETA', args)
 
 def run_sim(args:list):
     start_time = time.time()

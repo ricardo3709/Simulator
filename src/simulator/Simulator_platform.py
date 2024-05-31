@@ -57,10 +57,11 @@ class Simulator_Platform(object):
             print(f"[INFO] Requests Initialization finished")
 
             # Initialize the vehicles with uniform initial positions.
-            node_id_uniform = list(range(1,NUM_NODES_MANHATTAN+1,NUM_NODES_MANHATTAN//FLEET_SIZE[0]))
+            # node_id_uniform = list(range(1,NUM_NODES_MANHATTAN+1,NUM_NODES_MANHATTAN//FLEET_SIZE[0]))
             for i in range(FLEET_SIZE[0]):
-                # node_id = np.random.randint(1, NUM_NODES_MANHATTAN+1)
-                self.vehs.append(Veh(i, self.system_time, node_id_uniform[i], VEH_CAPACITY[0]))
+                node_id = np.random.randint(1, NUM_NODES_MANHATTAN+1)
+                # self.vehs.append(Veh(i, self.system_time, node_id_uniform[i], VEH_CAPACITY[0]))
+                self.vehs.append(Veh(i, self.system_time, node_id, VEH_CAPACITY[0]))
             print(f"[INFO] Vehicles Initialization finished")
 
         elif MAP_NAME == 'SmallGrid':
@@ -248,8 +249,8 @@ class Simulator_Platform(object):
         # total_served_reqs = len(self.statistic.served_requests_IDs)
         rejection_rate = self.statistic.total_rejected_requests / len(self.reqs)
         # avg_req_shortest_TT = np.mean([req.Shortest_TT for req in self.reqs])
-        avg_veh_runtime = self.statistic.total_veh_run_time / len(self.vehs)
-        avg_req_runtime = self.statistic.total_veh_run_time / len(self.reqs)
+        # avg_veh_runtime = self.statistic.total_veh_run_time / len(self.vehs)
+        # avg_req_runtime = self.statistic.total_veh_run_time / len(self.reqs)
 
         # wrong_reqs = [req.Req_ID for req in self.reqs if req.Status == OrderStatus.PICKING and req.Req_ID not in self.statistic.served_requests_IDs]
         # self.create_video()
@@ -267,11 +268,12 @@ class Simulator_Platform(object):
         # print(f"Reward Theta: {REWARD_THETA}")
         
         # print(f"Video has been created.")
-        result = {f"REWARD_THETA:{REWARD_THETA},REWARD_TYPE:{REWARD_TYPE}REJECTION_RATE:{rejection_rate},NODE_LAYERS:{NODE_LAYERS},MOVING_AVG_WINDOW:{MOVING_AVG_WINDOW},AVG_VEH_RUNTIME:{avg_veh_runtime},AVG_REQ_RUNTIME:{avg_req_runtime},RUNTIME:{runtime}"}
+        # result = {f"REWARD_THETA:{REWARD_THETA},REWARD_TYPE:{REWARD_TYPE}REJECTION_RATE:{rejection_rate},NODE_LAYERS:{NODE_LAYERS},MOVING_AVG_WINDOW:{MOVING_AVG_WINDOW},AVG_VEH_RUNTIME:{avg_veh_runtime},AVG_REQ_RUNTIME:{avg_req_runtime},RUNTIME:{runtime}"}
+        result = {f"THETA:{REWARD_THETA}, REJ_RATE:{rejection_rate}"}
         self.write_results_to_file(result)
 
     def write_results_to_file(self, results):
-        with open("results.txt", "a") as file:  # Open the file in append mode
+        with open("results_random_init.txt", "a") as file:  # Open the file in append mode
             for result in results:
                 file.write(f"{result}\n")  # Write each result to a new line
 

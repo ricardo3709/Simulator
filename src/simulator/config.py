@@ -12,9 +12,9 @@ class ConfigManager:
     def __init__(self):
         self.settings = {
             "REWARD_THETA": 1.0,
-            "REWARD_TYPE": 'GEN',# or 'REJ'
-            "NODE_LAYERS": 1, # number of layers of rejected rate to consider
-            "MOVING_AVG_WINDOW": 12, # 3mins
+            "REWARD_TYPE": 'REJ',# or 'REJ'
+            "NODE_LAYERS": 2, # number of layers of rejected rate to consider
+            "MOVING_AVG_WINDOW": 20, # 3mins
         }
     def get(self, key):
         return self.settings[key]
