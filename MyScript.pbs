@@ -3,5 +3,5 @@
 #PBS -l select=1:ncpus=1:mem=16GB 
 #PBS -l walltime=10:00:00      
  
-cd "$/project/RDS-FEI-RICARDO_01-RW/Base_Simulator"
+cd "$/project/RDS-FEI-RICARDO_01-RW/Simulator"
 python /multiprocessing_simulator.py
