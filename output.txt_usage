@@ -1,0 +1,330 @@
+-- Job Summary -------------------------------------------------------
+Job Id: 7652216.pbsserver for user xwan0069 in queue small
+Job Name: Ricardo_Simulator
+Project: RDS-FEI-RICARDO_01-RW
+Exit Status: 2
+Job run as chunks (hpc014:ncpus=24:mem=67108864kb)
+Walltime requested:   10:00:00 :      Walltime used:   00:00:00
+                               :   Walltime percent:       0.0%
+-- Nodes Summary -----------------------------------------------------
+-- node hpc014 summary
+    Cpus requested:         24 :          Cpus used:    unknown
+          Cpu Time:    unknown :        Cpu percent:    unknown
+     Mem requested:     64.0GB :           Mem used:    unknown
+                               :        Mem percent:    unknown
+
+-- WARNINGS ----------------------------------------------------------
+
+** Job Exit status > 0.  The job has indicated that it has failed for some
+** reason, which may be related to the analysis or application.
+** It may be worth checking the analysis results to confirm they are sensible.
+** 
+** Low Walltime utilisation.  While this may be normal, it may help to check the
+** following:
+**   Did the job parameters specify more walltime than necessary? Requesting
+**   lower walltime could help your job to start sooner.
+**   Did your analysis complete as expected or did it crash before completing?
+**   Did the application run more quickly than it should have? Is this analysis
+**   the one you intended to run?
+** 
+-- End of Job Summary ------------------------------------------------
+-- Job Summary -------------------------------------------------------
+Job Id: 7652217.pbsserver for user xwan0069 in queue small
+Job Name: Ricardo_Simulator
+Project: RDS-FEI-RICARDO_01-RW
+Exit Status: 1
+Job run as chunks (hpc002:ncpus=24:mem=67108864kb)
+Walltime requested:   10:00:00 :      Walltime used:   00:00:03
+                               :   Walltime percent:       0.0%
+-- Nodes Summary -----------------------------------------------------
+-- node hpc002 summary
+    Cpus requested:         24 :          Cpus used:    unknown
+          Cpu Time:    unknown :        Cpu percent:    unknown
+     Mem requested:     64.0GB :           Mem used:    unknown
+                               :        Mem percent:    unknown
+
+-- WARNINGS ----------------------------------------------------------
+
+** Job Exit status > 0.  The job has indicated that it has failed for some
+** reason, which may be related to the analysis or application.
+** It may be worth checking the analysis results to confirm they are sensible.
+** 
+** Low Walltime utilisation.  While this may be normal, it may help to check the
+** following:
+**   Did the job parameters specify more walltime than necessary? Requesting
+**   lower walltime could help your job to start sooner.
+**   Did your analysis complete as expected or did it crash before completing?
+**   Did the application run more quickly than it should have? Is this analysis
+**   the one you intended to run?
+** 
+-- End of Job Summary ------------------------------------------------
+-- Job Summary -------------------------------------------------------
+Job Id: 7652243.pbsserver for user xwan0069 in queue small
+Job Name: Ricardo_Simulator
+Project: RDS-FEI-RICARDO_01-RW
+Exit Status: 1
+Job run as chunks (hpc002:ncpus=24:mem=67108864kb)
+Walltime requested:   10:00:00 :      Walltime used:   00:00:02
+                               :   Walltime percent:       0.0%
+-- Nodes Summary -----------------------------------------------------
+-- node hpc002 summary
+    Cpus requested:         24 :          Cpus used:    unknown
+          Cpu Time:    unknown :        Cpu percent:    unknown
+     Mem requested:     64.0GB :           Mem used:    unknown
+                               :        Mem percent:    unknown
+
+-- WARNINGS ----------------------------------------------------------
+
+** Job Exit status > 0.  The job has indicated that it has failed for some
+** reason, which may be related to the analysis or application.
+** It may be worth checking the analysis results to confirm they are sensible.
+** 
+** Low Walltime utilisation.  While this may be normal, it may help to check the
+** following:
+**   Did the job parameters specify more walltime than necessary? Requesting
+**   lower walltime could help your job to start sooner.
+**   Did your analysis complete as expected or did it crash before completing?
+**   Did the application run more quickly than it should have? Is this analysis
+**   the one you intended to run?
+** 
+-- End of Job Summary ------------------------------------------------
+-- Job Summary -------------------------------------------------------
+Job Id: 7652245.pbsserver for user xwan0069 in queue small
+Job Name: Ricardo_Simulator
+Project: RDS-FEI-RICARDO_01-RW
+Exit Status: 1
+Job run as chunks (hpc002:ncpus=24:mem=67108864kb)
+Walltime requested:   10:00:00 :      Walltime used:   00:00:01
+                               :   Walltime percent:       0.0%
+-- Nodes Summary -----------------------------------------------------
+-- node hpc002 summary
+    Cpus requested:         24 :          Cpus used:    unknown
+          Cpu Time:    unknown :        Cpu percent:    unknown
+     Mem requested:     64.0GB :           Mem used:    unknown
+                               :        Mem percent:    unknown
+
+-- WARNINGS ----------------------------------------------------------
+
+** Job Exit status > 0.  The job has indicated that it has failed for some
+** reason, which may be related to the analysis or application.
+** It may be worth checking the analysis results to confirm they are sensible.
+** 
+** Low Walltime utilisation.  While this may be normal, it may help to check the
+** following:
+**   Did the job parameters specify more walltime than necessary? Requesting
+**   lower walltime could help your job to start sooner.
+**   Did your analysis complete as expected or did it crash before completing?
+**   Did the application run more quickly than it should have? Is this analysis
+**   the one you intended to run?
+** 
+-- End of Job Summary ------------------------------------------------
+-- Job Summary -------------------------------------------------------
+Job Id: 7652249.pbsserver for user xwan0069 in queue small
+Job Name: Ricardo_Simulator
+Project: RDS-FEI-RICARDO_01-RW
+Exit Status: 1
+Job run as chunks (hpc002:ncpus=24:mem=67108864kb)
+Walltime requested:   10:00:00 :      Walltime used:   00:00:04
+                               :   Walltime percent:       0.0%
+-- Nodes Summary -----------------------------------------------------
+-- node hpc002 summary
+    Cpus requested:         24 :          Cpus used:    unknown
+          Cpu Time:    unknown :        Cpu percent:    unknown
+     Mem requested:     64.0GB :           Mem used:    unknown
+                               :        Mem percent:    unknown
+
+-- WARNINGS ----------------------------------------------------------
+
+** Job Exit status > 0.  The job has indicated that it has failed for some
+** reason, which may be related to the analysis or application.
+** It may be worth checking the analysis results to confirm they are sensible.
+** 
+** Low Walltime utilisation.  While this may be normal, it may help to check the
+** following:
+**   Did the job parameters specify more walltime than necessary? Requesting
+**   lower walltime could help your job to start sooner.
+**   Did your analysis complete as expected or did it crash before completing?
+**   Did the application run more quickly than it should have? Is this analysis
+**   the one you intended to run?
+** 
+-- End of Job Summary ------------------------------------------------
+-- Job Summary -------------------------------------------------------
+Job Id: 7652251.pbsserver for user xwan0069 in queue small
+Job Name: Ricardo_Simulator
+Project: RDS-FEI-RICARDO_01-RW
+Exit Status: 1
+Job run as chunks (hpc035:ncpus=24:mem=67108864kb)
+Walltime requested:   10:00:00 :      Walltime used:   00:00:05
+                               :   Walltime percent:       0.0%
+-- Nodes Summary -----------------------------------------------------
+-- node hpc035 summary
+    Cpus requested:         24 :          Cpus used:    unknown
+          Cpu Time:    unknown :        Cpu percent:    unknown
+     Mem requested:     64.0GB :           Mem used:    unknown
+                               :        Mem percent:    unknown
+
+-- WARNINGS ----------------------------------------------------------
+
+** Job Exit status > 0.  The job has indicated that it has failed for some
+** reason, which may be related to the analysis or application.
+** It may be worth checking the analysis results to confirm they are sensible.
+** 
+** Low Walltime utilisation.  While this may be normal, it may help to check the
+** following:
+**   Did the job parameters specify more walltime than necessary? Requesting
+**   lower walltime could help your job to start sooner.
+**   Did your analysis complete as expected or did it crash before completing?
+**   Did the application run more quickly than it should have? Is this analysis
+**   the one you intended to run?
+** 
+-- End of Job Summary ------------------------------------------------
+-- Job Summary -------------------------------------------------------
+Job Id: 7652348.pbsserver for user xwan0069 in queue small
+Job Name: Ricardo_Simulator
+Project: RDS-FEI-RICARDO_01-RW
+Exit Status: 1
+Job run as chunks (hpc045:ncpus=24:mem=67108864kb)
+Walltime requested:   10:00:00 :      Walltime used:   00:00:05
+                               :   Walltime percent:       0.0%
+-- Nodes Summary -----------------------------------------------------
+-- node hpc045 summary
+    Cpus requested:         24 :          Cpus used:    unknown
+          Cpu Time:    unknown :        Cpu percent:    unknown
+     Mem requested:     64.0GB :           Mem used:    unknown
+                               :        Mem percent:    unknown
+
+-- WARNINGS ----------------------------------------------------------
+
+** Job Exit status > 0.  The job has indicated that it has failed for some
+** reason, which may be related to the analysis or application.
+** It may be worth checking the analysis results to confirm they are sensible.
+** 
+** Low Walltime utilisation.  While this may be normal, it may help to check the
+** following:
+**   Did the job parameters specify more walltime than necessary? Requesting
+**   lower walltime could help your job to start sooner.
+**   Did your analysis complete as expected or did it crash before completing?
+**   Did the application run more quickly than it should have? Is this analysis
+**   the one you intended to run?
+** 
+-- End of Job Summary ------------------------------------------------
+-- Job Summary -------------------------------------------------------
+Job Id: 7652349.pbsserver for user xwan0069 in queue small
+Job Name: Ricardo_Simulator
+Project: RDS-FEI-RICARDO_01-RW
+Exit Status: 2
+Job run as chunks (hpc045:ncpus=24:mem=67108864kb)
+Walltime requested:   10:00:00 :      Walltime used:   00:00:01
+                               :   Walltime percent:       0.0%
+-- Nodes Summary -----------------------------------------------------
+-- node hpc045 summary
+    Cpus requested:         24 :          Cpus used:    unknown
+          Cpu Time:    unknown :        Cpu percent:    unknown
+     Mem requested:     64.0GB :           Mem used:    unknown
+                               :        Mem percent:    unknown
+
+-- WARNINGS ----------------------------------------------------------
+
+** Job Exit status > 0.  The job has indicated that it has failed for some
+** reason, which may be related to the analysis or application.
+** It may be worth checking the analysis results to confirm they are sensible.
+** 
+** Low Walltime utilisation.  While this may be normal, it may help to check the
+** following:
+**   Did the job parameters specify more walltime than necessary? Requesting
+**   lower walltime could help your job to start sooner.
+**   Did your analysis complete as expected or did it crash before completing?
+**   Did the application run more quickly than it should have? Is this analysis
+**   the one you intended to run?
+** 
+-- End of Job Summary ------------------------------------------------
+-- Job Summary -------------------------------------------------------
+Job Id: 7652350.pbsserver for user xwan0069 in queue small
+Job Name: Ricardo_Simulator
+Project: RDS-FEI-RICARDO_01-RW
+Exit Status: 2
+Job run as chunks (hpc046:ncpus=24:mem=67108864kb)
+Walltime requested:   10:00:00 :      Walltime used:   00:00:04
+                               :   Walltime percent:       0.0%
+-- Nodes Summary -----------------------------------------------------
+-- node hpc046 summary
+    Cpus requested:         24 :          Cpus used:    unknown
+          Cpu Time:    unknown :        Cpu percent:    unknown
+     Mem requested:     64.0GB :           Mem used:    unknown
+                               :        Mem percent:    unknown
+
+-- WARNINGS ----------------------------------------------------------
+
+** Job Exit status > 0.  The job has indicated that it has failed for some
+** reason, which may be related to the analysis or application.
+** It may be worth checking the analysis results to confirm they are sensible.
+** 
+** Low Walltime utilisation.  While this may be normal, it may help to check the
+** following:
+**   Did the job parameters specify more walltime than necessary? Requesting
+**   lower walltime could help your job to start sooner.
+**   Did your analysis complete as expected or did it crash before completing?
+**   Did the application run more quickly than it should have? Is this analysis
+**   the one you intended to run?
+** 
+-- End of Job Summary ------------------------------------------------
+-- Job Summary -------------------------------------------------------
+Job Id: 7652351.pbsserver for user xwan0069 in queue small
+Job Name: Ricardo_Simulator
+Project: RDS-FEI-RICARDO_01-RW
+Exit Status: 1
+Job run as chunks (hpc045:ncpus=24:mem=67108864kb)
+Walltime requested:   10:00:00 :      Walltime used:   00:00:03
+                               :   Walltime percent:       0.0%
+-- Nodes Summary -----------------------------------------------------
+-- node hpc045 summary
+    Cpus requested:         24 :          Cpus used:    unknown
+          Cpu Time:    unknown :        Cpu percent:    unknown
+     Mem requested:     64.0GB :           Mem used:    unknown
+                               :        Mem percent:    unknown
+
+-- WARNINGS ----------------------------------------------------------
+
+** Job Exit status > 0.  The job has indicated that it has failed for some
+** reason, which may be related to the analysis or application.
+** It may be worth checking the analysis results to confirm they are sensible.
+** 
+** Low Walltime utilisation.  While this may be normal, it may help to check the
+** following:
+**   Did the job parameters specify more walltime than necessary? Requesting
+**   lower walltime could help your job to start sooner.
+**   Did your analysis complete as expected or did it crash before completing?
+**   Did the application run more quickly than it should have? Is this analysis
+**   the one you intended to run?
+** 
+-- End of Job Summary ------------------------------------------------
+-- Job Summary -------------------------------------------------------
+Job Id: 7652352.pbsserver for user xwan0069 in queue small
+Job Name: Ricardo_Simulator
+Project: RDS-FEI-RICARDO_01-RW
+Exit Status: 2
+Job run as chunks (hpc003:ncpus=24:mem=67108864kb)
+Walltime requested:   10:00:00 :      Walltime used:   00:00:04
+                               :   Walltime percent:       0.0%
+-- Nodes Summary -----------------------------------------------------
+-- node hpc003 summary
+    Cpus requested:         24 :          Cpus used:    unknown
+          Cpu Time:    unknown :        Cpu percent:    unknown
+     Mem requested:     64.0GB :           Mem used:    unknown
+                               :        Mem percent:    unknown
+
+-- WARNINGS ----------------------------------------------------------
+
+** Job Exit status > 0.  The job has indicated that it has failed for some
+** reason, which may be related to the analysis or application.
+** It may be worth checking the analysis results to confirm they are sensible.
+** 
+** Low Walltime utilisation.  While this may be normal, it may help to check the
+** following:
+**   Did the job parameters specify more walltime than necessary? Requesting
+**   lower walltime could help your job to start sooner.
+**   Did your analysis complete as expected or did it crash before completing?
+**   Did the application run more quickly than it should have? Is this analysis
+**   the one you intended to run?
+** 
+-- End of Job Summary ------------------------------------------------

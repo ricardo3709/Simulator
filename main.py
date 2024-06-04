@@ -1,6 +1,6 @@
 
 # start time of initialization
-from src.utility.utility_functions import *
+# from src.utility.utility_functions import *
 from src.simulator.Simulator_platform import Simulator_Platform
 import cProfile
 from src.simulator.config import ConfigManager
