@@ -274,7 +274,7 @@ class Simulator_Platform(object):
         self.write_results_to_file(result)
 
     def write_results_to_file(self, results):
-        with open("results_random_init_10days.txt", "a") as file:  # Open the file in append mode
+        with open("results_random_init.txt", "a") as file:  # Open the file in append mode
             for result in results:
                 file.write(f"{result}\n")  # Write each result to a new line
 
