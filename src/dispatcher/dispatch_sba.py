@@ -46,7 +46,7 @@ def assign_orders_through_sba(current_cycle_requests: List[Req], vehs: List[Veh]
     #     print(f"            +Assigned orders: {num_of_assigned_reqs} ({timer_end(t)})")
 
 
-def compute_candidate_veh_req_pairs(current_cycle_requests: List[Req], vehs:List[Veh], system_time: float) \
+def  compute_candidate_veh_req_pairs(current_cycle_requests: List[Req], vehs:List[Veh], system_time: float) \
         -> List[Tuple[Veh, List[Req], List[Tuple[int, int, int, float]], float, float]]:    
     if DEBUG_PRINT:
         print("                *Computing candidate vehicle order pairs...", end=" ")

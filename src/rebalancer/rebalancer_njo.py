@@ -1,6 +1,6 @@
 from src.simulator.Simulator_platform import *
 from src.rebalancer.rebalancer_ilp_assignment import *
-
+import random
 
 # rebalance vehicles to area of nearst rejected orders
 def rebalancer_njo(reqs: List[Req], vehs: List[Veh], system_time: float):
@@ -12,6 +12,10 @@ def rebalancer_njo(reqs: List[Req], vehs: List[Veh], system_time: float):
     rejected_reqs = [req for req in reqs if req.Status == OrderStatus.REJECTED]
     if len(rejected_reqs) == 0: #no rejected requests
         return
+    
+    if len(rejected_reqs) > 2 * len(avaliable_vehs): #too many rejected requests
+        rejected_reqs = random.sample(rejected_reqs, 2 * len(avaliable_vehs))
+        print(f"    *Too many rejected requests, randomly select {2 * len(avaliable_vehs)} requests to consider")
     
     # 1. Compute all possible veh-req pairs, each indicating that the request can be served by the vehicle.
     candidate_veh_req_pairs, considered_vehs = compute_candidate_veh_req_pairs(rejected_reqs, avaliable_vehs, system_time)

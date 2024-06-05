@@ -74,7 +74,7 @@ MAX_SCHEDULE_LENGTH = 30
 MAX_DELAY_REBALANCE = 10*60 # 10 min
 
 PENALTY = 800.0 #penalty for ignoring a request
-REBALANCER_PENALTY = 800.0 #penalty for ignoring a request in rebalancer
+REBALANCER_PENALTY = 80000.0 #penalty for ignoring a request in rebalancer
 
 # MOVING_AVG_WINDOW = 12 # 3mins
 
