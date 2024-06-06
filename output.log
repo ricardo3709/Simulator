@@ -1,6 +1,6 @@
 [INFO] Route functions are ready. 
 [INFO] Initializing the simulator
-[INFO] Running simulation with reward theta: 0.0
+[INFO] Running simulation with reward theta: 3.0
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
 [INFO] Running simulation with moving average window: 20
@@ -10,261 +10,6 @@
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
 Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-[INFO] Running simulation with reward theta: 0.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-[INFO] Running simulation with reward theta: 1.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-[INFO] Running simulation with reward theta: 0.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-[INFO] Running simulation with reward theta: 0.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-[INFO] Running simulation with reward theta: 0.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-[INFO] Running simulation with reward theta: 0.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-[INFO] Running simulation with reward theta: 0.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-[INFO] Running simulation with reward theta: 1.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-[INFO] Running simulation with reward theta: 0.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-[INFO] Running simulation with reward theta: 0.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-[INFO] Running simulation with reward theta: 0.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-[INFO] Running simulation with reward theta: 0.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-[INFO] Running simulation with reward theta: 0.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-[INFO] Running simulation with reward theta: 0.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-[INFO] Running simulation with reward theta: 0.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-[INFO] Running simulation with reward theta: 0.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-[INFO] Running simulation with reward theta: 0.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-[INFO] Running simulation with reward theta: 0.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-[INFO] Running simulation with reward theta: 0.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-[INFO] Running simulation with reward theta: 0.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-[INFO] Running simulation with reward theta: 0.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-[INFO] Running simulation with reward theta: 1.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-[INFO] Running simulation with reward theta: 1.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Using license file /usr/local/gurobi/9.1.2/gurobi.lic
-Set parameter TokenServer to value gurobi.lic.sydney.edu.au
-Cooling down...
 [INFO] Running simulation with reward theta: 2.0
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
@@ -274,9 +19,119 @@ Cooling down...
 [INFO] Vehicles Initialization finished
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 4.0
-[INFO] Running simulation wCooling down...
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+[INFO] Running simulation with reward theta: 0.5
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+[INFO] Running simulation with reward theta: 1.5
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 1.0
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 1.5
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 10.0
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 0.0
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 0.0
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 3.0
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 5.0
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 0.0
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
 [INFO] Running simulation with reward theta: 2.0
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
@@ -286,17 +141,8 @@ Cooling down...
 [INFO] Vehicles Initialization finished
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 4.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
 [INFO] Running simulation with reward theta: 20.0
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
@@ -306,9 +152,9 @@ Cooling down...
 [INFO] Vehicles Initialization finished
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 2.0
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 0.5
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
 [INFO] Running simulation with moving average window: 20
@@ -317,219 +163,8 @@ Cooling down...
 [INFO] Vehicles Initialization finished
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 4.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 20.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 2.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 4.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 10.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 2.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 5.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulatCooling down...
-[INFO] Running simulation with reward theta: 2.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 4.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 20.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 2.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 4.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 20.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 1.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 4.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 10.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 2.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 5.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulatCooling down...
-[INFO] Running simulation with reward theta: 1.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 4.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 10.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 1.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
 [INFO] Running simulation with reward theta: 3.0
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
@@ -539,166 +174,8 @@ Cooling down...
 [INFO] Vehicles Initialization finished
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 10.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 30.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 1.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 3.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 10.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 30.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node Cooling down...
-[INFO] Running simulation with reward theta: 1.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 3.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 10.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 30.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 1.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 3.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 5.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 30.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 1.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 3.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 5.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node laCooling down...
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
 [INFO] Running simulation with reward theta: 1.0
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
@@ -708,8 +185,9 @@ Cooling down...
 [INFO] Vehicles Initialization finished
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 3.0
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 0.0
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
 [INFO] Running simulation with moving average window: 20
@@ -718,143 +196,8 @@ Cooling down...
 [INFO] Vehicles Initialization finished
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 5.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 30.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 1.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 3.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 5.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 20.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 1.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 2.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 5.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layCooling down...
-[INFO] Running simulation with reward theta: 1.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 2.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 5.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 20.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 1.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
 [INFO] Running simulation with reward theta: 4.0
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
@@ -864,8 +207,9 @@ Cooling down...
 [INFO] Vehicles Initialization finished
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 10.0
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 0.5
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
 [INFO] Running simulation with moving average window: 20
@@ -874,18 +218,8 @@ Cooling down...
 [INFO] Vehicles Initialization finished
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 30.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
 [INFO] Running simulation with reward theta: 1.0
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
@@ -895,61 +229,8 @@ Cooling down...
 [INFO] Vehicles Initialization finished
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 3.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 5.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node laCooling down...
-[INFO] Running simulation with reward theta: 1.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 3.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 5.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 30.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
 [INFO] Running simulation with reward theta: 1.5
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
@@ -959,7 +240,8 @@ Cooling down...
 [INFO] Vehicles Initialization finished
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
-Cooling down...
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
 [INFO] Running simulation with reward theta: 3.0
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
@@ -969,38 +251,8 @@ Cooling down...
 [INFO] Vehicles Initialization finished
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 10.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-[INFO] Running simulation with reward theta: 30.0
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
-Cooling down...
-[INFO] Running simulation with reward theta: 1.5
-[INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node layers: 2
-[INFO] Running simulation with moving average window: 20
-[INFO] Loading ManhattanData...
-[INFO] Requests Initialization finished
-[INFO] Vehicles Initialization finished
-[INFO] Heuristic method is enabled.
-[INFO] Platform is ready. 
-Cooling down...
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
 [INFO] Running simulation with reward theta: 4.0
 [INFO] Running simulation with reward type: REJ
 [INFO] Running simulation with node layers: 2
@@ -1010,7 +262,93 @@ Cooling down...
 [INFO] Vehicles Initialization finished
 [INFO] Heuristic method is enabled.
 [INFO] Platform is ready. 
-Cooling down...
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 4.0
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 4.0
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 5.0
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
 [INFO] Running simulation with reward theta: 10.0
 [INFO] Running simulation with reward type: REJ
-[INFO] Running simulation with node l
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 3.0
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 5.0
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 0.5
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
+[INFO] Running simulation with reward theta: 1.5
+[INFO] Running simulation with reward type: REJ
+[INFO] Running simulation with node layers: 2
+[INFO] Running simulation with moving average window: 20
+[INFO] Loading ManhattanData...
+[INFO] Requests Initialization finished
+[INFO] Vehicles Initialization finished
+[INFO] Heuristic method is enabled.
+[INFO] Platform is ready. 
+Using license file /usr/local/gurobi/9.1.2/gurobi.lic
+Set parameter TokenServer to value gurobi.lic.sydney.edu.au
