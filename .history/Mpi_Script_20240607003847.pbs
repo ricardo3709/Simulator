@@ -1,0 +1,11 @@
+#PBS -l select=5:ncpus=16:mpiprocs=16:mem=4GB
+#PBS -l walltime=10:00:00
+#PBS -N MPI_Ricardo_Simulator
+#PBS -m abe
+#PBS -M xwan0069@uni.sydney.edu.au
+#PBS -o /project/RDS-FEI-RICARDO_01-RW/Simulator/output.txt
+#PBS -e /project/RDS-FEI-RICARDO_01-RW/Simulator/error.txt
+
+module load mpi
+cd /project/RDS-FEI-RICARDO_01-RW/Simulator
+mpirun -np 80 python multiprocessing_simulator.py
