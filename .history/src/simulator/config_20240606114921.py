@@ -102,6 +102,6 @@ DEBUG_PRINT = False
 
 # for Manhattan-data
 SIMULATION_DURATION = 3600*10
-TIME_STEP = 15 # 15 seconds
+TIME_STEP = 10 # 15 seconds
 COOL_DOWN_DURATION = 0 
 

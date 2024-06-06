@@ -287,12 +287,10 @@ def get_extra_delay_and_detour(schedule: list, veh: Veh, req_pair_dict: dict, PU
                         # if req_pair_dict[req_id][0][0] > DO_position: # PU of this req is after NEW_DO
                         #     continue # no extra detour for this DO node, entire trip is after finishing the new req
                         else: # PU of this req is before NEW_DO
-                            if req_pair_dict[req_id][0][0] < PU_position: # PU of this req is before NEW_PU
-                                extra_detour += extra_delay_NEWPU + extra_delay_NEWDO 
-                            elif req_pair_dict[req_id][0][0] > PU_position and req_pair_dict[req_id][0][0] < DO_position: # PU of this req is after NEW_PU before NEW_DO
+                            if req_pair_dict[req_id][0][0] > DO_position: # PU of this req is after NEW_DO
+                                extra_detour += extra_delay_NEWPU + extra_delay_NEWDO
+                            else: # PU of this req is before NEW_DO
                                 extra_detour += extra_delay_NEWDO
-                            else: # PU of this req is after NEW_DO
-                                continue # no extra detour for this DO node, entire trip is after finishing the new req
 
     return extra_delay, extra_detour
 

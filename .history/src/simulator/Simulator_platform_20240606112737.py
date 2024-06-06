@@ -248,7 +248,7 @@ class Simulator_Platform(object):
             self.statistic.served_requests_IDs.extend(veh.served_req_IDs)
         
         # total_served_reqs = len(self.statistic.served_requests_IDs)
-        rejection_rate = self.statistic.total_rejected_requests /(self.statistic.total_rejected_requests + self.statistic.total_picked_requests) 
+        rejection_rate = self.statistic.total_rejected_requests / (len(self.reqs) - self.statistic.total_pending_requests)
         # avg_req_shortest_TT = np.mean([req.Shortest_TT for req in self.reqs])
         # avg_veh_runtime = self.statistic.total_veh_run_time / len(self.vehs)
         # avg_req_runtime = self.statistic.total_veh_run_time / len(self.reqs)

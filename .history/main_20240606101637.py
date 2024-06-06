@@ -12,10 +12,10 @@ print(f"[INFO] Initializing the simulator")
 
 
 def change_config(config: ConfigManager, args:list):
-    # for variable in args.keys():
-    #     value = args[variable]
-    #     config.set(variable, value)
-    config.set('REWARD_THETA', args)
+    for variable in args.keys():
+        value = args[variable]
+        config.set(variable, value)
+    # config.set('REWARD_THETA', args)
 
 def run_sim(args:list):
     start_time = time.time()
@@ -50,6 +50,6 @@ def run_sim(args:list):
 if __name__ == '__main__':
     # cProfile.run('run_sim([])', 'runtime.out')
     args = {'REWARD_THETA': 1.0, 'REWARD_TYPE': 'REJ', 'NODE_LAYERS': 2, 'MOVING_AVG_WINDOW': 20}
-    # cProfile.run('run_sim(args)', 'runtime.out')
-    run_sim(args) # run the simulation with default values
+    cProfile.run('run_sim(args)', 'runtime.out')
+    # run_sim(args) # run the simulation with default values
 
