@@ -14,7 +14,7 @@ class ConfigManager:
             "REWARD_THETA": 1.0,
             "REWARD_TYPE": 'REJ',# or 'REJ'
             "NODE_LAYERS": 2, # number of layers of rejected rate to consider
-            "MOVING_AVG_WINDOW": 40, # 10mins
+            "MOVING_AVG_WINDOW": 120, # 30mins
         }
     def get(self, key):
         return self.settings[key]
