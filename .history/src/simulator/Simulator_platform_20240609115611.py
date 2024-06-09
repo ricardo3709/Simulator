@@ -38,19 +38,12 @@ class Simulator_Platform(object):
         self.total_time_step = SIMULATION_DURATION // TIME_STEP
         self.accumulated_request = []
         self.rejected_reqs = []
-        self.rej_rate_by_5mins_accumulated = []
-
-        # self.node_lookup_table = pd.read_csv(PATH_MANHATTAN_NODES_LOOKUP_TABLE)
-        # self.area_ids = self.node_lookup_table['zone_id'].unique().astype(int)
-        
         # Use deque to achieve moving average. 12 means 3 minutes
         MOVING_AVG_WINDOW = self.config.get("MOVING_AVG_WINDOW")    
-        # self.num_of_generate_req_for_nodes_dict_movingAvg = {i: deque(maxlen=MOVING_AVG_WINDOW) for i in range(1, NUM_NODES_MANHATTAN+1)} # {node_id: generate_req} used in reward calculation
-        self.num_of_generate_req_for_areas_dict_movingAvg = {i: deque(maxlen=MOVING_AVG_WINDOW) for i in AREA_IDS} # {node_id: generate_req} used in reward calculation
-        # self.num_of_rejected_req_for_nodes_dict_movingAvg = {i: deque(maxlen=MOVING_AVG_WINDOW) for i in range(1, NUM_NODES_MANHATTAN+1)} # {node_id: rejected_req} used in reward calculation
-        self.num_of_rejected_req_for_areas_dict_movingAvg = {i: deque(maxlen=MOVING_AVG_WINDOW) for i in AREA_IDS} # {node_id: rejected_req} used in reward calculation
+        self.num_of_generate_req_for_nodes_dict_movingAvg = {i: deque(maxlen=MOVING_AVG_WINDOW) for i in range(1, NUM_NODES_MANHATTAN+1)} # {node_id: generate_req} used in reward calculation
+        self.num_of_rejected_req_for_nodes_dict_movingAvg = {i: deque(maxlen=MOVING_AVG_WINDOW) for i in range(1, NUM_NODES_MANHATTAN+1)} # {node_id: rejected_req} used in reward calculation
 
-        
+        self.node_lookup_table = pd.read_csv(PATH_MANHATTAN_NODES_LOOKUP_TABLE)
         # Initialize the fleet with random initial positions.
         self.vehs = []
         # Initialize the demand generator.
@@ -122,9 +115,6 @@ class Simulator_Platform(object):
                 print("Cooling down...")
                 cool_down_flag = False
             self.run_cycle(cool_down_flag)
-            if current_time_step % 20 == 0: #record rej_rate every 20 steps(5 mins)
-                accumulated_rej_rate = self.statistic.total_rejected_requests / (self.statistic.total_rejected_requests + self.statistic.total_picked_requests)
-                self.rej_rate_by_5mins_accumulated.append(accumulated_rej_rate)
             # self.statistic.all_veh_position_series.append(self.get_all_veh_positions())
         
 
@@ -149,7 +139,7 @@ class Simulator_Platform(object):
         # 3. Assign pending orders to vehicles.
         # availiable_vehicels = self.get_availiable_vehicels() #Not making sense. Should consider all vehicles. current full vehicles can be not full in the next cycle
         if self.dispatcher == DispatcherMethod.SBA:
-            assign_orders_through_sba(self.accumulated_request, self.vehs, self.system_time, self.num_of_rejected_req_for_areas_dict_movingAvg, self.num_of_generate_req_for_areas_dict_movingAvg, self.config)
+            assign_orders_through_sba(self.accumulated_request, self.vehs, self.system_time, self.num_of_rejected_req_for_nodes_dict_movingAvg, self.num_of_generate_req_for_nodes_dict_movingAvg, self.config)
       
         # 4. Reposition idle vehicles to high demand areas.
         if self.rebalancer == RebalancerMethod.NJO:
@@ -208,7 +198,7 @@ class Simulator_Platform(object):
         current_cycle_requests = []
 
         if REWARD_TYPE == 'GEN':
-            gen_reqs_per_areas_dict = {i: 0 for i in AREA_IDS} # {node_id: num_gen_req} used in reward calculation
+            gen_reqs_per_nodes_dict = {i: 0 for i in range(1, NUM_NODES_MANHATTAN+1)} # {node_id: num_gen_req} used in reward calculation
         
         for req in self.reqs:
             #EXP: to make it faster. Assume the requests are sorted by Req_time    
@@ -218,13 +208,16 @@ class Simulator_Platform(object):
             elif current_time - TIME_STEP <= req.Req_time:
                 current_cycle_requests.append(req)
                 if REWARD_TYPE == 'GEN':
-                    area_id = map_node_to_area(req.Ori_id) #map node to area
-                    gen_reqs_per_areas_dict[area_id] += 1 #increment the number of generated requests for the node
+                    gen_reqs_per_nodes_dict[req.Ori_id] += 1 #increment the number of generated requests for the node
         
         if REWARD_TYPE == 'GEN':
             # update the number of generated requests for each node
-            for area_id in gen_reqs_per_areas_dict.keys():
-                self.num_of_generate_req_for_areas_dict_movingAvg[area_id].append(gen_reqs_per_areas_dict[area_id])
+            for node_id in range(1,NUM_NODES_MANHATTAN+1):
+                if node_id in gen_reqs_per_nodes_dict.keys():
+                    self.num_of_generate_req_for_nodes_dict_movingAvg[node_id].append(gen_reqs_per_nodes_dict[node_id])
+                else:
+                    self.num_of_generate_req_for_nodes_dict_movingAvg[node_id].append(0)
+            
                 
         return current_cycle_requests
 
@@ -238,9 +231,9 @@ class Simulator_Platform(object):
         #     veh_positions.append(veh.current_node)
         return veh_positions
     
-    # def map_node_to_area(self, node_id):
-    #     area_id = self.node_lookup_table[self.node_lookup_table['node_id'] == node_id]['zone_id'].values[0]
-    #     return area_id
+    def map_node_to_area(self, node_id):
+        area_id = self.node_lookup_table[self.node_lookup_table['node_id'] == node_id]['zone_id'].values[0]
+        return area_id
     
     def create_report(self,runtime):
         REWARD_THETA = self.config.get("REWARD_THETA")
@@ -283,33 +276,12 @@ class Simulator_Platform(object):
         # print(f"Video has been created.")
         # result = {f"REWARD_THETA:{REWARD_THETA},REWARD_TYPE:{REWARD_TYPE}REJECTION_RATE:{rejection_rate},NODE_LAYERS:{NODE_LAYERS},MOVING_AVG_WINDOW:{MOVING_AVG_WINDOW},AVG_VEH_RUNTIME:{avg_veh_runtime},AVG_REQ_RUNTIME:{avg_req_runtime},RUNTIME:{runtime}"}
         result = {f"THETA:{REWARD_THETA}, REJ_RATE:{rejection_rate}"}
-        self.write_theta_rej_results_to_file(result)
-        self.write_accumulated_rej_rate_to_file(REWARD_THETA, self.rej_rate_by_5mins_accumulated)
+        self.write_results_to_file(result)
 
-    def write_theta_rej_results_to_file(self, results):
-        file_name = "results_random_init_5days_309penalty_byarea.txt"
-        # path = os.path.join(os.getcwd(), "results/theta_rej_rate", file_name)
-        directory = os.path.join(os.getcwd(), "results/theta_rej_rate")
-        # 确保目录存在
-        os.makedirs(directory, exist_ok=True)
-        path = os.path.join(directory, file_name)
-        with open(path, "a") as file:  # Open the file in append mode
+    def write_results_to_file(self, results):
+        with open("results_random_init_5days_309penalty.txt", "a") as file:  # Open the file in append mode
             for result in results:
                 file.write(f"{result}\n")  # Write each result to a new line
-
-    def write_accumulated_rej_rate_to_file(self, theta, rej_rate_by_5mins_accumulated):
-        directory = os.path.join(os.getcwd(), "results/rej_rate_accumulated")
-        # 确保结果目录存在
-        os.makedirs(directory, exist_ok=True)
-
-        file_name = f"rej_rate_by_5mins_accumulated_theta_{theta}.txt"
-        path = os.path.join(directory, file_name)
-        try:
-            with open(path, "a") as file:
-                file.write(f"{rej_rate_by_5mins_accumulated}\n")
-            self.logger.info(f"Data written to {path}")
-        except Exception as e:
-            self.logger.error(f"Failed to write to file {path}: {e}")
 
     def mapping_node_to_coordinate(self, node_id):
         map_width = 10 #adjust as needed

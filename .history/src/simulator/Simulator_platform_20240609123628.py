@@ -283,33 +283,14 @@ class Simulator_Platform(object):
         # print(f"Video has been created.")
         # result = {f"REWARD_THETA:{REWARD_THETA},REWARD_TYPE:{REWARD_TYPE}REJECTION_RATE:{rejection_rate},NODE_LAYERS:{NODE_LAYERS},MOVING_AVG_WINDOW:{MOVING_AVG_WINDOW},AVG_VEH_RUNTIME:{avg_veh_runtime},AVG_REQ_RUNTIME:{avg_req_runtime},RUNTIME:{runtime}"}
         result = {f"THETA:{REWARD_THETA}, REJ_RATE:{rejection_rate}"}
-        self.write_theta_rej_results_to_file(result)
-        self.write_accumulated_rej_rate_to_file(REWARD_THETA, self.rej_rate_by_5mins_accumulated)
+        self.write_results_to_file(result)
 
-    def write_theta_rej_results_to_file(self, results):
+    def write_results_to_file(self, results):
         file_name = "results_random_init_5days_309penalty_byarea.txt"
-        # path = os.path.join(os.getcwd(), "results/theta_rej_rate", file_name)
-        directory = os.path.join(os.getcwd(), "results/theta_rej_rate")
-        # 确保目录存在
-        os.makedirs(directory, exist_ok=True)
-        path = os.path.join(directory, file_name)
+        path = os.path.join(os.getcwd(), "results/theta_rej_rate", file_name)
         with open(path, "a") as file:  # Open the file in append mode
             for result in results:
                 file.write(f"{result}\n")  # Write each result to a new line
-
-    def write_accumulated_rej_rate_to_file(self, theta, rej_rate_by_5mins_accumulated):
-        directory = os.path.join(os.getcwd(), "results/rej_rate_accumulated")
-        # 确保结果目录存在
-        os.makedirs(directory, exist_ok=True)
-
-        file_name = f"rej_rate_by_5mins_accumulated_theta_{theta}.txt"
-        path = os.path.join(directory, file_name)
-        try:
-            with open(path, "a") as file:
-                file.write(f"{rej_rate_by_5mins_accumulated}\n")
-            self.logger.info(f"Data written to {path}")
-        except Exception as e:
-            self.logger.error(f"Failed to write to file {path}: {e}")
 
     def mapping_node_to_coordinate(self, node_id):
         map_width = 10 #adjust as needed

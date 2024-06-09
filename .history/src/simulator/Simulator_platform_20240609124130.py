@@ -292,6 +292,7 @@ class Simulator_Platform(object):
         directory = os.path.join(os.getcwd(), "results/theta_rej_rate")
         # 确保目录存在
         os.makedirs(directory, exist_ok=True)
+
         path = os.path.join(directory, file_name)
         with open(path, "a") as file:  # Open the file in append mode
             for result in results:

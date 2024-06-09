@@ -3,7 +3,6 @@ constants are found here
 """
 import pickle
 import os
-import pandas as pd
 from dateutil.parser import parse
 ##################################################################################
 # Changable Attributes
@@ -47,9 +46,6 @@ PATH_COMBINED_REQUESTS = f"{ROOT_PATH}/NYC/NYC_Andres_data/combined_file.csv"
 PATH_MANHATTAN_NODES_LOOKUP_TABLE = f"{ROOT_PATH}/NYC/NYC_Andres_data/NYC_Manhattan_Nodes_Lookup_Table.csv"
 
 NUM_NODES_MANHATTAN = 4091
-
-node_lookup_table = pd.read_csv(PATH_MANHATTAN_NODES_LOOKUP_TABLE)
-AREA_IDS = node_lookup_table['zone_id'].unique().astype(int)
 
 ##################################################################################
 # Mod System Config
