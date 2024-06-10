@@ -6,7 +6,6 @@
 *.zip
 *.parquet
 *.txt
-*.log
 *.pyc
 MPI_Ricardo_Simulator*
 Ricardo_Simulator*
