@@ -9,13 +9,14 @@ def rebalancer_njo(reqs: List[Req], vehs: List[Veh], system_time: float):
     # get idle and rebalancing vehicles
     avaliable_vehs = [veh for veh in vehs if veh.status == VehicleStatus.IDLE or veh.status == VehicleStatus.REBALANCING]
     # get rejected requests
-    rejected_reqs = [req for req in reqs if req.Status == OrderStatus.REJECTED and req.Req_time > system_time - MAX_REBALANCE_CONSIDER]
+    rejected_reqs = [req for req in reqs if req.Status == OrderStatus.REJECTED]
+    rejected_reqs = [req for req in rejected_reqs if req.Req_time > system_time - MAX_DELAY_REBALANCE]
     if len(rejected_reqs) == 0: #no rejected requests
         return
     
-    # if len(rejected_reqs) > 2 * len(avaliable_vehs): #too many rejected requests
-    #     rejected_reqs = random.sample(rejected_reqs, 2 * len(avaliable_vehs))
-    #     print(f"    *Too many rejected requests, randomly select {2 * len(avaliable_vehs)} requests to consider")
+    if len(rejected_reqs) > 2 * len(avaliable_vehs): #too many rejected requests
+        rejected_reqs = random.sample(rejected_reqs, 2 * len(avaliable_vehs))
+        print(f"    *Too many rejected requests, randomly select {2 * len(avaliable_vehs)} requests to consider")
     
     # 1. Compute all possible veh-req pairs, each indicating that the request can be served by the vehicle.
     candidate_veh_req_pairs, considered_vehs = compute_candidate_veh_req_pairs(rejected_reqs, avaliable_vehs, system_time)

@@ -15,7 +15,7 @@ class ConfigManager:
             "REWARD_THETA": 1.0,
             "REWARD_TYPE": 'REJ',# or 'REJ'
             "NODE_LAYERS": 2, # number of layers of rejected rate to consider
-            "MOVING_AVG_WINDOW": 20, # 5mins
+            "MOVING_AVG_WINDOW": 120, # 30mins
         }
     def get(self, key):
         return self.settings[key]
@@ -77,7 +77,6 @@ MAX_NUM_VEHICLES_TO_CONSIDER = 20
 MAX_SCHEDULE_LENGTH = 30
 
 MAX_DELAY_REBALANCE = 30*60 # 30 min
-MAX_REBALANCE_CONSIDER = 60*60 # 60 min
 
 PENALTY = 3.09 #penalty for ignoring a request. try low value.
 REBALANCER_PENALTY = 80000.0 #penalty for ignoring a request in rebalancer. rebalancer should always accept a request
@@ -107,7 +106,7 @@ DEBUG_PRINT = False
 # PENALTY = 5.0 #penalty for ignoring a request
 
 # for Manhattan-data
-SIMULATION_DURATION = 3600*2
+SIMULATION_DURATION = 3600*10
 TIME_STEP = 15 # 15 seconds
 COOL_DOWN_DURATION = 0 
 

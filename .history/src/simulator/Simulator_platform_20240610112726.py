@@ -307,9 +307,7 @@ class Simulator_Platform(object):
         self.write_accumulated_rej_rate_to_file(REWARD_THETA, self.rej_rate_by_5mins_accumulated)
 
     def write_theta_rej_results_to_file(self, results):
-        MOVING_AVG_WINDOW = self.config.get("MOVING_AVG_WINDOW")
-        # file_name = "results_random_init_5days_309penalty_byarea.txt"
-        file_name = f"penalty_{PENALTY}_window_{MOVING_AVG_WINDOW}.txt"
+        file_name = "results_random_init_5days_309penalty_byarea.txt"
         # path = os.path.join(os.getcwd(), "results/theta_rej_rate", file_name)
         directory = os.path.join(os.getcwd(), "results/theta_rej_rate")
         # 确保目录存在
@@ -326,7 +324,7 @@ class Simulator_Platform(object):
         os.makedirs(directory, exist_ok=True)
 
         # file_name = f"rej_rate_by_5mins_accumulated_theta_{theta}.txt"
-        file_name = f"theta_{theta}_penalty_{PENALTY}_window_{MOVING_AVG_WINDOW}.txt"
+        file_name = f"penalty_{PENALTY}_window_{MOVING_AVG_WINDOW}.txt"
         path = os.path.join(directory, file_name)
         try:
             with open(path, "a") as file:
