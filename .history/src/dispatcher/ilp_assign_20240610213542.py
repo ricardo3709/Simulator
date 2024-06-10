@@ -305,12 +305,9 @@ def reward_function(new_schedule: list, veh: Veh, num_of_rejected_req_for_areas_
     area_id = map_node_to_area(last_node[0])
 
     # scale reward to [0,1]
-    total_reward = sum(sum(d) for d in num_of_rejected_req_for_areas_dict_movingAvg.values())
-    reward = sum(num_of_rejected_req_for_areas_dict_movingAvg[area_id])
-    if total_reward == 0:
-        scaled_reward = 0.0
-    else:
-        scaled_reward = float(reward/total_reward)
+    total_reward = np.sum(num_of_rejected_req_for_areas_dict_movingAvg)
+    reward = np.sum(num_of_rejected_req_for_areas_dict_movingAvg[area_id])
+    scaled_reward = float(reward/total_reward)
 
     # Basic Reward Calculation
     # if REWARD_TYPE == 'REJ':
