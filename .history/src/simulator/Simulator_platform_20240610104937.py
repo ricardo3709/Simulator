@@ -130,7 +130,25 @@ class Simulator_Platform(object):
                     accumulated_rej_rate = rej_num / (rej_num + served_num)
                 self.rej_rate_by_5mins_accumulated.append(accumulated_rej_rate)
             # self.statistic.all_veh_position_series.append(self.get_all_veh_positions())
-    
+        
+
+    def update_rej_serve_to_time(self):
+        rej_num = 0
+        served_num = 0
+        pending_counter = 0
+        for req in self.reqs:
+            if req.Status == OrderStatus.REJECTED or req.Status == OrderStatus.REJECTED_REBALANCED:
+                rej_num += 1
+                pending_counter = 0
+            elif req.Status == OrderStatus.PICKING:
+                served_num += 1
+                pending_counter = 0
+            else:
+                req.Status = OrderStatus.PENDING #if consecutive 10 pending requests, break
+                pending_counter += 1
+                if pending_counter > 10:
+                    break
+        return rej_num, served_num
 
     def run_cycle(self, cool_down_flag):
         # 1. Update the vehicles' positions
@@ -243,24 +261,6 @@ class Simulator_Platform(object):
     # def map_node_to_area(self, node_id):
     #     area_id = self.node_lookup_table[self.node_lookup_table['node_id'] == node_id]['zone_id'].values[0]
     #     return area_id
-    
-    def update_rej_serve_to_time(self):
-        rej_num = 0
-        served_num = 0
-        pending_counter = 0
-        for req in self.reqs:
-            if req.Status == OrderStatus.REJECTED or req.Status == OrderStatus.REJECTED_REBALANCED:
-                rej_num += 1
-                pending_counter = 0
-            elif req.Status == OrderStatus.PICKING:
-                served_num += 1
-                pending_counter = 0
-            else:
-                req.Status = OrderStatus.PENDING #if consecutive 10 pending requests, break
-                pending_counter += 1
-                if pending_counter > 10:
-                    break
-        return rej_num, served_num
     
     def create_report(self,runtime):
         REWARD_THETA = self.config.get("REWARD_THETA")
