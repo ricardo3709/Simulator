@@ -39,7 +39,6 @@ def compute_candidate_veh_req_pairs(reqs: List[Req], vehs:List[Veh], system_time
     # Each veh_req_pair = [veh, trip, sche, cost, score]
     candidate_veh_req_pairs = []
     considered_vehs = []
-    # if HEURISTIC_ENABLE: 
     if False: 
     # 1. Compute all veh-req pairs for new received requests.
         for req in reqs:
@@ -62,17 +61,17 @@ def compute_candidate_veh_req_pairs(reqs: List[Req], vehs:List[Veh], system_time
             available_veh = [available_veh[0] for available_veh in available_veh]
             considered_vehs.extend(available_veh)    
     
-            # All other vehicles are able to serve current request, find best schedule for each vehicle.
-            for veh in available_veh:
-                best_sche, cost = compute_schedule(veh, req)
-                candidate_veh_req_pairs.append([veh, req, best_sche, cost, 0.0]) #vt_pair = [veh, trip, sche, cost, score]
-    else:
-        considered_vehs = vehs
+    else: 
         for req in reqs:
-            for veh in vehs:
-                best_sche, cost = compute_schedule(veh, req)
-                candidate_veh_req_pairs.append([veh, req, best_sche, cost, 0.0]) #vt_pair = [veh, trip, sche, cost, score]
-            
+            available_veh = vehs
+            if len(available_veh) == 0:
+                continue
+
+    # All other vehicles are able to serve current request, find best schedule for each vehicle.
+    for veh in available_veh:
+        best_sche, cost = compute_schedule(veh, req)
+        candidate_veh_req_pairs.append([veh, req, best_sche, cost, 0.0]) #vt_pair = [veh, trip, sche, cost, score]
+
     return candidate_veh_req_pairs, considered_vehs
 
 def compute_schedule(veh: Veh, req: Req):
