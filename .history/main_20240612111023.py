@@ -12,10 +12,10 @@ print(f"[INFO] Initializing the simulator")
 
 
 def change_config(config: ConfigManager, args:list):
-    # for variable in args.keys():
-    #     value = args[variable]
-    #     config.set(variable, value)
-    config.set('TOGGLE_THETA_VALUE', args)
+    for variable in args.keys():
+        value = args[variable]
+        config.set(variable, value)
+    # config.set('REWARD_THETA', args)
 
 def run_sim(args:list):
     start_time = time.time()
@@ -23,7 +23,6 @@ def run_sim(args:list):
     change_config(config, args) # change the config based on the args 
 
     REWARD_THETA = config.get('REWARD_THETA')
-    TOGGLE_THETA_VALUE = config.get('TOGGLE_THETA_VALUE')
     REWARD_TYPE = config.get('REWARD_TYPE')
     NODE_LAYERS = config.get('NODE_LAYERS')
     MOVING_AVG_WINDOW = config.get('MOVING_AVG_WINDOW')
@@ -37,7 +36,6 @@ def run_sim(args:list):
     # print(f"[INFO] Running simulation with MAX_NUM_VEHICLES_TO_CONSIDER: {MAX_NUM_VEHICLES_TO_CONSIDER}")
     # print(f"[INFO] Running simulation with MAX_SCHEDULE_LENGTH: {MAX_SCHEDULE_LENGTH}")
     print(f"[INFO] Running simulation with reward theta: {REWARD_THETA}")
-    print(f"[INFO] Running simulation with toggle theta value: {TOGGLE_THETA_VALUE}")
     print(f"[INFO] Running simulation with reward type: {REWARD_TYPE}")
     print(f"[INFO] Running simulation with node layers: {NODE_LAYERS}")
     print(f"[INFO] Running simulation with moving average window: {MOVING_AVG_WINDOW}")
@@ -51,7 +49,7 @@ def run_sim(args:list):
 
 if __name__ == '__main__':
     # cProfile.run('run_sim([])', 'runtime.out')
-    args = {'REWARD_THETA': 0.0, 'REWARD_TYPE': 'REJ', 'NODE_LAYERS': 2, 'MOVING_AVG_WINDOW': 120}
+    args = {'REWARD_THETA': 0.05, 'REWARD_TYPE': 'REJ', 'NODE_LAYERS': 2, 'MOVING_AVG_WINDOW': 120}
     # cProfile.run('run_sim(args)', 'runtime.out')
     run_sim(args) # run the simulation with default values
 

@@ -116,23 +116,13 @@ class Simulator_Platform(object):
         simulation_end_step = int(self.total_time_step)+1  
         cool_down_step = int(COOL_DOWN_DURATION // TIME_STEP)
         cool_down_flag = True
-        toggle_start_flag = True
-        toggle_end_flag = True
-        TOGGLE_THETA_VALUE = self.config.get("TOGGLE_THETA_VALUE")
         for current_time_step in tqdm(range(max(int(self.start_time//TIME_STEP),1), simulation_end_step + cool_down_step, 1), desc=f"Ricardo's Simulator"):
             self.system_time = current_time_step * TIME_STEP
             if cool_down_flag and current_time_step > simulation_end_step:
                 print("Cooling down...")
                 cool_down_flag = False
             if TOGGLE_THETA:
-                if self.system_time >= TOGGLE_START_TIME and toggle_start_flag:
-                    self.config.set("REWARD_THETA", TOGGLE_THETA_VALUE)
-                    print(f"Theta value has been changed to {TOGGLE_THETA_VALUE} at time {self.system_time}")
-                    toggle_start_flag = False
-                if self.system_time >= TOGGLE_END_TIME and toggle_end_flag:
-                    self.config.set("REWARD_THETA", 0.0)
-                    print(f"Theta value has been changed to {0.0} at time {self.system_time}")
-                    toggle_end_flag = False
+                
             self.run_cycle(cool_down_flag)
             if current_time_step % 20 == 0: #record rej_rate every 20 steps(5 mins)
                 rej_num, served_num = self.update_rej_serve_to_time()
@@ -334,14 +324,13 @@ class Simulator_Platform(object):
 
     def write_accumulated_rej_rate_to_file(self, theta, rej_rate_by_5mins_accumulated):
         MOVING_AVG_WINDOW = self.config.get("MOVING_AVG_WINDOW")
-        TOGGLE_THETA_VALUE = self.config.get("TOGGLE_THETA_VALUE")
         duration = int(SIMULATION_DURATION/3600)
         directory = os.path.join(os.getcwd(), "results/rej_rate_accumulated")
         # 确保结果目录存在
         os.makedirs(directory, exist_ok=True)
 
         # file_name = f"rej_rate_by_5mins_accumulated_theta_{theta}.txt"
-        file_name = f"theta_{theta}_{TOGGLE_THETA_VALUE}_penalty_{PENALTY}_window_{MOVING_AVG_WINDOW}_{duration}hours.txt"
+        file_name = f"theta_{theta}_penalty_{PENALTY}_window_{MOVING_AVG_WINDOW}_{duration}hours.txt"
         path = os.path.join(directory, file_name)
         with open(path, "a") as file:
             file.write(f"{rej_rate_by_5mins_accumulated}\n")

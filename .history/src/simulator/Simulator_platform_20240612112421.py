@@ -118,7 +118,6 @@ class Simulator_Platform(object):
         cool_down_flag = True
         toggle_start_flag = True
         toggle_end_flag = True
-        TOGGLE_THETA_VALUE = self.config.get("TOGGLE_THETA_VALUE")
         for current_time_step in tqdm(range(max(int(self.start_time//TIME_STEP),1), simulation_end_step + cool_down_step, 1), desc=f"Ricardo's Simulator"):
             self.system_time = current_time_step * TIME_STEP
             if cool_down_flag and current_time_step > simulation_end_step:
@@ -334,14 +333,13 @@ class Simulator_Platform(object):
 
     def write_accumulated_rej_rate_to_file(self, theta, rej_rate_by_5mins_accumulated):
         MOVING_AVG_WINDOW = self.config.get("MOVING_AVG_WINDOW")
-        TOGGLE_THETA_VALUE = self.config.get("TOGGLE_THETA_VALUE")
         duration = int(SIMULATION_DURATION/3600)
         directory = os.path.join(os.getcwd(), "results/rej_rate_accumulated")
         # 确保结果目录存在
         os.makedirs(directory, exist_ok=True)
 
         # file_name = f"rej_rate_by_5mins_accumulated_theta_{theta}.txt"
-        file_name = f"theta_{theta}_{TOGGLE_THETA_VALUE}_penalty_{PENALTY}_window_{MOVING_AVG_WINDOW}_{duration}hours.txt"
+        file_name = f"theta_{theta}_penalty_{PENALTY}_window_{MOVING_AVG_WINDOW}_{duration}hours.txt"
         path = os.path.join(directory, file_name)
         with open(path, "a") as file:
             file.write(f"{rej_rate_by_5mins_accumulated}\n")

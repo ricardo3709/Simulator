@@ -12,11 +12,10 @@ from dateutil.parser import parse
 class ConfigManager:
     def __init__(self):
         self.settings = {
-            "REWARD_THETA": 0.0,
+            "REWARD_THETA": 1.0,
             "REWARD_TYPE": 'REJ',# or 'REJ'
             "NODE_LAYERS": 2, # number of layers of rejected rate to consider
             "MOVING_AVG_WINDOW": 120, # 5mins
-            "TOGGLE_THETA_VALUE": 0.0,
         }
     def get(self, key):
         return self.settings[key]
@@ -113,6 +112,6 @@ TIME_STEP = 15 # 15 seconds
 COOL_DOWN_DURATION = 0 
 
 TOGGLE_THETA = True
-TOGGLE_START_TIME = 7200 # 2hr
-TOGGLE_END_TIME = 10800 # 3hr
-# TOGGLE_THETA_VALUE = 0.0
+TOGGLE_START_TIME = 3600 # 1hr
+TOGGLE_END_TIME = 4800 # 1.5hr
+
