@@ -44,7 +44,7 @@ PATH_MANHATTAN_ALL_PATH_MATRIX = f"{ROOT_PATH}/NYC/NYC_Manhattan_AllPathMatrix.p
 PATH_MANHATTAN_ALL_PATH_TIME_MATRIX = f"{ROOT_PATH}/NYC/NYC_Manhattan_AllPathTimeMatrix.pickle"
 PATH_MANHATTAN_CITYARC = f"{ROOT_PATH}/NYC/NYC_Manhattan_CityArc.pickle"
 PATH_MANHATTAN_REQUESTS = f"{ROOT_PATH}/NYC/NYC_Manhattan_Requests.csv"
-PATH_COMBINED_REQUESTS = f"{ROOT_PATH}/NYC/NYC_Andres_data/combined_file.csv"
+PATH_COMBINED_REQUESTS = f"{ROOT_PATH}/NYC/NYC_Andres_data/combined_file_size3.csv"
 PATH_MANHATTAN_NODES_LOOKUP_TABLE = f"{ROOT_PATH}/NYC/NYC_Andres_data/NYC_Manhattan_Nodes_Lookup_Table.csv"
 
 NUM_NODES_MANHATTAN = 4091
