@@ -1,4 +1,5 @@
 from src.simulator.config import * #defines the constants
+from mpi4py import MPI
 import pandas as pd
 import numpy as np
 import cv2
