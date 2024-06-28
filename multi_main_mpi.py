@@ -7,7 +7,8 @@ rank = comm.Get_rank()
 size = comm.Get_size()
 
 def process_function():
-    run_sim()
+    args = {'REWARD_THETA': 5.0, 'REWARD_TYPE': 'REJ', 'NODE_LAYERS': 2, 'MOVING_AVG_WINDOW': 40, "TOGGLE_THETA_VALUE": 5.0}
+    run_sim(args)
 
 if __name__ == "__main__":
     # 每个进程运行一次main函数
