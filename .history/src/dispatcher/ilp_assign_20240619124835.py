@@ -134,7 +134,7 @@ def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, in
         if veh_trip_pairs_status.getAttr(GRB.Attr.X) == 1:
             selected_veh_trip_pair_indices.append(veh_trip_pair_idx) #index of selected vehicle-trip pairs, optimized by ILP
 
-    return selected_veh_trip_pair_indices #index of selected vehicle-trip pairs, optimized by ILP
+    return selected_veh_trip_pair_indices, cost_stats #index of selected vehicle-trip pairs, optimized by ILP
 
     
     

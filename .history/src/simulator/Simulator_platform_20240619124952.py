@@ -8,7 +8,6 @@ from src.simulator.vehicle import Veh
 from src.simulator.request import Req
 from src.simulator.statistic import Statistic
 from src.simulator.route_functions import *
-from src.simulator.data_processing import *
 from src.dispatcher.dispatch_sba import *
 from src.dispatcher.ilp_assign import *
 from src.dispatcher.scheduling import *
@@ -41,41 +40,37 @@ class Simulator_Platform(object):
         self.rejected_reqs = []
         self.rej_rate_by_5mins_accumulated = []
 
-        self.action_seed = 0
-
         # self.node_lookup_table = pd.read_csv(PATH_MANHATTAN_NODES_LOOKUP_TABLE)
         # self.area_ids = self.node_lookup_table['zone_id'].unique().astype(int)
         
-        self.last_req_ID = 0
         # Use deque to achieve moving average. 12 means 3 minutes
         MOVING_AVG_WINDOW = self.config.get("MOVING_AVG_WINDOW")    
-        self.num_of_generate_req_for_areas_dict_movingAvg = {i: deque(maxlen=MOVING_AVG_WINDOW) for i in AREA_IDS} # {area_id: generate_req} used in reward calculation
-        self.num_of_rejected_req_for_areas_dict_movingAvg = {i: deque(maxlen=MOVING_AVG_WINDOW) for i in AREA_IDS} # {area_id: rejected_req} used in reward calculation
-        self.num_of_attraction_for_areas_dict_movingAvg = {i: deque(maxlen=MOVING_AVG_WINDOW) for i in AREA_IDS} # {destination area_id: generate_req} used in reward calculation
+        # self.num_of_generate_req_for_nodes_dict_movingAvg = {i: deque(maxlen=MOVING_AVG_WINDOW) for i in range(1, NUM_NODES_MANHATTAN+1)} # {node_id: generate_req} used in reward calculation
+        self.num_of_generate_req_for_areas_dict_movingAvg = {i: deque(maxlen=MOVING_AVG_WINDOW) for i in AREA_IDS} # {node_id: generate_req} used in reward calculation
+        # self.num_of_rejected_req_for_nodes_dict_movingAvg = {i: deque(maxlen=MOVING_AVG_WINDOW) for i in range(1, NUM_NODES_MANHATTAN+1)} # {node_id: rejected_req} used in reward calculation
+        self.num_of_rejected_req_for_areas_dict_movingAvg = {i: deque(maxlen=MOVING_AVG_WINDOW) for i in AREA_IDS} # {node_id: rejected_req} used in reward calculation
 
-        self.current_cycle_rej_rate = []
+        
         # Initialize the fleet with random initial positions.
         self.vehs = []
         # Initialize the demand generator.
         self.reqs = []
 
         if MAP_NAME == 'Manhattan': # [ReqID Oid Did ReqTime Size]
-            self.req_loader(0,0)
             print(f"[INFO] Loading ManhattanData...")
-            
-            # # reqs = pd.read_csv(PATH_MANHATTAN_REQUESTS)
-            # reqs = pd.read_csv(PATH_COMBINED_REQUESTS)
-            # reqs_data = reqs.to_numpy()
-            # for i in range(reqs_data.shape[0]):
-            #     self.reqs.append(Req(int(reqs_data[i, 0]), int(reqs_data[i, 1]), int(reqs_data[i, 2]), int(reqs_data[i, 3]), int(reqs_data[i,4])))
+            # reqs = pd.read_csv(PATH_MANHATTAN_REQUESTS)
+            reqs = pd.read_csv(PATH_COMBINED_REQUESTS)
+            reqs_data = reqs.to_numpy()
+            for i in range(reqs_data.shape[0]):
+                self.reqs.append(Req(int(reqs_data[i, 0]), int(reqs_data[i, 1]), int(reqs_data[i, 2]), int(reqs_data[i, 3]), int(reqs_data[i,4])))
             print(f"[INFO] Requests Initialization finished")
 
             # Initialize the vehicles with uniform initial positions.
-            # node_id_uniform = list(range(1,NUM_NODES_MANHATTAN+1,NUM_NODES_MANHATTAN//FLEET_SIZE[0]))
+            node_id_uniform = list(range(1,NUM_NODES_MANHATTAN+1,NUM_NODES_MANHATTAN//FLEET_SIZE[0]))
             for i in range(FLEET_SIZE[0]):
                 node_id = np.random.randint(1, NUM_NODES_MANHATTAN+1)
-                # self.vehs.append(Veh(i, self.system_time, node_id_uniform[i], VEH_CAPACITY[0]))
-                self.vehs.append(Veh(i, self.system_time, node_id, VEH_CAPACITY[0]))
+                self.vehs.append(Veh(i, self.system_time, node_id_uniform[i], VEH_CAPACITY[0]))
+                # self.vehs.append(Veh(i, self.system_time, node_id, VEH_CAPACITY[0]))
             print(f"[INFO] Vehicles Initialization finished")
 
         elif MAP_NAME == 'SmallGrid':
@@ -140,22 +135,14 @@ class Simulator_Platform(object):
                     print(f"Theta value has been changed to {origin_theta} at time {self.system_time}")
                     toggle_end_flag = False
             self.run_cycle(cool_down_flag)
-
-            if current_time_step % 10 == 0: #record rej_rate every 10 steps(2.5 mins)
-                state = self.get_state() #data_processing.py
-                action = self.get_action(self.action_seed) #random_policy
-                reward = self.get_reward() #past_rej[-2] - past_rej[-1]
-
-                current_theta = self.config.get("REWARD_THETA") 
-                new_theta = current_theta + action
-                self.config.set("REWARD_THETA", new_theta)
-                print(f"current theta: {current_theta}, action: {action}, new theta: {new_theta}, reward: {reward}")
-
-                self.action_seed = np.random.randint(0,6) #generate random action seed
-
-                prev_rej = self.current_cycle_rej_rate[-1]
-                self.data_loger(state, reward, action, prev_rej)
-                
+            if current_time_step % 1 == 0: #record rej_rate every 20 steps(5 mins)
+                rej_num, served_num = self.update_rej_serve_to_time()
+                if (rej_num + served_num) == 0:
+                    accumulated_rej_rate = 0
+                else:
+                    accumulated_rej_rate = rej_num / (rej_num + served_num)
+                self.rej_rate_by_5mins_accumulated.append(accumulated_rej_rate)
+            # self.statistic.all_veh_position_series.append(self.get_all_veh_positions())
     
 
     def run_cycle(self, cool_down_flag):
@@ -184,9 +171,6 @@ class Simulator_Platform(object):
             rebalancer_njo(self.rejected_reqs, self.vehs, self.system_time)
         elif self.rebalancer == RebalancerMethod.NPO:
             reposition_idle_vehicles_to_nearest_pending_orders(self.accumulated_request, self.vehs)
-        
-        # 5. get current rej rate
-        self.current_cycle_rej_rate.append(self.get_rej_rate(current_cycle_requests))
 
 
     def prune_requests(self):
@@ -235,10 +219,11 @@ class Simulator_Platform(object):
 
 
     def get_current_cycle_request(self, current_time ) -> list:
+        REWARD_TYPE = self.config.get("REWARD_TYPE")
         current_cycle_requests = []
 
-        gen_reqs_per_areas_dict = {i: 0 for i in AREA_IDS} # {node_id: num_gen_req} used in reward calculation
-        attraction_per_areas_dict = {i: 0 for i in AREA_IDS} # {node_id: num_gen_req} used in reward calculation
+        if REWARD_TYPE == 'GEN':
+            gen_reqs_per_areas_dict = {i: 0 for i in AREA_IDS} # {node_id: num_gen_req} used in reward calculation
         
         for req in self.reqs:
             #EXP: to make it faster. Assume the requests are sorted by Req_time    
@@ -247,17 +232,15 @@ class Simulator_Platform(object):
 
             elif current_time - TIME_STEP <= req.Req_time:
                 current_cycle_requests.append(req)
-                ori_area_id = map_node_to_area(req.Ori_id)
-                dest_area_id = map_node_to_area(req.Des_id)
-                gen_reqs_per_areas_dict[ori_area_id] += 1 #increment the number of generated requests for the node
-                attraction_per_areas_dict[dest_area_id] += 1 #increment the number of generated requests for the node
-
-        for area_id in gen_reqs_per_areas_dict.keys():
-            self.num_of_generate_req_for_areas_dict_movingAvg[area_id].append(gen_reqs_per_areas_dict[area_id])
-            self.num_of_attraction_for_areas_dict_movingAvg[area_id].append(attraction_per_areas_dict[area_id])
+                if REWARD_TYPE == 'GEN':
+                    area_id = map_node_to_area(req.Ori_id) #map node to area
+                    gen_reqs_per_areas_dict[area_id] += 1 #increment the number of generated requests for the node
         
-        self.last_req_ID = current_cycle_requests[-1].Req_ID
-
+        if REWARD_TYPE == 'GEN':
+            # update the number of generated requests for each node
+            for area_id in gen_reqs_per_areas_dict.keys():
+                self.num_of_generate_req_for_areas_dict_movingAvg[area_id].append(gen_reqs_per_areas_dict[area_id])
+                
         return current_cycle_requests
 
     def get_availiable_vehicels(self) -> list: #vehicle should has at least 1 capacity
@@ -336,7 +319,7 @@ class Simulator_Platform(object):
         self.write_theta_rej_results_to_file(result)
         self.write_accumulated_rej_rate_to_file(REWARD_THETA, self.rej_rate_by_5mins_accumulated)
         print(f"total reqs: {self.statistic.total_rejected_requests + self.statistic.total_picked_requests}")
-        print(f"avg cost:{self.statistic.total_cost/self.statistic.total_picked_requests}")
+        print(f"total cost:{self.statistic.total_cost}")
 
     def write_theta_rej_results_to_file(self, results):
         MOVING_AVG_WINDOW = self.config.get("MOVING_AVG_WINDOW")
@@ -438,89 +421,3 @@ class Simulator_Platform(object):
         # Release the VideoWriter
         out.release()
         
-    def req_loader(self, current_sim_time, last_req_ID):
-            PATH_REQUESTS = f"{ROOT_PATH}/NYC/NYC_Andres_data/"
-            FILE_NAME = "NYC_Manhattan_Requests_size3_day"
-
-            random_day = np.random.randint(1, 11)
-            SELECTED_FILE = FILE_NAME + str(random_day) + '.csv'
-            # TEMP_FILE_NAME = 'temp_req.csv'
-
-            with open(os.path.join(PATH_REQUESTS, SELECTED_FILE), 'r') as f:
-                temp_req_matrix = pd.read_csv(f)
-            temp_req_matrix['ReqID'] += last_req_ID
-            temp_req_matrix['ReqTime'] += current_sim_time
-            # temp_req_matrix.to_csv(os.path.join(PATH_REQUESTS, TEMP_FILE_NAME))
-
-            reqs_data = temp_req_matrix.to_numpy()
-            for i in range(reqs_data.shape[0]):
-                self.reqs.append(Req(int(reqs_data[i, 0]), int(reqs_data[i, 1]), int(reqs_data[i, 2]), int(reqs_data[i, 3]), int(reqs_data[i,4])))
-            print(f"[INFO] Randomly Loading ManhattanData: day{random_day}")
-
-    def get_state(self):
-        avaliable_veh_nodes = [0] * (NUM_NODES_MANHATTAN)
-        working_veh_nodes = [0] * (NUM_NODES_MANHATTAN)
-
-        for veh in self.vehs:
-            if veh.status == VehicleStatus.IDLE or veh.status == VehicleStatus.REBALANCING:
-                avaliable_veh_nodes[veh.current_node-1] += 1
-            elif veh.status == VehicleStatus.WORKING:
-                if veh.load < veh.capacity:
-                    if veh.target_node == None:
-                        working_veh_nodes[veh.route[0]-1] += 1
-                    else:
-                        working_veh_nodes[veh.target_node-1] += 1
-        
-        gen_counts_areas = self.num_of_generate_req_for_areas_dict_movingAvg
-        rej_counts_areas = self.num_of_rejected_req_for_areas_dict_movingAvg
-        attraction_counts_areas = self.num_of_attraction_for_areas_dict_movingAvg
-
-        state = [avaliable_veh_nodes, working_veh_nodes, gen_counts_areas, rej_counts_areas, attraction_counts_areas]
-        state = feature_preparation(state)
-        return state
-    
-    def get_rej_rate(self, current_reqs):
-        total_rejected_requests = 0
-        total_picked_requests = 0
-        total_pending_requests = 0
-        # To handle the case where no requests are picked up
-        for req in current_reqs:
-            if req.Status == OrderStatus.REJECTED or req.Status == OrderStatus.REJECTED_REBALANCED:
-                total_rejected_requests += 1
-            elif req.Status == OrderStatus.PICKING:
-                total_picked_requests += 1
-            elif req.Status == OrderStatus.PENDING:
-                total_pending_requests += 1
-
-        assert(total_pending_requests == 0)        
-        
-        current_cycle_rejection_rate = total_rejected_requests/(total_picked_requests+total_rejected_requests)
-        return current_cycle_rejection_rate
-    
-    def get_reward(self):
-        past_rej = self.current_cycle_rej_rate
-        if len(past_rej) < 2:
-            return 0.0
-        reward = past_rej[-2] - past_rej[-1]
-        return reward
-    
-    def get_action(self,action_seed):
-        # action_seed: int
-        # return: float
-        policy = {0: 0.01, 1: 0.05, 2: 0.1, 3: -0.01, 4: -0.05, 5: -0.1}
-        return policy[action_seed]
-    
-    def data_loger(self, next_state, reward, action, prev_rej):
-        reward_col = np.full((63, 1), reward)
-        action_col = np.full((63, 1), action)
-        prev_rej_col = np.full((63, 1), prev_rej)
-        features_tensor = np.concatenate((next_state, reward_col, action_col, prev_rej_col), axis=1)
-
-        # next_state: tensor[63,5], reward: float, action: float, prev_rej: float
-        # comm = MPI.COMM_WORLD
-        # rank = comm.Get_rank()  # 获取当前进程的 ID
-        rank = 1
-        filename = f'data_log_{rank}.npy'  # 每个进程写入不同的文件
-        with open(filename, 'ab') as f:
-            np.save(f, np.array(features_tensor))
-            f.flush()
