@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #PBS -P RDS-FEI-RICARDO_01-RW                
-#PBS -l select=5:ncpus=16:mpiprocs=16:mem=32GB
+#PBS -l select=7:ncpus=32:mpiprocs=234:mem=120GB
 #PBS -l walltime=24:00:00
 #PBS -N MPI_Ricardo_Simulator
 #PBS -m abe
@@ -9,4 +9,4 @@
 
 module load python/3.8.2 pandas/2.0.3 gurobi/9.1.2 openmpi-gcc/4.0.3
 cd /project/RDS-FEI-RICARDO_01-RW/simulator_data_collector/Simulator
-mpirun -np 80 python multi_main_mpi.py> output.log 2> error.log
+mpirun -np 234 python multi_main_mpi.py> output.log 2> error.log
