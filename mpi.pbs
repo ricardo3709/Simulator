@@ -2,7 +2,7 @@
 
 #PBS -P RDS-FEI-RICARDO_01-RW                
 #PBS -l select=7:ncpus=32:mpiprocs=234:mem=120GB
-#PBS -l walltime=24:00:00
+#PBS -l walltime=72:00:00
 #PBS -N MPI_Ricardo_Simulator
 #PBS -m abe
 #PBS -M xwan0069@uni.sydney.edu.au
