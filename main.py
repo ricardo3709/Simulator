@@ -51,7 +51,7 @@ def run_sim(args:list):
 
 if __name__ == '__main__':
     # cProfile.run('run_sim([])', 'runtime.out')
-    args = {'REWARD_THETA': 0.0, 'REWARD_TYPE': 'REJ', 'NODE_LAYERS': 2, 'MOVING_AVG_WINDOW': 40, "TOGGLE_THETA_VALUE": 0.0}
+    args = {'REWARD_THETA': 5.0, 'REWARD_TYPE': 'REJ', 'NODE_LAYERS': 2, 'MOVING_AVG_WINDOW': 40, "TOGGLE_THETA_VALUE": 5.0}
     # cProfile.run('run_sim(args)', 'runtime.out')
     run_sim(args) # run the simulation with default values
 

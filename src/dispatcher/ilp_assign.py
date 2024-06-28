@@ -6,47 +6,82 @@ from src.dispatcher.scheduling import *
 import gurobipy as gp
 from gurobipy import GRB
 from typing import List, Tuple
-from src.simulator.statistic import Statistic
-
-def backup_ilp_assignment(veh_trip_pairs, reqs, vehs, num_of_rejected_req_for_areas_dict_movingAvg, num_of_generate_req_for_areas_dict_movingAvg, config):
-    REWARD_THETA = config.get("REWARD_THETA")
-    model = gp.Model("ilp")
-    model.setParam("LogToConsole", 0)
-
-    veh_trip_pairs_check = [model.addVar(vtype=GRB.BINARY) for _ in veh_trip_pairs]
-    vehicle_check = [model.addVar(vtype=GRB.BINARY) for _ in vehs]
-    request_check = [model.addVar(vtype=GRB.BINARY) for _ in reqs]
-
-    # Constraints for vehicle and request assignments
-    for i, veh in enumerate(vehs):
-        model.addConstr(gp.quicksum(veh_trip_pairs_check[j] for j, vtp in enumerate(veh_trip_pairs) if vtp[0] == veh) <= 1)
-
-    for i, req in enumerate(reqs):
-        model.addConstr(gp.quicksum(veh_trip_pairs_check[j] for j, vtp in enumerate(veh_trip_pairs) if vtp[1] == req) <= 1)
-
-    # Objective: Minimize the total cost, considering penalties for unassigned vehicle-trip pairs.
-    object_score = gp.quicksum(veh_trip_pairs_check[i] * (anticipatory_cost(vtp[2], vtp[0]) - REWARD_THETA * reward_function(vtp[2], vtp[0], num_of_rejected_req_for_areas_dict_movingAvg, num_of_generate_req_for_areas_dict_movingAvg, config))
-                               + (1 - veh_trip_pairs_check[i]) * PENALTY for i, vtp in enumerate(veh_trip_pairs))
-    
-    model.setObjective(object_score, GRB.MINIMIZE)
-
-    model.optimize()
-
-    selected_veh_trip_pair_indices = [i for i, vtp_check in enumerate(veh_trip_pairs_check) if vtp_check.X > 0.5]
-    return selected_veh_trip_pair_indices
-
 def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, int, int, float]], float, float]], #list[[Veh, list[Req], list[(int, int, int, float)], float, float]]
                 #    considered_rids: List[int],
                    reqs: List[Req],
                    vehs: List[Veh],
                    num_of_rejected_req_for_areas_dict_movingAvg,
                    num_of_generate_req_for_areas_dict_movingAvg,
-                   config: ConfigManager, 
-                   statistic: Statistic) -> List[int]:
+                   config: ConfigManager) -> List[int]:
     REWARD_THETA = config.get("REWARD_THETA")
     # Create a new model
     model = gp.Model("ilp")
-    # model = gp.Model("lp")
+    model.setParam("LogToConsole", 0) #0: no log output, 1: log output
+
+    vehicle_check = [] #check if vehicle is assigned, 1 for assigned, 0 for not assigned
+    request_check = [] #check if request is assigned, 1 for assigned, 0 for not assigned
+    veh_trip_pairs_check = [] #check if vehicle-trip pair is assigned, 1 for assigned, 0 for not assigned
+    selected_veh_trip_pair_indices = []
+    
+    # Declare Model Variables
+    for i in range(len(vehs)):
+        vehicle_check.append(0)
+    for i in range(len(reqs)):
+        request_check.append(0)
+    for i in range(len(veh_trip_pairs)):
+        veh_trip_pairs_check.append(model.addVar(vtype=GRB.CONTINUOUS))
+    
+    # Constrain 1: each vehicle can only be assigned at most one veh_trip_pair(request).
+    for i in range(len(vehs)): #iterates over vehicles
+        for j in range(len(veh_trip_pairs)): #iterates over vehicle-trip pairs
+            if vehs[i] in veh_trip_pairs[j]: #veh_trip_pairs contain current vehicle
+                vehicle_check[i] += veh_trip_pairs_check[j] 
+        model.addConstr(vehicle_check[i] <= 1.0) #Number of constrain equal to number of vehicles
+    
+    # Constrain 2: each request can only be assigned to at most one veh_trip_pair(vehicle).
+    for i in range(len(reqs)): #iterates over requests
+        for j in range(len(veh_trip_pairs)): #iterates over vehicle-trip pairs
+            if reqs[i] in veh_trip_pairs[j]: #veh_trip_pairs contain current request
+                request_check[i] += veh_trip_pairs_check[j]
+        model.addConstr(request_check[i] <= 1.0) #Number of constrain equal to number of requests
+    
+    # Objective: minimize the total delay of all veh_trip_pairs.
+    object_score = 0.0
+
+    for i in range(len(veh_trip_pairs)):\
+        # Anticipatory Method Objective 
+        cost = anticipatory_cost(veh_trip_pairs[i][2], veh_trip_pairs[i][0]) 
+        reward = reward_function(veh_trip_pairs[i][2], veh_trip_pairs[i][0], num_of_rejected_req_for_areas_dict_movingAvg, num_of_generate_req_for_areas_dict_movingAvg, config)
+        anticipate_method_object_score = cost - REWARD_THETA * reward
+        object_score += veh_trip_pairs_check[i] * anticipate_method_object_score
+
+    for req_check in request_check:
+        object_score += (1 - req_check) * PENALTY 
+
+    model.setObjective(object_score, GRB.MINIMIZE) #set the objective function to be minimized
+    
+    # Optimize model.
+    model.optimize()
+    
+    # Get the result.
+    for veh_trip_pair_idx, veh_trip_pairs_status in enumerate(veh_trip_pairs_check): 
+        if veh_trip_pairs_status.getAttr(GRB.Attr.X) == 1:
+            selected_veh_trip_pair_indices.append(veh_trip_pair_idx) #index of selected vehicle-trip pairs, optimized by ILP
+
+    return selected_veh_trip_pair_indices #index of selected vehicle-trip pairs, optimized by ILP
+
+def backup_ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, int, int, float]], float, float]], #list[[Veh, list[Req], list[(int, int, int, float)], float, float]]
+                #    considered_rids: List[int],
+                   reqs: List[Req],
+                   vehs: List[Veh],
+                   num_of_rejected_req_for_areas_dict_movingAvg,
+                   num_of_generate_req_for_nodes_dict_movingAvg,
+                   config: ConfigManager) -> List[int]:
+    REWARD_THETA = config.get("REWARD_THETA")
+    # print(f"using theta as: {REWARD_THETA}")
+    # Create a new model
+    # model = gp.Model("ilp")
+    model = gp.Model("lp")
     model.setParam("LogToConsole", 0) #0: no log output, 1: log output
 
     vehicle_check = [] #check if vehicle is assigned, 1 for assigned, 0 for not assigned
@@ -57,12 +92,10 @@ def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, in
     # Declare Model Variables
     for i in range(len(vehs)):
         # vehicle_check.append(model.addVar(vtype=GRB.BINARY)) # (lb = 0.0, ub = 1.0, obj = 0.0, vtype = GRB.BINARY)
-        # vehicle_check.append(model.addVar(vtype=GRB.CONTINUOUS)) # (lb = 0.0, ub = 1.0, obj = 0.0, vtype = GRB.BINARY)
-        vehicle_check.append(0)
+        vehicle_check.append(model.addVar(vtype=GRB.CONTINUOUS)) # (lb = 0.0, ub = 1.0, obj = 0.0, vtype = GRB.BINARY)
     for i in range(len(reqs)):
         # request_check.append(model.addVar(vtype=GRB.BINARY))
-        # request_check.append(model.addVar(vtype=GRB.CONTINUOUS))
-        request_check.append(0)
+        request_check.append(model.addVar(vtype=GRB.CONTINUOUS))
     for i in range(len(veh_trip_pairs)):
         # veh_trip_pairs_check.append(model.addVar(vtype=GRB.BINARY))
         veh_trip_pairs_check.append(model.addVar(vtype=GRB.CONTINUOUS))
@@ -72,7 +105,7 @@ def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, in
         for j in range(len(veh_trip_pairs)): #iterates over vehicle-trip pairs
             # if veh_trip_pairs[j][1] == None: #empty assign
             #     continue
-            if vehs[i] in veh_trip_pairs[j]: #veh_trip_pairs contain current vehicle
+            if vehs[i] == veh_trip_pairs[j][0]: #veh_trip_pairs contain current vehicle
                 vehicle_check[i] += veh_trip_pairs_check[j] 
         model.addConstr(vehicle_check[i] <= 1.0) #Number of constrain equal to number of vehicles
     
@@ -102,33 +135,15 @@ def ilp_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, in
         # Anticipatory Method Objective 
         
         cost = anticipatory_cost(veh_trip_pairs[i][2], veh_trip_pairs[i][0]) 
-        statistic.total_cost += cost
-        reward = reward_function(veh_trip_pairs[i][2], veh_trip_pairs[i][0], num_of_rejected_req_for_areas_dict_movingAvg, num_of_generate_req_for_areas_dict_movingAvg, config)
-        anticipate_method_object_score = cost - REWARD_THETA * reward
-        # object_score += veh_trip_pairs_check[i] * anticipate_method_object_score + (1.0 - veh_trip_pairs_check[i]) * PENALTY
-        object_score += veh_trip_pairs_check[i] * anticipate_method_object_score
-
-    for req_check in request_check:
-        object_score += (1 - req_check) * PENALTY 
-
-    # for req in reqs:
-    #     temp_req_check = 0
-    #     for i in range(len(veh_trip_pairs)):
-    #         if req in veh_trip_pairs[i]: 
-    #             temp_req_check += veh_trip_pairs_check[i]
-    #     object_score += (1.0 - temp_req_check) * PENALTY
-
-
-    # for i in range(len(request_check)):
-    #     for j in range(len(request_check[i])):
-    #         object_score += (1.0 - request_check[i][j]) * PENALTY
-        # object_score += (1.0 - request_check[i]) * PENALTY
+        reward = reward_function(veh_trip_pairs[i][2], veh_trip_pairs[i][0], num_of_rejected_req_for_areas_dict_movingAvg, num_of_generate_req_for_nodes_dict_movingAvg, config)
+        anticipate_method_object_score = cost - float(REWARD_THETA) * reward
+        object_score += veh_trip_pairs_check[i] * anticipate_method_object_score + (1.0 - veh_trip_pairs_check[i]) * PENALTY
 
     model.setObjective(object_score, GRB.MINIMIZE) #set the objective function to be minimized
     
     # Optimize model.
     model.optimize()
-    
+
     # Get the result.
     for veh_trip_pair_idx, veh_trip_pairs_status in enumerate(veh_trip_pairs_check): 
         if veh_trip_pairs_status.getAttr(GRB.Attr.X) == 1:
@@ -255,8 +270,7 @@ def anticipatory_cost(new_schedule: list, veh: Veh):
 
     # For insertion in empty schedule
     if len(new_schedule) == 2: # only newly inserted req
-        anticipatory_cost_value = first_term + PO * compute_schedule_time_cost(new_schedule)
-        # anticipatory_cost_value = first_term 
+        anticipatory_cost_value = first_term + PO * get_timeCost(new_schedule[0][0], new_schedule[1][0])
         return anticipatory_cost_value
     
     # Second term in objective function
@@ -267,19 +281,11 @@ def anticipatory_cost(new_schedule: list, veh: Veh):
     second_term = PW * extra_delay + PV * extra_detour
 
     # Third term in objective function
-    # third_term = PO * (extra_delay_NEWDO + extra_delay_NEWPU)
-    length_diff = compute_schedule_diff(new_schedule, PU_position, DO_position, veh)
-    third_term = PO * length_diff
+    third_term = PO * (extra_delay_NEWDO + extra_delay_NEWPU)
     
     # Anticipatory Cost Value
     anticipatory_cost_value = first_term + second_term + third_term
     return anticipatory_cost_value
-
-def compute_schedule_diff(new_schedule, PU_position, DO_position, veh):
-    new_length = compute_schedule_time_cost(new_schedule)
-    old_schedule = [new_schedule[idx] for idx in range(len(new_schedule)) if idx != PU_position and idx != DO_position]
-    old_length = compute_schedule_time_cost(old_schedule)
-    return new_length - old_length
 
 def get_delay_and_detour_for_new_req(new_schedule: list, veh: Veh, PU_position: int, DO_position: int):
     time_to_first_node = get_timeCost(veh.current_node, new_schedule[0][0])
@@ -324,32 +330,19 @@ def get_extra_delay_and_detour(schedule: list, veh: Veh, req_pair_dict: dict, PU
                     if req_type == 1: #pickup node
                         extra_delay += extra_delay_NEWPU
                     else: #dropoff node
-                        if len(req_pair_dict[req_id]) == 1: #only one node for this req, which is DO. PU is before the beginning of the new schedule
-                            extra_detour += extra_delay_NEWPU
-                        # if req_pair_dict[req_id][0][0] < PU_position: #PU of this req is before NEW_PU
-                        #     extra_detour += extra_delay_NEWPU #extra detour for this DO node
-                        else: # there is a PU node for this req in schedule
-                            if req_pair_dict[req_id][0][0] < PU_position: # PU of this req is before NEW_PU
-                                extra_detour += extra_delay_NEWPU
-                            else: # PU of this req is after NEW_PU
-                                continue # no extra detour for this DO node, entire trip is in between NEW_PU and NEW_DO
-                            
+                        if req_pair_dict[req_id][0][0] < PU_position: #PU of this req is before NEW_PU
+                            extra_detour += extra_delay_NEWPU #extra detour for this DO node
+                        else: #PU of this req is after NEW_PU
+                            continue # no extra detour for this DO node, entire trip is in between NEW_PU and NEW_DO
 
                 else: # after NEW_DO
                     if req_type == 1: #pickup node
                         extra_delay += extra_delay_NEWPU + extra_delay_NEWDO 
                     else: #dropoff node
-                        if len(req_pair_dict[req_id]) == 1: #only one node for this req, which is DO. PU is before the beginning of the new schedule
-                            extra_detour += extra_delay_NEWPU + extra_delay_NEWDO
-                        # if req_pair_dict[req_id][0][0] > DO_position: # PU of this req is after NEW_DO
-                        #     continue # no extra detour for this DO node, entire trip is after finishing the new req
+                        if req_pair_dict[req_id][0][0] > DO_position: # PU of this req is after NEW_DO
+                            continue # no extra detour for this DO node, entire trip is after finishing the new req
                         else: # PU of this req is before NEW_DO
-                            if req_pair_dict[req_id][0][0] < PU_position: # PU of this req is before NEW_PU
-                                extra_detour += extra_delay_NEWPU + extra_delay_NEWDO 
-                            elif req_pair_dict[req_id][0][0] > PU_position and req_pair_dict[req_id][0][0] < DO_position: # PU of this req is after NEW_PU before NEW_DO
-                                extra_detour += extra_delay_NEWDO
-                            else: # PU of this req is after NEW_DO
-                                continue # no extra detour for this DO node, entire trip is after finishing the new req
+                            extra_detour += extra_delay_NEWDO
 
     return extra_delay, extra_detour
 
@@ -368,9 +361,8 @@ def reward_function(new_schedule: list, veh: Veh, num_of_rejected_req_for_areas_
         scaled_reward = 0.0
     else:
         scaled_reward = float(reward/total_reward)
-    reward = scaled_reward
 
-    # # Basic Reward Calculation
+    # Basic Reward Calculation
     # if REWARD_TYPE == 'REJ':
     #     reward = np.sum(num_of_rejected_req_for_areas_dict_movingAvg[area_id])
     # else: 
@@ -383,15 +375,15 @@ def reward_function(new_schedule: list, veh: Veh, num_of_rejected_req_for_areas_
     #     reward = get_rejection_generation_rate_smooth(last_node[0], NODE_LAYERS, num_of_generate_req_for_areas_dict_movingAvg)
     
 
-    return reward
+    return scaled_reward
 
-# def get_rejection_generation_rate_smooth(target_node: int, num_layers: int, rate_dict: dict):
-#     considered_nodes = get_surrounding_nodes(target_node, num_layers)
-#     smooth_rate = 0.0
-#     for node in considered_nodes:
-#         smooth_rate += np.sum(rate_dict[node])/(PSI + get_timeCost(target_node, node))
+def get_rejection_generation_rate_smooth(target_node: int, num_layers: int, rate_dict: dict):
+    considered_nodes = get_surrounding_nodes(target_node, num_layers)
+    smooth_rate = 0.0
+    for node in considered_nodes:
+        smooth_rate += np.sum(rate_dict[node])/(PSI + get_timeCost(target_node, node))
 
-#     return smooth_rate
+    return smooth_rate
 
 
 def greedy_assignment(veh_trip_pairs: List[Tuple[Veh, List[Req], List[Tuple[int, int, int, float]], float, float]]) -> List[int]:

@@ -119,27 +119,27 @@ class Simulator_Platform(object):
         # REWARD_THETA = self.config.get("REWARD_THETA")
         # print(f"current theta: {REWARD_THETA}")      
         simulation_end_step = int(self.total_time_step)+1  
-        cool_down_step = int(COOL_DOWN_DURATION // TIME_STEP)
-        cool_down_flag = True
+        # cool_down_step = int(COOL_DOWN_DURATION // TIME_STEP)
+        # cool_down_flag = True
         toggle_start_flag = True
         toggle_end_flag = True
         origin_theta = self.config.get("REWARD_THETA")
         TOGGLE_THETA_VALUE = self.config.get("TOGGLE_THETA_VALUE")
-        for current_time_step in tqdm(range(max(int(self.start_time//TIME_STEP),1), simulation_end_step + cool_down_step, 1), desc=f"Ricardo's Simulator"):
+        for current_time_step in tqdm(range(int(self.start_time//TIME_STEP), simulation_end_step, 1), desc=f"Ricardo's Simulator"):
             self.system_time = current_time_step * TIME_STEP
-            if cool_down_flag and current_time_step > simulation_end_step:
-                print("Cooling down...")
-                cool_down_flag = False
-            if TOGGLE_THETA:
-                if self.system_time >= TOGGLE_START_TIME and toggle_start_flag:
-                    self.config.set("REWARD_THETA", TOGGLE_THETA_VALUE)
-                    print(f"Theta value has been changed to {TOGGLE_THETA_VALUE} at time {self.system_time}")
-                    toggle_start_flag = False
-                if self.system_time >= TOGGLE_END_TIME and toggle_end_flag:
-                    self.config.set("REWARD_THETA", origin_theta)
-                    print(f"Theta value has been changed to {origin_theta} at time {self.system_time}")
-                    toggle_end_flag = False
-            self.run_cycle(cool_down_flag)
+            # if cool_down_flag and current_time_step > simulation_end_step:
+            #     print("Cooling down...")
+            #     cool_down_flag = False
+            # if TOGGLE_THETA:
+            #     if self.system_time >= TOGGLE_START_TIME and toggle_start_flag:
+            #         self.config.set("REWARD_THETA", TOGGLE_THETA_VALUE)
+            #         print(f"Theta value has been changed to {TOGGLE_THETA_VALUE} at time {self.system_time}")
+            #         toggle_start_flag = False
+            #     if self.system_time >= TOGGLE_END_TIME and toggle_end_flag:
+            #         self.config.set("REWARD_THETA", origin_theta)
+            #         print(f"Theta value has been changed to {origin_theta} at time {self.system_time}")
+            #         toggle_end_flag = False
+            self.run_cycle()
 
             if current_time_step % 10 == 0: #record rej_rate every 10 steps(2.5 mins)
                 state = self.get_state() #data_processing.py
@@ -158,11 +158,11 @@ class Simulator_Platform(object):
                 
     
 
-    def run_cycle(self, cool_down_flag):
+    def run_cycle(self):
         # 1. Update the vehicles' positions
         self.update_veh_to_time()
-        if not cool_down_flag: #cool down
-            return
+        # if not cool_down_flag: #cool down
+        #     return
 
         # 2. Pick up requests in the current cycle. add the requests to the accumulated_request list
         current_cycle_requests = self.get_current_cycle_request(self.system_time)
@@ -517,9 +517,9 @@ class Simulator_Platform(object):
         features_tensor = np.concatenate((next_state, reward_col, action_col, prev_rej_col), axis=1)
 
         # next_state: tensor[63,5], reward: float, action: float, prev_rej: float
-        # comm = MPI.COMM_WORLD
-        # rank = comm.Get_rank()  # 获取当前进程的 ID
-        rank = 1
+        comm = MPI.COMM_WORLD
+        rank = comm.Get_rank()  # 获取当前进程的 ID
+        # rank = 1
         filename = f'data_log_{rank}.npy'  # 每个进程写入不同的文件
         with open(filename, 'ab') as f:
             np.save(f, np.array(features_tensor))
