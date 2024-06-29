@@ -108,7 +108,7 @@ DEBUG_PRINT = False
 # PENALTY = 5.0 #penalty for ignoring a request
 
 # for Manhattan-data
-SIMULATION_DURATION = 3600*2
+SIMULATION_DURATION = 3600*24
 TIME_STEP = 15 # 15 seconds
 COOL_DOWN_DURATION = 0 
 

@@ -156,7 +156,8 @@ class Simulator_Platform(object):
 
                 prev_rej = self.current_cycle_rej_rate[-1]
                 self.data_loger(state, reward, action, prev_rej)
-                
+            if current_time_step % 3600 == 0: 
+                self.req_loader(current_time_step, self.last_req_ID)
     
 
     def run_cycle(self):
@@ -167,6 +168,7 @@ class Simulator_Platform(object):
 
         # 2. Pick up requests in the current cycle. add the requests to the accumulated_request list
         current_cycle_requests = self.get_current_cycle_request(self.system_time)
+        self.last_req_ID = current_cycle_requests[-1].Req_ID
 
         # 2.1 Prune the accumulated requests. (Assigned requests and rejected requests are removed.)
         self.accumulated_request.extend(current_cycle_requests)
